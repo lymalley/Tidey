@@ -6,6 +6,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import HomeIcon from '@material-ui/icons/Home'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { DRAWER_TOGGLED } from '../constants'
 
 const TideyListItem = (
   <div>
@@ -24,7 +26,7 @@ const withDrawer = function(PageComponent) {
     return (
       <div>
         <PageComponent {...props} />
-        <Drawer open={true}>
+        <Drawer open={props.open} onClose={props.toggleDrawer}>
           <div tabIndex={0} role="button">
             {TideyListItem}
           </div>
@@ -32,7 +34,23 @@ const withDrawer = function(PageComponent) {
       </div>
     )
   }
-  return WrappedDrawerComponent
+  const mapStateToProps = state => {
+    return { open: state.drawer.open }
+  }
+
+  const mapActionToProps = dispatch => {
+    return {
+      toggleDrawer: () => {
+        dispatch({ type: DRAWER_TOGGLED })
+      }
+    }
+  }
+  const connector = connect(
+    mapStateToProps,
+    mapActionToProps
+  )
+
+  return connector(WrappedDrawerComponent)
 }
 
 export default withDrawer
