@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
+import { Switch, BrowserRouter, Route } from 'react-route-dom'
+import Home from './pages/home'
+import Activities from './pages/activities'
 
 class App extends Component {
   render() {
@@ -14,8 +16,8 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

@@ -39,7 +39,7 @@ db.bulkDocs([
     other: null,
     tripNotes: '37, chute - vents open',
     images: null,
-    entredBy: 'MCM'
+    enteredBy: 'MCM'
   },
   {
     _id: 'boat_orange-crush',

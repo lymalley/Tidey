@@ -1,6 +1,7 @@
 const PouchDB = require('pouchdb-core')
 PouchDB.plugin(require('pouchdb-adapter-http'))
-const { map, prop } = require('ramda')
+const { map, prop, merge } = require('ramda')
+const pkGen = require('./lib/pkGen')
 
 const COUCHDB_SERVER = process.env.COUCHDB_SERVER
 const COUCHDB_DBNAME = process.env.COUCHDB_DBNAME
@@ -20,6 +21,16 @@ const getActivities = () => {
 }
 
 const getActivity = id => db.get(id)
+
+const addActivity = activity => {
+  const dateTime = `${activity.date}${activity.startTime}`
+  const newId = pkGen('activity_', dateTime)
+  const newDoc = merge(activity, {
+    type: 'activity',
+    id: newId
+  })
+  return db.post(newDoc)
+}
 
 const getBoats = () => {
   const options = {
@@ -75,5 +86,6 @@ module.exports = {
   getBoat,
   getCrewMember,
   getMaintenance,
-  getReminder
+  getReminder,
+  addActivity
 }
