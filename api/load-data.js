@@ -139,32 +139,13 @@ db.bulkDocs([
     _id: 'reminder_orange_crush_oil_change_2400',
     type: 'reminder',
     alertAt: 2390,
-    info: [
-      {
-        maintenanceId: 'maintenance_2018-08-06_orange-crush_oil-change',
-        boat: [{ boatId: 'boat_orange-crush', boatName: 'Orange Crush' }],
-        service: 'Oil Change',
-        dueAtHours: 2400,
-        hrsBefore: 10,
-        materials: [
-          {
-            partNumber: 1234,
-            name: 'Racor Filter',
-            qty: 6,
-            from: 'Jerrys',
-            priceEach: 24.99
-          },
-          {
-            partNumber: 987,
-            name: 'Spark Plugs',
-            qty: 16,
-            from: 'Amazon',
-            priceEach: 1.49
-          }
-        ],
-        completed: false
-      }
-    ]
+    maintenanceId: 'maintenance_2018-08-06_orange-crush_oil-change',
+    boatId: 'boat_orange-crush',
+    boatName: 'Orange Crush',
+    service: 'Oil Change',
+    dueAtHours: 2400,
+    hrsBefore: 10,
+    completed: false
   }
 ])
   .then(result => console.log('success', JSON.stringify(result, null, 2)))

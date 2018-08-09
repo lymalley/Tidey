@@ -1,0 +1,1 @@
+export const DRAWER_TOGGLED = 'DRAWER_TOGGLED'
