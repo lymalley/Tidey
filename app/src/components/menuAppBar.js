@@ -4,9 +4,9 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+import SearchIcon from '@material-ui/icons/SearchTwoTone'
 import WavesIcon from '@material-ui/icons/WavesOutlined'
 import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { DRAWER_TOGGLED } from '../constants'
 
@@ -28,7 +28,7 @@ const styles = theme => ({
 })
 
 const MenuAppBar = props => {
-  const { classes, toggleDrawer, title } = props
+  const { classes, toggleDrawer, title, history } = props
   return (
     <div className={classes.root}>
       <AppBar position="fixed" color="primary">
@@ -43,7 +43,9 @@ const MenuAppBar = props => {
           <Typography variant="title" color="inherit" className={classes.flex}>
             {title}
           </Typography>
-          <Button color="inherit">Login</Button>
+          <IconButton color="inherit">
+            <SearchIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
