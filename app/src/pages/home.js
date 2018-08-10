@@ -1,19 +1,20 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import withDrawer from '../components/with-drawer'
+import MenuAppBar from '../components/menuAppBar'
 
 const Home = () => (
   <div
     style={{
-      padding: 48
+      padding: 100
     }}
   >
+    <MenuAppBar title="Home" />
     <center>
-      <img alt="home icon" src="/orange-crush.png" />
+      <img alt="home icon" src="/orange-crush.png" width="100%" />
       <div style={{ paddingTop: 12 }}>
         <Typography variant="display1" align="center" color="primary">
-          Welcome to Tidey
+          Tidey
         </Typography>
       </div>
     </center>

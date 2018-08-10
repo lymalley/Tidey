@@ -1,14 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 import './index.css'
 import App from './App'
-import 'typeface-roboto'
 import store from './store'
-import { Provider } from 'react-redux'
 
 ReactDOM.render(
   <Provider store={store}>
-    <App dispatch={store.dispatch} />
+    <App />
   </Provider>,
   document.getElementById('root')
 )
