@@ -7,6 +7,10 @@ import ActivityNew from './pages/activities/new'
 import ActivityView from './pages/activities/view'
 import ActivitySearch from './pages/activities/search'
 import ActivityEdit from './pages/activities/edit'
+import BoatNew from './pages/boats/new'
+import CrewMemberNew from './pages/crew/new'
+import MaintenanceNew from './pages/maintenances/new'
+import ReminderNew from './pages/reminders/new'
 
 const App = () => (
   <BrowserRouter>
@@ -17,6 +21,10 @@ const App = () => (
       <Route exact path="/activities/:id" component={ActivityView} />
       <Route exact path="/activities/search" component={ActivitySearch} />
       <Route exact path="/activities/:id/edit" component={ActivityEdit} />
+      <Route exact path="/boats/new" component={BoatNew} />
+      <Route exact path="/crew/new" component={CrewMemberNew} />
+      <Route exact path="/maintenances/new" component={MaintenanceNew} />
+      <Route exact path="/reminders/new" component={ReminderNew} />
     </Switch>
   </BrowserRouter>
 )

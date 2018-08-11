@@ -1,6 +1,7 @@
 import React from 'react'
 import withDrawer from '../../components/with-drawer'
 import MenuAppBar from '../../components/menuAppBar'
+
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
@@ -16,17 +17,13 @@ const styles = theme => ({
   }
 })
 
-const ActivityNew = props => {
+const BoatNew = props => {
   return (
     <div style={{ paddingTop: 56 }}>
-      <MenuAppBar title="Add Activity" />
+      <MenuAppBar title="Add Boat" />
       <h2>foo</h2>
     </div>
   )
 }
 
-export default withDrawer(withStyles(styles)(ActivityNew))
-
-{
-  /*<TextField label='notes' value='' margin='normal' required className={props.classes.input} multiline/>*/
-}
+export default withDrawer(withStyles(styles)(BoatNew))

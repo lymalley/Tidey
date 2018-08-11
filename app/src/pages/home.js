@@ -9,9 +9,9 @@ const Home = () => (
       padding: 100
     }}
   >
-    <MenuAppBar title="Home" />
+    <MenuAppBar title="Port" />
     <center>
-      <img alt="home icon" src="/orange-crush.png" width="100%" />
+      <img alt="home icon" src="/yeti-anchor.png" width="100%" />
       <div style={{ paddingTop: 12 }}>
         <Typography variant="display1" align="center" color="primary">
           Tidey

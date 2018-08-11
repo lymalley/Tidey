@@ -16,17 +16,13 @@ const styles = theme => ({
   }
 })
 
-const ActivityNew = props => {
+const MaintenanceNew = props => {
   return (
     <div style={{ paddingTop: 56 }}>
-      <MenuAppBar title="Add Activity" />
+      <MenuAppBar title="Add Maintenance" />
       <h2>foo</h2>
     </div>
   )
 }
 
-export default withDrawer(withStyles(styles)(ActivityNew))
-
-{
-  /*<TextField label='notes' value='' margin='normal' required className={props.classes.input} multiline/>*/
-}
+export default withDrawer(withStyles(styles)(MaintenanceNew))
