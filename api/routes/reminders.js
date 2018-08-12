@@ -1,5 +1,11 @@
 const NodeHTTPError = require('node-http-error')
-const { getReminders, getReminder, addReminder } = require('../dal')
+const {
+  getReminders,
+  getReminder,
+  addReminder,
+  updateReminder,
+  deleteReminder
+} = require('../dal')
 const { pathOr, propOr, isEmpty, not } = require('ramda')
 const bodyParser = require('body-parser')
 const checkRequiredFields = require('../lib/checkRequiredFieds')
@@ -22,19 +28,11 @@ const remindersRoute = app => {
       .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
   })
 
-  app.post('/activities', bodyParser.json(), (req, res, next) => {
-    const newActivity = propOr({}, 'body', req)
+  app.post('/reminders', (req, res, next) => {
+    const newReminder = propOr({}, 'body', req)
     const missingFields = checkRequiredFields(
-      [
-        'date',
-        'startTime',
-        'endTime',
-        'boat',
-        'engineHoursEnd',
-        'tripType',
-        'enteredBy'
-      ],
-      newActivity
+      ['boatName', 'alertAt', 'service', 'dueAtHours', 'completed'],
+      newReminder
     )
     if (not(isEmpty(missingFields))) {
       next(
@@ -45,17 +43,64 @@ const remindersRoute = app => {
       )
     }
     const finalObj = cleanObj(
-      ['boat', 'alertAt', 'info', 'completed'],
+      ['boatName', 'alertAt', 'service', 'dueAtHours', 'completed'],
       newReminder
     )
     addReminder(finalObj)
-      .then(added => {
-        console.log(added)
-        res.send(201).send(added)
+      .then(added => res.status(201).send(added))
+      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
+  })
+
+  app.put('/reminders/:id', (req, res, next) => {
+    const newReminder = propOr({}, 'body', req)
+
+    const missingFields = checkRequiredFields(
+      [
+        '_id',
+        '_rev',
+        'type',
+        'boatName',
+        'alertAt',
+        'service',
+        'dueAtHours',
+        'completed'
+      ],
+      newReminder
+    )
+
+    if (not(isEmpty(missingFields))) {
+      next(
+        new NodeHTTPError(400, `missing the following fields: ${missingFields}`)
+      )
+    }
+    const finalObj = cleanObj(
+      [
+        '_id',
+        '_rev',
+        'type',
+        'boatName',
+        'alertAt',
+        'service',
+        'dueAtHours',
+        'completed'
+      ],
+      newReminder
+    )
+    updateReminder(finalObj)
+      .then(addResult => {
+        console.log(addResult)
+        res.status(201).send(addResult)
       })
       .catch(err => {
         next(new NodeHTTPError(err.status, err.message, err))
       })
+  })
+
+  app.delete('/reminders/:id', (req, res, next) => {
+    const reminder = propOr({}, 'body', req)
+    deleteReminder(reminder)
+      .then(result => res.status(200).send(result))
+      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
   })
 }
 

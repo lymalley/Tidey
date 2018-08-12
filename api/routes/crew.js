@@ -1,5 +1,11 @@
 const NodeHTTPError = require('node-http-error')
-const { getCrew, getCrewMember, addCrewMember } = require('../dal')
+const {
+  getCrew,
+  getCrewMember,
+  addCrewMember,
+  updateCrewMember,
+  deleteCrewMember
+} = require('../dal')
 const { pathOr, propOr, isEmpty, not } = require('ramda')
 const bodyParser = require('body-parser')
 const checkRequiredFields = require('../lib/checkRequiredFieds')
@@ -10,16 +16,14 @@ const crewRoutes = app => {
 
   app.get('/crew', (req, res, next) => {
     getCrew()
-      .then(crew => res.send(crew))
-      .catch(err => {
-        next(new NodeHTTPError(err.status, err.message, err))
-      })
+      .then(crew => res.status(200).send(crew))
+      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
   })
 
   app.get('/crew/:id', (req, res, next) => {
     const crewMemberId = pathOr('', ['params', 'id'], req)
     getCrewMember(crewMemberId)
-      .then(crewMember => res.status(200).send(crewMember))
+      .then(crewMember => res.send(crewMember))
       .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
   })
 
@@ -42,13 +46,42 @@ const crewRoutes = app => {
       newCrewMember
     )
     addCrewMember(finalObj)
-      .then(added => {
-        console.log(added)
-        res.send(201).send(added)
+      .then(added => res.status(201).send(added))
+      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
+  })
+
+  app.put('/crew/:id', (req, res, next) => {
+    const newMember = propOr({}, 'body', req)
+
+    const missingFields = checkRequiredFields(
+      ['_id', '_rev', 'type', 'firstName', 'lastName', 'phoneNumber'],
+      newMember
+    )
+
+    if (not(isEmpty(missingFields))) {
+      next(
+        new NodeHTTPError(400, `missing the following fields: ${missingFields}`)
+      )
+    }
+    const finalObj = cleanObj(
+      ['_id', '_rev', 'type', 'firstName', 'lastName', 'phoneNumber'],
+      newMember
+    )
+    updateCrewMember(finalObj)
+      .then(addResult => {
+        console.log(addResult)
+        res.status(201).send(addResult)
       })
       .catch(err => {
         next(new NodeHTTPError(err.status, err.message, err))
       })
+  })
+
+  app.delete('/crew/:id', (req, res, next) => {
+    const crewMember = propOr({}, 'body', req)
+    deleteCrewMember(crewMember)
+      .then(result => res.status(200).send(result))
+      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
   })
 }
 

@@ -1,5 +1,11 @@
 const NodeHTTPError = require('node-http-error')
-const { getActivities, getActivity, addActivity } = require('../dal')
+const {
+  getActivities,
+  getActivity,
+  addActivity,
+  updateActivity,
+  deleteActivity
+} = require('../dal')
 const { pathOr, propOr, isEmpty, not } = require('ramda')
 const checkRequiredFields = require('../lib/checkRequiredFieds')
 const cleanObj = require('../lib/cleanObj')
@@ -62,11 +68,67 @@ const activitiesRoutes = app => {
     addActivity(finalObj)
       .then(added => {
         console.log(added)
-        res.send(201).send(added)
+        res.status(201).send(added)
       })
       .catch(err => {
         next(new NodeHTTPError(err.status, err.message, err))
       })
+  })
+
+  app.put('/activities/:id', (req, res, next) => {
+    const newActivity = propOr({}, 'body', req)
+
+    const missingFields = checkRequiredFields(
+      [
+        '_id',
+        '_rev',
+        'type',
+        'date',
+        'startTime',
+        'endTime',
+        'boat',
+        'engineHoursEnd',
+        'tripType',
+        'enteredBy'
+      ],
+      newActivity
+    )
+
+    if (not(isEmpty(missingFields))) {
+      next(
+        new NodeHTTPError(400, `missing the following fields: ${missingFields}`)
+      )
+    }
+    const finalObj = cleanObj(
+      [
+        '_id',
+        '_rev',
+        'type',
+        'date',
+        'startTime',
+        'endTime',
+        'boat',
+        'engineHoursEnd',
+        'tripType',
+        'enteredBy'
+      ],
+      newActivity
+    )
+    updateActivity(finalObj)
+      .then(addResult => {
+        console.log(addResult)
+        res.status(201).send(addResult)
+      })
+      .catch(err => {
+        next(new NodeHTTPError(err.status, err.message, err))
+      })
+  })
+
+  app.delete('/activities/:id', (req, res, next) => {
+    const activity = propOr({}, 'body', req)
+    deleteActivity(activity)
+      .then(result => res.status(200).send(result))
+      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
   })
 }
 

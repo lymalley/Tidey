@@ -10,6 +10,10 @@ const DB_URL = `${COUCHDB_SERVER}${COUCHDB_DBNAME}`
 const db = new PouchDB(DB_URL)
 const { getAllDocs } = require('./lib/dal-helper')
 
+///////////////////////
+///// Activities /////
+//////////////////////
+
 const getActivities = () => {
   const options = {
     include_docs: true,
@@ -23,14 +27,20 @@ const getActivities = () => {
 const getActivity = id => db.get(id)
 
 const addActivity = activity => {
-  const dateTime = `${activity.date}${activity.startTime}`
-  const newId = pkGen('activity_', dateTime)
-  const newDoc = merge(activity, {
-    type: 'activity',
-    id: newId
+  const newActivity = merge(activity, {
+    _id: pkGen('activity_', `${activity.date}T${activity.startTime}`),
+    type: 'activity'
   })
-  return db.post(newDoc)
+  return db.put(newActivity)
 }
+
+const updateActivity = id => db.put(id)
+
+const deleteActivity = id => db.remove(id)
+
+///////////////////////
+/////    Boats   /////
+//////////////////////
 
 const getBoats = () => {
   const options = {
@@ -43,6 +53,22 @@ const getBoats = () => {
 
 const getBoat = id => db.get(id)
 
+const addBoat = boat => {
+  const newBoat = merge(boat, {
+    _id: pkGen('boat_', boat.name),
+    type: 'boat'
+  })
+  return db.put(newBoat)
+}
+
+const updateBoat = id => db.put(id)
+
+const deleteBoat = id => db.remove(id)
+
+///////////////////////
+/////    Crew    /////
+/////////////////////
+
 const getCrew = () => {
   const options = {
     include_docs: true,
@@ -54,6 +80,27 @@ const getCrew = () => {
 
 const getCrewMember = id => db.get(id)
 
+const addCrewMember = crewMember => {
+  const newCrewMember = merge(crewMember, {
+    _id: pkGen(
+      'crew-member_',
+      `${crewMember.lastName}-${crewMember.firstName}`
+    ),
+    type: 'crew member'
+  })
+  return db.put(newCrewMember)
+}
+
+const updateCrewMember = id => db.put(id)
+
+const deleteCrewMember = id => db.remove(id)
+
+/////////////////////////
+///// Maintenances /////
+///////////////////////
+
+const getMaintenance = id => db.get(id)
+
 const getMaintenances = () => {
   const options = {
     include_docs: true,
@@ -63,7 +110,26 @@ const getMaintenances = () => {
   return db.allDocs(options).then(res => map(prop('doc'), res.rows))
 }
 
-const getMaintenance = id => db.get(id)
+const addMaintenance = maintenance => {
+  const newMaintenance = merge(maintenance, {
+    _id: pkGen(
+      'maintenance_',
+      `${maintenance.date}-${maintenance.boat.boatName}-${
+        maintenance.serviceType
+      }`
+    ),
+    type: 'maintenance'
+  })
+  return db.put(newMaintenance)
+}
+
+const updateMaintenance = id => db.put(id)
+
+const deleteMaintenance = id => db.remove(id)
+
+////////////////////////
+/////  Reminders  /////
+//////////////////////
 
 const getReminders = () => {
   const options = {
@@ -76,6 +142,21 @@ const getReminders = () => {
 
 const getReminder = id => db.get(id)
 
+const addReminder = reminder => {
+  const newReminder = merge(reminder, {
+    _id: pkGen(
+      'reminder_',
+      `${reminder.boatName}-${reminder.service}-${reminder.dueAtHours}`
+    ),
+    type: 'reminder'
+  })
+  return db.put(newReminder)
+}
+
+const updateReminder = id => db.put(id)
+
+const deleteReminder = id => db.remove(id)
+
 module.exports = {
   getActivities,
   getBoats,
@@ -87,9 +168,19 @@ module.exports = {
   getCrewMember,
   getMaintenance,
   getReminder,
-  addActivity
-  //addBoat,
-  //addCrew,
-  //addMaintenance,
-  //addReminder
+  addActivity,
+  addBoat,
+  addCrewMember,
+  addMaintenance,
+  addReminder,
+  updateActivity,
+  updateBoat,
+  updateCrewMember,
+  updateMaintenance,
+  updateReminder,
+  deleteActivity,
+  deleteBoat,
+  deleteCrewMember,
+  deleteMaintenance,
+  deleteReminder
 }

@@ -1,5 +1,5 @@
 const NodeHTTPError = require('node-http-error')
-const { getBoats, getBoat, addBoat } = require('../dal')
+const { getBoats, getBoat, addBoat, updateBoat, deleteBoat } = require('../dal')
 const { pathOr, propOr, isEmpty, not } = require('ramda')
 const bodyParser = require('body-parser')
 const checkRequiredFields = require('../lib/checkRequiredFieds')
@@ -25,7 +25,7 @@ const boatsRoutes = app => {
 
   app.post('/boats', bodyParser.json(), (req, res, next) => {
     const newBoat = propOr({}, 'body', req)
-    const missingFields = checkRequiredFields(['name'], newBoat)
+    const missingFields = checkRequiredFields(['name', 'boatMake'], newBoat)
     if (not(isEmpty(missingFields))) {
       next(
         new NodeHTTPError(
@@ -34,15 +34,44 @@ const boatsRoutes = app => {
         )
       )
     }
-    const finalObj = cleanObj(['name'], newBoat)
+    const finalObj = cleanObj(['name', 'boatMake'], newBoat)
     addBoat(finalObj)
-      .then(added => {
-        console.log(added)
-        res.send(201).send(added)
+      .then(added => res.status(201).send(added))
+      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
+  })
+
+  app.put('/boats/:id', (req, res, next) => {
+    const newBoat = propOr({}, 'body', req)
+
+    const missingFields = checkRequiredFields(
+      ['_id', '_rev', 'type', 'name', 'boatMake'],
+      newBoat
+    )
+
+    if (not(isEmpty(missingFields))) {
+      next(
+        new NodeHTTPError(400, `missing the following fields: ${missingFields}`)
+      )
+    }
+    const finalObj = cleanObj(
+      ['_id', '_rev', 'type', 'name', 'boatMake'],
+      newBoat
+    )
+    updateBoat(finalObj)
+      .then(addResult => {
+        console.log(addResult)
+        res.status(201).send(addResult)
       })
       .catch(err => {
         next(new NodeHTTPError(err.status, err.message, err))
       })
+  })
+
+  app.delete('/boats/:id', (req, res, next) => {
+    const boat = propOr({}, 'body', req)
+    deleteBoat(boat)
+      .then(result => res.status(200).send(result))
+      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
   })
 }
 
