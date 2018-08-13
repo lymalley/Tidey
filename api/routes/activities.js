@@ -15,7 +15,9 @@ const activitiesRoutes = app => {
   app.get('/', (req, res) => res.send('Welcome to Tidey API'))
 
   app.get('/activities', (req, res, next) => {
-    getActivities()
+    const query = pathOr('', ['query', 'filter'], req)
+
+    getActivities(query)
       .then(activities => res.send(activities))
       .catch(err => {
         next(new NodeHTTPError(err.status, err.message, err))

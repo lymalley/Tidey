@@ -14,7 +14,9 @@ const remindersRoute = app => {
   app.get('/', (req, res) => res.send('Welcome to the Tidey API'))
 
   app.get('/reminders', (req, res, next) => {
-    getReminders()
+    const query = pathOr('', ['query', 'filter'], req)
+
+    getReminders(query)
       .then(reminders => res.send(reminders))
       .catch(err => {
         next(new NodeHTTPError(err.status, err.message, err))

@@ -23,14 +23,21 @@ const { getAllDocs } = require('./lib/dal-helper')
 ///// Activities /////
 //////////////////////
 
-const getActivities = () => {
-  const options = {
+const getActivities = query => {
+  const [key, value] = not(isEmpty(query)) ? split(':', query) : ['', '']
+  return getAllDocs(db, {
     include_docs: true,
     startkey: 'activity_',
     endkey: 'activity_\ufff0'
-  }
-
-  return db.allDocs(options).then(res => map(prop('doc'), res.rows))
+  }).then(
+    activities =>
+      isEmpty(query)
+        ? activities
+        : filter(
+            activity => contains(value, propOr('', key, activity)),
+            activities
+          )
+  )
 }
 
 const getActivity = id => db.get(id)
@@ -123,13 +130,21 @@ const deleteCrewMember = id => db.remove(id)
 
 const getMaintenance = id => db.get(id)
 
-const getMaintenances = () => {
-  const options = {
+const getMaintenances = query => {
+  const [key, value] = not(isEmpty(query)) ? split(':', query) : ['', '']
+  return getAllDocs(db, {
     include_docs: true,
     startkey: 'maintenance_',
     endkey: 'maintenance_\ufff0'
-  }
-  return db.allDocs(options).then(res => map(prop('doc'), res.rows))
+  }).then(
+    maintenances =>
+      isEmpty(query)
+        ? maintenances
+        : filter(
+            maintenance => contains(value, propOr('', key, maintenance)),
+            maintenances
+          )
+  )
 }
 
 const addMaintenance = maintenance => {
@@ -153,13 +168,21 @@ const deleteMaintenance = id => db.remove(id)
 /////  Reminders  /////
 //////////////////////
 
-const getReminders = () => {
-  const options = {
+const getReminders = query => {
+  const [key, value] = not(isEmpty(query)) ? split(':', query) : ['', '']
+  return getAllDocs(db, {
     include_docs: true,
     startkey: 'reminder_',
     endkey: 'reminder_\ufff0'
-  }
-  return db.allDocs(options).then(res => map(prop('doc'), res.rows))
+  }).then(
+    reminders =>
+      isEmpty(query)
+        ? reminders
+        : filter(
+            reminder => contains(value, propOr('', key, reminder)),
+            reminders
+          )
+  )
 }
 
 const getReminder = id => db.get(id)

@@ -1,6 +1,6 @@
 import { SET_ACTIVITIES, GET_ACTIVITY } from '../constants'
 
-export const activities = (state = [], action) => {
+export const getActivities = (state = [], action) => {
   switch (action.type) {
     case SET_ACTIVITIES:
       return action.payload

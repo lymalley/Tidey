@@ -15,7 +15,9 @@ const maintenancesRoutes = app => {
   app.get('/', (req, res) => res.send('Welcome to the Tidey API'))
 
   app.get('/maintenances', (req, res, next) => {
-    getMaintenances()
+    const query = pathOr('', ['query', 'filter'], req)
+
+    getMaintenances(query)
       .then(maintenances => res.send(maintenances))
       .catch(err => {
         next(new NodeHTTPError(err.status, err.message, err))
