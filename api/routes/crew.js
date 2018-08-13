@@ -15,9 +15,13 @@ const crewRoutes = app => {
   app.get('/', (req, res) => res.send('Welcome to the Tidey API'))
 
   app.get('/crew', (req, res, next) => {
-    getCrew()
-      .then(crew => res.status(200).send(crew))
-      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
+    const query = pathOr('', ['query', 'filter'], req)
+
+    getCrew(query)
+      .then(crew => res.send(crew))
+      .catch(err => {
+        next(new NodeHTTPError(err.status, err.message, err))
+      })
   })
 
   app.get('/crew/:id', (req, res, next) => {

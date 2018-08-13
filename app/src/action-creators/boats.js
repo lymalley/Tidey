@@ -8,6 +8,13 @@ import {
 } from '../constants'
 const url = process.env.REACT_APP_BASE_URL + '/boats'
 
+export const setBoats = async (dispatch, getState) => {
+  const boats = await fetch(url)
+    .then(res => res.json())
+    .catch(err => console.log(err))
+  dispatch({ type: SET_BOATS, payload: boats })
+}
+
 export const getBoat = id => dispatch => {
   fetch(url + '/' + id)
     .then(res => res.json())

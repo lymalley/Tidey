@@ -1,4 +1,6 @@
 import {
+  SET_CREW,
+  GET_CREW_MEMBER,
   NEW_CREW_SAVE_STARTED,
   NEW_CREW_SAVE_FAILED,
   NEW_CREW_SAVE_SUCCEEDED,
@@ -6,6 +8,15 @@ import {
   NEW_CREW_FORM_UPDATED
 } from '../constants'
 import { merge, mergeDeepRight } from 'ramda'
+
+export const getCrew = (state = [], action) => {
+  switch (action.type) {
+    case SET_CREW:
+      return action.payload
+    default:
+      return state
+  }
+}
 
 const newCrewInitialState = {
   data: {

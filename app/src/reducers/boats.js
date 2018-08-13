@@ -1,4 +1,5 @@
 import {
+  SET_BOATS,
   NEW_BOAT_SAVE_STARTED,
   NEW_BOAT_SAVE_FAILED,
   NEW_BOAT_SAVE_SUCCEEDED,
@@ -6,6 +7,15 @@ import {
   NEW_BOAT_FORM_UPDATED
 } from '../constants'
 import { merge, mergeDeepRight } from 'ramda'
+
+export const getBoats = (state = [], action) => {
+  switch (action.type) {
+    case SET_BOATS:
+      return action.payload
+    default:
+      return state
+  }
+}
 
 const newBoatInitialState = {
   data: {

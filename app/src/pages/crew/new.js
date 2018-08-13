@@ -31,23 +31,26 @@ const theme = createMuiTheme({
 
 const CrewMemberNew = props => {
   return (
-    <div style={{ paddingTop: 20 }}>
+    <div style={{ paddingTop: 20 }} className="container">
       <MuiThemeProvider theme={theme}>
         <MenuAppBar title="Add Crew Member" color="primary" />
       </MuiThemeProvider>
       <form
+        className="form-horizontal"
         style={{ marginTop: 50 }}
         autocomplete="off"
         onSubmit={props.createCrewMember(props.history)}
       >
-        <TextField
-          label="First Name"
-          value={props.crewMember.firstName}
-          margin="normal"
-          onChange={e => props.onChange('firstName', e.target.value)}
-          required
-          className={props.classes.input}
-        />
+        <div className="form-group">
+          <TextField
+            label="First Name"
+            value={props.crewMember.firstName}
+            margin="normal"
+            onChange={e => props.onChange('firstName', e.target.value)}
+            required
+            className={props.classes.input}
+          />
+        </div>
         <TextField
           label="Last Name"
           value={props.crewMember.lastName}

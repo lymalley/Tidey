@@ -9,7 +9,9 @@ const boatsRoutes = app => {
   app.get('/', (req, res) => res.send('Welcome to the Tidey API'))
 
   app.get('/boats', (req, res, next) => {
-    getBoats()
+    const query = pathOr('', ['query', 'filter'], req)
+
+    getBoats(query)
       .then(boats => res.send(boats))
       .catch(err => {
         next(new NodeHTTPError(err.status, err.message, err))

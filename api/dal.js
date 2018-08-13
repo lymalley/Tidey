@@ -1,6 +1,15 @@
 const PouchDB = require('pouchdb-core')
 PouchDB.plugin(require('pouchdb-adapter-http'))
-const { map, prop, merge } = require('ramda')
+const {
+  map,
+  prop,
+  merge,
+  not,
+  isEmpty,
+  split,
+  propOr,
+  filter
+} = require('ramda')
 const pkGen = require('./lib/pkGen')
 
 const COUCHDB_SERVER = process.env.COUCHDB_SERVER
@@ -42,13 +51,18 @@ const deleteActivity = id => db.remove(id)
 /////    Boats   /////
 //////////////////////
 
-const getBoats = () => {
-  const options = {
+const getBoats = query => {
+  const [key, value] = not(isEmpty(query)) ? split(':', query) : ['', '']
+  return getAllDocs(db, {
     include_docs: true,
     startkey: 'boat_',
     endkey: 'boat_\ufff0'
-  }
-  return db.allDocs(options).then(res => map(prop('doc'), res.rows))
+  }).then(
+    boats =>
+      isEmpty(query)
+        ? boats
+        : filter(boat => contains(value, propOr('', key, boat)), boats)
+  )
 }
 
 const getBoat = id => db.get(id)
@@ -69,13 +83,21 @@ const deleteBoat = id => db.remove(id)
 /////    Crew    /////
 /////////////////////
 
-const getCrew = () => {
-  const options = {
+const getCrew = query => {
+  const [key, value] = not(isEmpty(query)) ? split(':', query) : ['', '']
+  return getAllDocs(db, {
     include_docs: true,
     startkey: 'crew-member_',
     endkey: 'crew-member_\ufff0'
-  }
-  return db.allDocs(options).then(res => map(prop('doc'), res.rows))
+  }).then(
+    crew =>
+      isEmpty(query)
+        ? crew
+        : filter(
+            crewMember => contains(value, propOr('', key, crewMember)),
+            crew
+          )
+  )
 }
 
 const getCrewMember = id => db.get(id)

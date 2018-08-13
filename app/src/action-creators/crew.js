@@ -6,7 +6,15 @@ import {
   NEW_CREW_SAVE_SUCCEEDED,
   NEW_CREW_SAVE_FAILED
 } from '../constants'
-const url = process.env.REACT_APP_BASE_URL
+const url = process.env.REACT_APP_BASE_URL + '/crew'
+
+export const setCrew = async (dispatch, getState) => {
+  const crew = await fetch(url)
+    .then(res => res.json())
+    .catch(err => console.log(err))
+
+  dispatch({ type: SET_CREW, payload: crew })
+}
 
 export const addCrewMember = history => (dispatch, getState) => {
   dispatch({ type: NEW_CREW_SAVE_STARTED })
