@@ -76,7 +76,7 @@ const CrewMemberNew = props => {
           label="Email"
           value={props.crewMember.email}
           margin="normal"
-          onChange={e => props.onChange('email, e.target.value')}
+          onChange={e => props.onChange('email', e.target.value)}
           className={props.classes.input}
         />
         <TextField
