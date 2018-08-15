@@ -4,19 +4,19 @@ import { connect } from 'react-redux'
 import List from '@material-ui/core/List'
 import MenuAppBar from '../../components/menuAppBar'
 import withDrawer from '../../components/with-drawer'
-import CrewListItems from '../../components/crewListItems'
+import ReminderListItems from '../../components/reminderListItems'
 
-const Crew = props => (
+const Reminders = props => (
   <div style={{ paddingTop: 56 }}>
-    <MenuAppBar title="Crew" history={props.history} />
-    <List>{map(crewMember => CrewListItems(crewMember), props.crew)}</List>
+    <MenuAppBar title="Reminders" />
+    <List>{map(reminder => ReminderListItems(reminder), props.reminders)}</List>
   </div>
 )
 
 const mapStateToProps = state => ({
-  crew: state.getCrew
+  reminders: state.getReminders
 })
 
 const connector = connect(mapStateToProps)
 
-export default withDrawer(connector(Crew))
+export default withDrawer(connector(Reminders))

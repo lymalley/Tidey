@@ -8,18 +8,15 @@ import Avatar from '@material-ui/core/Avatar'
 import { head } from 'ramda'
 import { Link } from 'react-router-dom'
 
-const CrewListItems = crewMember => (
-  <div key={crewMember._id}>
-    <Link to={`/crew/${crewMember._id}`} className="router-link">
+const ReminderListItems = reminder => (
+  <div key={reminder._id}>
+    <Link to={`/reminders/${reminder._id}`} className="router-link">
       <ListItem button>
-        <ListItemIcon>
-          <Avatar>{crewMember.image}</Avatar>
-        </ListItemIcon>
         <ListItemText>
           <Typography variant="headline">
-            {`${crewMember.firstName} ${crewMember.lastName}`}
+            {`${reminder.boatName} ${reminder.alertAt}`}
           </Typography>
-          <Typography variant="caption">{crewMember.title}</Typography>
+          <Typography variant="caption">{reminder.service}</Typography>
         </ListItemText>
       </ListItem>
     </Link>
@@ -27,4 +24,4 @@ const CrewListItems = crewMember => (
   </div>
 )
 
-export default CrewListItems
+export default ReminderListItems

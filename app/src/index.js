@@ -7,6 +7,8 @@ import store from './store'
 import { setActivities } from './action-creators/activities'
 import { setCrew } from './action-creators/crew'
 import { setBoats } from './action-creators/boats'
+import { setMaintenances } from './action-creators/maintenances'
+import { setReminders } from './action-creators/reminders'
 
 ReactDOM.render(
   <Provider store={store}>
@@ -17,3 +19,5 @@ ReactDOM.render(
 store.dispatch(setActivities)
 store.dispatch(setBoats)
 store.dispatch(setCrew)
+store.dispatch(setMaintenances)
+store.dispatch(setReminders)

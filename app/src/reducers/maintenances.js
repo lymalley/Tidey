@@ -1,4 +1,6 @@
 import {
+  SET_MAINTENANCES,
+  GET_MAINTENANCE,
   NEW_MAINTENANCE_SAVE_STARTED,
   NEW_MAINTENANCE_SAVE_FAILED,
   NEW_MAINTENANCE_SAVE_SUCCEEDED,
@@ -7,15 +9,40 @@ import {
 } from '../constants'
 import { merge, mergeDeepRight } from 'ramda'
 
+export const getMaintenances = (state = [], action) => {
+  switch (action.type) {
+    case SET_MAINTENANCES:
+      return action.payload
+    default:
+      return state
+  }
+}
+
+const now = new Date()
+const today = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`
+
 const newMaintenanceInitialState = {
   data: {
-    firstName: '',
-    lastName: '',
-    image: null,
-    title: '',
-    email: '',
-    phone: ''
+    date: today,
+    boatName: '',
+    serviceType: '',
+    performedBy: '',
+    location: '',
+    engineHours: '',
+    materials: '',
+    totalCost: '',
+    comments: '',
+    images: null,
+    reminderCreated: false,
+    reminder: [
+      {
+        dueAtHours: '',
+        hrsBefore: ''
+      }
+    ],
+    enteredBy: ''
   },
+
   isSaving: false,
   isError: false,
   errorMsg: ''

@@ -8,6 +8,8 @@ import {
   MuiThemeProvider
 } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import SaveIcon from '@material-ui/icons/SaveTwoTone'
 import { NEW_MAINTENANCE_FORM_UPDATED } from '../../constants'
@@ -41,50 +43,101 @@ const MaintenanceNew = props => {
         onSubmit={props.createMaintenance(props.history)}
       >
         <TextField
-          label="First Name"
-          value={props.maintenance.firstName}
+          label="Date"
+          value={props.maintenance.date}
           margin="normal"
-          onChange={e => props.onChange('firstName', e.target.value)}
+          onChange={e => props.onChange('date', e.target.value)}
           required
           className={props.classes.input}
         />
         <TextField
-          label="Last Name"
-          value={props.maintenance.lastName}
+          label="Boat Name"
+          value={props.maintenance.boatName}
           margin="normal"
-          onChange={e => props.onChange('lastName', e.target.value)}
+          onChange={e => props.onChange('boatName', e.target.value)}
           required
           className={props.classes.input}
         />
+        <Select
+          label="Service Type"
+          value={props.maintenance.serviceType}
+          margin="normal"
+          component="select"
+          onChange={e => props.onChange('image', e.target.value)}
+          required
+          className={props.classes.input}
+        >
+          <MenuItem>
+            <option>Oil Change</option>
+            <option>Change Drive</option>
+            <option>other</option>
+          </MenuItem>
+        </Select>
         <TextField
-          label="Photo"
-          value={props.maintenance.image}
+          label="Performed By"
+          value={props.maintenance.performedBy}
+          margin="normal"
+          onChange={e => props.onChange('performedBy', e.target.value)}
+          className={props.classes.input}
+        />
+        <TextField
+          label="Location"
+          value={props.maintenance.location}
+          margin="normal"
+          onChange={e => props.onChange('location', e.target.value)}
+          className={props.classes.input}
+        />
+        <TextField
+          label="Current Engine Hours"
+          value={props.maintenance.engineHours}
+          margin="normal"
+          required
+          onChange={e => props.onChange('engineHours', e.target.value)}
+          className={props.classes.input}
+        />
+        <TextField
+          label="Materials Used"
+          value={props.maintenance.materials}
+          margin="normal"
+          onChange={e => props.onChange('materials', e.target.value)}
+          className={props.classes.input}
+        />
+        <TextField
+          label="Total Maintenance Cost"
+          value={props.maintenance.totalCost}
+          margin="normal"
+          onChange={e => props.onChange('totalCost', e.target.value)}
+          className={props.classes.input}
+        />
+        <TextField
+          label="Additional Notes"
+          value={props.maintenance.comments}
+          margin="normal"
+          multiline
+          onChange={e => props.onChange('comments', e.target.value)}
+          className={props.classes.input}
+        />
+        <TextField
+          label="Add Images"
+          value={props.maintenance.images}
           margin="normal"
           type="file"
-          onChange={e => props.onChange('image', e.target.value)}
-          className={props.classes.input}
-        />
-
-        <TextField
-          label="Title"
-          value={props.maintenance.title}
-          margin="normal"
-          onChange={e => props.onChange('title', e.target.value)}
+          onChange={e => props.onChange('images', e.target.value)}
           className={props.classes.input}
         />
         <TextField
-          label="Email"
-          value={props.maintenance.email}
+          label="Create Reminder"
+          value={props.maintenance.reminderCreated}
           margin="normal"
-          onChange={e => props.onChange('email, e.target.value')}
+          onChange={e => props.onChange('reminderCreated', e.target.value)}
           className={props.classes.input}
         />
         <TextField
-          label="Phone"
-          value={props.maintenance.phone}
+          label="Entered By"
+          value={props.maintenance.enteredBy}
           margin="normal"
-          required
-          onChange={e => props.onChange('phone', e.target.value)}
+          type="file"
+          onChange={e => props.onChange('enteredBy', e.target.value)}
           className={props.classes.input}
         />
         <Button

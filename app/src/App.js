@@ -11,7 +11,9 @@ import Boats from './pages/boats'
 import BoatNew from './pages/boats/new'
 import Crew from './pages/crew/index'
 import CrewMemberNew from './pages/crew/new'
+import Maintenances from './pages/maintenances/index'
 import MaintenanceNew from './pages/maintenances/new'
+import Reminders from './pages/reminders/index'
 import ReminderNew from './pages/reminders/new'
 
 const App = () => (
@@ -27,7 +29,9 @@ const App = () => (
       <Route exact path="/boats/new" component={BoatNew} />
       <Route exact path="/crew" component={Crew} />
       <Route exact path="/crew/new" component={CrewMemberNew} />
+      <Route exact path="/maintenances" component={Maintenances} />
       <Route exact path="/maintenances/new" component={MaintenanceNew} />
+      <Route exact path="/reminders/new" component={Reminders} />
       <Route exact path="/reminders/new" component={ReminderNew} />
     </Switch>
   </BrowserRouter>

@@ -21,7 +21,7 @@ export const addCrewMember = history => (dispatch, getState) => {
 
   const newCrewMember = getState().newCrewMember.data
 
-  fetch(`{url}/crew`, {
+  fetch(url, {
     headers: {
       'Content-Type': 'applicaiton/json'
     },

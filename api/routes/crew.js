@@ -33,10 +33,18 @@ const crewRoutes = app => {
 
   app.post('/crew', bodyParser.json(), (req, res, next) => {
     const newCrewMember = propOr({}, 'body', req)
+
+    if (not(isEmpty(missingFields))) {
+      next(
+        new NodeHTTPError(400, `missing the following fields: ${missingFields}`)
+      )
+    }
+
     const missingFields = checkRequiredFields(
       ['firstName', 'lastName', 'phoneNumber'],
       newCrewMember
     )
+
     if (not(isEmpty(missingFields))) {
       next(
         new NodeHTTPError(
@@ -49,6 +57,7 @@ const crewRoutes = app => {
       ['firstName', 'lastName', 'phoneNumber'],
       newCrewMember
     )
+
     addCrewMember(finalObj)
       .then(added => res.status(201).send(added))
       .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
@@ -62,11 +71,6 @@ const crewRoutes = app => {
       newMember
     )
 
-    if (not(isEmpty(missingFields))) {
-      next(
-        new NodeHTTPError(400, `missing the following fields: ${missingFields}`)
-      )
-    }
     const finalObj = cleanObj(
       ['_id', '_rev', 'type', 'firstName', 'lastName', 'phoneNumber'],
       newMember

@@ -6,14 +6,22 @@ import {
   NEW_MAINTENANCE_SAVE_SUCCEEDED,
   NEW_MAINTENANCE_SAVE_FAILED
 } from '../constants'
-const url = process.env.REACT_APP_BASE_URL
+const url = process.env.REACT_APP_BASE_URL + '/maintenances'
+
+export const setMaintenances = async (dispatch, getState) => {
+  const maintenances = await fetch(url)
+    .then(res => res.json())
+    .catch(err => console.log(err))
+
+  dispatch({ type: SET_MAINTENANCES, payload: maintenances })
+}
 
 export const addMaintenance = history => (dispatch, getState) => {
   dispatch({ type: NEW_MAINTENANCE_SAVE_STARTED })
 
   const newMaintenance = getState().newMaintenances.data
 
-  fetch(`{url}/maintenances`, {
+  fetch(url, {
     headers: {
       'Content-Type': 'applicaiton/json'
     },

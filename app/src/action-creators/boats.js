@@ -43,7 +43,7 @@ export const addBoat = history => (dispatch, getState) => {
         })
       } else {
         dispatch({ type: NEW_BOAT_SAVE_SUCCEEDED })
-        history.push('/boat')
+        history.push('/boats')
       }
     })
     .catch(err =>

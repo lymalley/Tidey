@@ -1,36 +1,25 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { map } from 'ramda'
-import { setActivities } from '../../action-creators/activities'
+import { connect } from 'react-redux'
+import List from '@material-ui/core/List'
 import MenuAppBar from '../../components/menuAppBar'
 import withDrawer from '../../components/with-drawer'
-import activityListItem from '../../components/activityListItem'
+import ActivityListItems from '../../components/activityListItems'
 
-class Activities extends React.Component {
-  componentDidMount() {
-    const { setActivities } = this.props
-    setActivities()
-  }
-  render() {
-    return (
-      <div>
-        <MenuAppBar title="Activities" />
-        {map(activityListItem)}
-      </div>
-    )
-  }
-}
+const Activities = props => (
+  <div style={{ paddingTop: 56 }}>
+    <MenuAppBar title="Activities" />
+    <List>
+      {map(activity => ActivityListItems(activity), props.activities)}
+    </List>
+  </div>
+)
 
-const mapStateToProps = state => ({})
-
-const mapActionsToProps = dispatch => ({
-  setActivities: id => dispatch(setActivities(id))
+const mapStateToProps = state => ({
+  activities: state.getActivities
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapActionsToProps
-)
+const connector = connect(mapStateToProps)
 
 export default withDrawer(connector(Activities))
 
