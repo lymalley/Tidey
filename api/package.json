@@ -13,6 +13,7 @@
   },
   "keywords": [],
   "author": "",
+  "license": "ISC",
   "description": "",
   "dependencies": {
     "body-parser": "^1.18.3",
