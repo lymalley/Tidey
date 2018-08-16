@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import './index.css'
 import App from './App'
+import 'typeface-roboto'
+import registerServiceWorker from './registerServiceWorker'
 import store from './store'
 import { setActivities } from './action-creators/activities'
 import { setCrew } from './action-creators/crew'
@@ -16,6 +18,8 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
+registerServiceWorker()
+
 store.dispatch(setActivities)
 store.dispatch(setBoats)
 store.dispatch(setCrew)

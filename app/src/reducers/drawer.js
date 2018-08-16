@@ -1,13 +1,13 @@
-import { DRAWER_TOGGLED } from '../constants'
+import { DRAWER_TOGGLED, DRAWER_OPENED, DRAWER_CLOSED } from '../constants'
 
-const defaultDrawer = {
-  open: false
-}
-
-export const drawer = (state = defaultDrawer, action) => {
+export const drawer = (state = { open: false }, action) => {
   switch (action.type) {
     case DRAWER_TOGGLED:
       return { open: !state.open }
+    case DRAWER_OPENED:
+      return true
+    case DRAWER_CLOSED:
+      return false
 
     default:
       return state

@@ -8,6 +8,7 @@ import {
   NEW_ACTIVITY_FORM_UPDATED
 } from '../constants'
 import { merge, mergeDeepRight } from 'ramda'
+import Today from '../lib/today'
 
 export const getActivities = (state = [], action) => {
   switch (action.type) {
@@ -49,12 +50,9 @@ export const currentActivity = (state = initialCurrentActivity, action) => {
   }
 }
 
-const now = new Date()
-const today = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`
-
 const newActivityInitialState = {
   data: {
-    date: today,
+    date: Today,
     startTime: '',
     endTime: '',
     boat: '',

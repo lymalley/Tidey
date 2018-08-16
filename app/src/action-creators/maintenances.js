@@ -4,7 +4,8 @@ import {
   GET_MAINTENANCE,
   NEW_MAINTENANCE_SAVE_STARTED,
   NEW_MAINTENANCE_SAVE_SUCCEEDED,
-  NEW_MAINTENANCE_SAVE_FAILED
+  NEW_MAINTENANCE_SAVE_FAILED,
+  NEW_REMINDER_SAVE_SUCCEEDED
 } from '../constants'
 const url = process.env.REACT_APP_BASE_URL + '/maintenances'
 
@@ -36,7 +37,9 @@ export const addMaintenance = history => (dispatch, getState) => {
           payload: 'Could not save the Crew Member'
         })
       } else {
-        dispatch({ type: NEW_MAINTENANCE_SAVE_SUCCEEDED })
+        dispatch({
+          type: [NEW_MAINTENANCE_SAVE_SUCCEEDED, NEW_REMINDER_SAVE_SUCCEEDED]
+        })
         history.push('/maintenances')
       }
     })

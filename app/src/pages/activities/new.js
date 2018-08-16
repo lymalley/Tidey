@@ -21,6 +21,26 @@ const styles = theme => ({
     marginLeft: 16,
     marginTop: 16,
     marginBottom: 8
+  },
+  textInput: {
+    flex: 1,
+    flexDirection: 'row',
+    textAlign: 'left',
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    height: 40,
+    // borderWidth:1,
+    // borderColor:'transparent',
+    backgroundColor: 'white',
+    opacity: 0.9
+  },
+  textInputContainer: {
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
+    borderBottomWidth: 0
   }
 })
 
@@ -32,7 +52,7 @@ const theme = createMuiTheme({
 
 const ActivityNew = props => {
   return (
-    <div style={{ paddingTop: 20 }}>
+    <div className="flex flex-column justify-start avenir w-200">
       <MuiThemeProvider theme={theme}>
         <MenuAppBar title="Add Activity" color="primary" />
       </MuiThemeProvider>
@@ -175,7 +195,8 @@ const ActivityNew = props => {
           className={props.classes.input}
         />
         <Button
-          variant="fab"
+          variant="extendedFab"
+          size="large"
           color="primary"
           type="submit"
           aria-label="add"

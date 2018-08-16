@@ -15,11 +15,12 @@ export const setCrew = async (dispatch, getState) => {
 
   dispatch({ type: SET_CREW, payload: crew })
 }
-
+{
+  /*
 export const addCrewMember = history => (dispatch, getState) => {
   dispatch({ type: NEW_CREW_SAVE_STARTED })
 
-  const newCrewMember = getState().newCrewMember.data
+  const crewMember = getState().newCrewMember.data
 
   fetch(url, {
     headers: {
@@ -46,4 +47,32 @@ export const addCrewMember = history => (dispatch, getState) => {
         payload: 'Unexpected Error.  Please try again.'
       })
     )
+}
+*/
+}
+
+export const addCrewMember = history => async (dispatch, getState) => {
+  dispatch({ type: NEW_CREW_SAVE_STARTED })
+  const result = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(getState().newCrewMember.data)
+  })
+    .then(res => res.json())
+    .catch(err =>
+      dispatch({
+        type: NEW_CREW_SAVE_FAILED,
+        payload: 'Unexpected Error.  Please try again.'
+      })
+    )
+  if (result.ok) {
+    dispatch({ type: NEW_CREW_SAVE_SUCCEEDED })
+    setCrew(dispatch, getState)
+    history.push('/crew')
+  } else {
+    dispatch({
+      type: NEW_CREW_SAVE_FAILED,
+      payload: 'Unexpected Error.  Please try again.'
+    })
+  }
 }

@@ -88,13 +88,7 @@ const BoatNew = props => {
           onChange={e => props.onChange('beamFt', e.target.value)}
           className={props.classes.input}
         />
-        <TextField
-          label="Beam"
-          value={props.boat.beamFt}
-          margin="normal"
-          onChange={e => props.onChange('beamFt', e.target.value)}
-          className={props.classes.input}
-        />
+
         <TextField
           label="Hull Material"
           value={props.boat.hullMaterial}

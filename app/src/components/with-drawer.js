@@ -73,7 +73,7 @@ const withDrawer = function(PageComponent) {
     return (
       <div>
         <PageComponent {...props} />
-        <Drawer open={props.open} onClose={props.toggleDrawer}>
+        <Drawer open={props.open} onClose={props.toggleDrawer(props.open)}>
           <div tabIndex={0} role="button">
             {TideyListItem}
           </div>
@@ -87,8 +87,10 @@ const withDrawer = function(PageComponent) {
 
   const mapActionToProps = dispatch => {
     return {
-      toggleDrawer: () => {
-        dispatch({ type: DRAWER_TOGGLED })
+      toggleDrawer: open => () => {
+        if (open) {
+          dispatch({ type: DRAWER_TOGGLED })
+        }
       }
     }
   }
