@@ -8,6 +8,7 @@ import {
   NEW_REMINDER_FORM_UPDATED
 } from '../constants'
 import { merge, mergeDeepRight } from 'ramda'
+import Today from '../lib/today'
 
 export const getReminders = (state = [], action) => {
   switch (action.type) {
@@ -17,13 +18,30 @@ export const getReminders = (state = [], action) => {
       return state
   }
 }
+const initialCurrentReminder = {
+  date: Today,
+  boatName: 'Orange Crush',
+  alertAt: '',
+  service: '',
+  dueAtHours: '',
+  remindHrsBefore: 10,
+  completed: false,
+  startMaint: false,
+  enteredBy: ''
+}
 
-const now = new Date()
-const today = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`
+export const currentReminder = (state = initialCurrentReminder, action) => {
+  switch (action.type) {
+    case GET_CURRENT_REMINDER:
+      return action.payload
+    default:
+      return state
+  }
+}
 
 const newReminderInitialState = {
   data: {
-    date: today,
+    date: Today,
     boatName: 'Orange Crush',
     alertAt: '',
     service: '',

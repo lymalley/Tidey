@@ -3,18 +3,20 @@ import {
   GET_WEATHER_STARTED,
   GET_WEATHER_SUCCEEDED,
   GET_WEATHER,
+  GET_FORECAST,
   GET_WEATHER_FAILED,
   IS_FETCHING
 } from '../constants'
-import { Observable } from 'rxjs/Observable';
-import moment from 'moment';
 
 const DarkSky = require('dark-sky')
 
 //const darksky = new DarkSky(process.env.REACT_APP_DARK_SKY)
-const url = `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_DARK_SKY}32.8052,-79.7597`
+const url = `${process.env.REACT_APP_BASE_URL}${
+  process.env.REACT_APP_DARK_SKY
+}32.8052,-79.7597`
 //const url = process.env.REACT_APP_BASE_URL
-
+{
+  /*
 export const setWeather = myWeather = async (dispatch, getState) => {
   const weather = await fetch(url, {
     headers: 'Content-Type': 'application/json'
@@ -26,9 +28,25 @@ body: JSON.stringify(getState().currentWeather.data))
 
   dispatch({ type: GET_WEATHER, payload: weather })
 }
+*/
+}
 
+export const setForecast = async (dispatch, getState) => {
+  const forecast = await fetch(url)
+    .then(res => res.json())
+    .catch(err =>
+      dispatch({
+        type: GET_WEATHER_FAILED,
+        payload:
+          'Your weather can not be retrieved at this time, please try again later.  Sorry for the inconvenience.'
+      })
+    )
 
-{/*
+  dispatch({ type: GET_FORECAST, payload: forecast })
+}
+
+{
+  /*
 export const getWeatherEpic = action$ => action$
     .ofType(actionTypes.GET_WEATHER_INITIATE)
     .map(payload => getWeatherParams(payload))
@@ -193,4 +211,5 @@ export class LocationFormContainer extends Component {
     }
 }
 
-*/}
+*/
+}

@@ -14,6 +14,8 @@ import { NEW_CREW_FORM_UPDATED, DRAWER_TOGGLED } from '../../constants'
 import { addCrewMember } from '../../action-creators/crew'
 import lightBlue from '@material-ui/core/colors/blue'
 import CustomSnackBar from '../../components/customSnackBar'
+import classNames from 'classnames'
+import Paper from '@material-ui/core/Paper'
 
 const styles = theme => ({
   input: {
@@ -24,88 +26,111 @@ const styles = theme => ({
   }
 })
 
-const theme = createMuiTheme({
-  palette: {
-    primary: lightBlue
-  }
-})
-
 const CrewMemberNew = props => {
   return (
     <center>
       <div style={{ paddingTop: 56 }} className="container">
         {!props.isFetching ? (
           <React.Fragment>
-            <MuiThemeProvider theme={theme}>
-              <MenuAppBar title="Add Crew Member" color="primary" />
-            </MuiThemeProvider>
-            <form
-              className="form-horizontal"
-              style={{ marginTop: 50 }}
-              autocomplete="off"
-              onSubmit={props.createCrewMember(props.history)}
-            >
-              <div className="form-group">
+            <Paper>
+              <MenuAppBar
+                title="Add Crew Member"
+                color="primary"
+                backArrow={true}
+              />
+
+              <form
+                className="form-horizontal"
+                style={{ marginTop: 40 }}
+                autocomplete="off"
+                onSubmit={props.createCrewMember(props.history)}
+              >
+                <div className="form-group">
+                  <TextField
+                    label="First Name"
+                    value={props.crewMember.firstName}
+                    margin="normal"
+                    onChange={e => props.onChange('firstName', e.target.value)}
+                    required
+                    className={props.classes.input}
+                  />
+                </div>
                 <TextField
-                  label="First Name"
-                  value={props.crewMember.firstName}
+                  label="Last Name"
+                  value={props.crewMember.lastName}
                   margin="normal"
-                  onChange={e => props.onChange('firstName', e.target.value)}
+                  onChange={e => props.onChange('lastName', e.target.value)}
                   required
                   className={props.classes.input}
                 />
-              </div>
-              <TextField
-                label="Last Name"
-                value={props.crewMember.lastName}
-                margin="normal"
-                onChange={e => props.onChange('lastName', e.target.value)}
-                required
-                className={props.classes.input}
-              />
-              <TextField
-                label="Photo"
-                value={props.crewMember.image}
-                margin="normal"
-                type="file"
-                onChange={e => props.onChange('image', e.target.value)}
-                className={props.classes.input}
-              />
+                <TextField
+                  label="Photo"
+                  value={props.crewMember.image}
+                  margin="normal"
+                  type="file"
+                  onChange={e => props.onChange('image', e.target.value)}
+                  className={props.classes.input}
+                />
 
-              <TextField
-                label="Title"
-                value={props.crewMember.title}
-                margin="normal"
-                onChange={e => props.onChange('title', e.target.value)}
-                className={props.classes.input}
-              />
-              <TextField
-                label="Email"
-                value={props.crewMember.email}
-                margin="normal"
-                onChange={e => props.onChange('email', e.target.value)}
-                className={props.classes.input}
-              />
-              <TextField
-                label="Phone"
-                value={props.crewMember.phone}
-                margin="normal"
-                required
-                onChange={e => props.onChange('phone', e.target.value)}
-                className={props.classes.input}
-              />
-              <div>
-                <Button
+                <TextField
+                  label="Title"
+                  value={props.crewMember.title}
+                  margin="normal"
+                  onChange={e => props.onChange('title', e.target.value)}
+                  className={props.classes.input}
+                />
+                <TextField
+                  label="Email"
+                  value={props.crewMember.email}
+                  margin="normal"
+                  onChange={e => props.onChange('email', e.target.value)}
+                  className={props.classes.input}
+                />
+                <TextField
+                  label="Phone"
+                  value={props.crewMember.phoneNumber}
+                  margin="normal"
+                  required
+                  onChange={e => props.onChange('phoneNumber', e.target.value)}
+                  className={props.classes.input}
+                />
+                <div>
+                  <Button
+                    varient="button"
+                    color="white"
+                    type="submit"
+                    aria-label="add"
+                    aria-label="Add Crew Member"
+                    style={{
+                      background:
+                        'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+                      borderRadius: 3,
+                      border: 0,
+                      padding: '0 30px',
+                      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+                    }}
+                  >
+                    <SaveIcon
+                      className={classNames(
+                        props.classes.leftIcon,
+                        props.classes.iconSmall
+                      )}
+                    />
+                    Save
+                  </Button>
+                  {/*  <Button
                   variant="extendedFab"
                   color="secondary"
                   type="submit"
                   aria-label="add"
                   className="fab-button"
-                >
+             
                   <SaveIcon />
                 </Button>
-              </div>
-            </form>
+                   >*/}
+                </div>
+              </form>
+            </Paper>
             {props.isError && (
               <CustomSnackBar message={props.errMessage} snackType="error" />
             )}

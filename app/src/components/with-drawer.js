@@ -15,10 +15,10 @@ import { connect } from 'react-redux'
 import { DRAWER_TOGGLED } from '../constants'
 import { Divider } from '../../node_modules/@material-ui/core'
 
-const TideyListItem = (
+const TideyListItem = props => (
   <div>
     <Link to="/" className="router-link">
-      <ListItem>
+      <ListItem button onClick={props.toggleDrawer}>
         <ListItemIcon>
           <HomeIcon />
         </ListItemIcon>
@@ -26,7 +26,7 @@ const TideyListItem = (
       </ListItem>
     </Link>
     <Link to="/activities" className="router-link">
-      <ListItem>
+      <ListItem button onClick={props.toggleDrawer}>
         <ListItemIcon>
           <ActivityIcon />
         </ListItemIcon>
@@ -34,7 +34,7 @@ const TideyListItem = (
       </ListItem>
     </Link>
     <Link to="/boats" className="router-link">
-      <ListItem>
+      <ListItem button onClick={props.toggleDrawer}>
         <ListItemIcon>
           <BoatIcon />
         </ListItemIcon>
@@ -42,7 +42,7 @@ const TideyListItem = (
       </ListItem>
     </Link>
     <Link to="/crew" className="router-link">
-      <ListItem>
+      <ListItem button onClick={props.toggleDrawer}>
         <ListItemIcon>
           <CrewIcon />
         </ListItemIcon>
@@ -50,16 +50,16 @@ const TideyListItem = (
       </ListItem>
     </Link>
     <Link to="/maintenances" className="router-link">
-      <ListItem>
+      <ListItem button onClick={props.toggleDrawer}>
         <ListItemIcon>
           <MaintenanceIcon />
         </ListItemIcon>
         <ListItemText secondary="Maintenances" />
       </ListItem>
     </Link>
-    <Divider />>
+    <Divider />
     <Link to="/reminders" className="router-link">
-      <ListItem>
+      <ListItem button onClick={props.toggleDrawer}>
         <ListItemIcon>
           <ReminderIcon />
         </ListItemIcon>
@@ -73,9 +73,9 @@ const withDrawer = function(PageComponent) {
     return (
       <div>
         <PageComponent {...props} />
-        <Drawer open={props.open} onClose={props.toggleDrawer(props.open)}>
+        <Drawer open={props.open} onClose={props.toggleDrawer} anchor="left">
           <div tabIndex={0} role="button">
-            {TideyListItem}
+            <TideyListItem {...props} />
           </div>
         </Drawer>
       </div>
@@ -87,11 +87,7 @@ const withDrawer = function(PageComponent) {
 
   const mapActionToProps = dispatch => {
     return {
-      toggleDrawer: open => () => {
-        if (open) {
-          dispatch({ type: DRAWER_TOGGLED })
-        }
-      }
+      toggleDrawer: () => dispatch({ type: DRAWER_TOGGLED })
     }
   }
   const connector = connect(

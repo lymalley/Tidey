@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import {
   SET_MAINTENANCES,
-  GET_MAINTENANCE,
+  GET_CURRENT_MAINTENANCE,
   NEW_MAINTENANCE_SAVE_STARTED,
   NEW_MAINTENANCE_SAVE_SUCCEEDED,
   NEW_MAINTENANCE_SAVE_FAILED,
@@ -17,36 +17,39 @@ export const setMaintenances = async (dispatch, getState) => {
   dispatch({ type: SET_MAINTENANCES, payload: maintenances })
 }
 
-export const addMaintenance = history => (dispatch, getState) => {
+export const getMaintenance = id => dispatch => {
+  fetch(`${url}/${id}`)
+    .then(res => res.json())
+    .then(maintenance =>
+      dispatch({ type: GET_CURRENT_MAINTENANCE, payload: maintenance })
+    )
+    .catch(err => console.log(err))
+}
+
+export const addMaintenance = history => async (dispatch, getState) => {
   dispatch({ type: NEW_MAINTENANCE_SAVE_STARTED })
-
-  const newMaintenance = getState().newMaintenances.data
-
-  fetch(url, {
-    headers: {
-      'Content-Type': 'applicaiton/json'
-    },
+  const result = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
     method: 'POST',
-    body: JSON.stringify(newMaintenance)
+    body: JSON.stringify(getState().newMaintenances.data)
   })
     .then(res => res.json())
-    .then(saveResponse => {
-      if (!saveResponse.ok) {
-        dispatch({
-          type: NEW_MAINTENANCE_SAVE_FAILED,
-          payload: 'Could not save the Crew Member'
-        })
-      } else {
-        dispatch({
-          type: [NEW_MAINTENANCE_SAVE_SUCCEEDED, NEW_REMINDER_SAVE_SUCCEEDED]
-        })
-        history.push('/maintenances')
-      }
-    })
     .catch(err =>
       dispatch({
         type: NEW_MAINTENANCE_SAVE_FAILED,
         payload: 'Unexpected Error.  Please try again.'
       })
     )
+  if (result.ok) {
+    dispatch({
+      type: [NEW_MAINTENANCE_SAVE_SUCCEEDED, NEW_REMINDER_SAVE_SUCCEEDED]
+    })
+    setMaintenances(dispatch, getState)
+    history.push('/maintenances')
+  } else {
+    dispatch({
+      type: NEW_MAINTENANCE_SAVE_FAILED,
+      payload: 'Unexpected Error.  Please try again.'
+    })
+  }
 }

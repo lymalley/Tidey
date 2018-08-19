@@ -7,6 +7,9 @@ import Divider from '@material-ui/core/Divider'
 import Avatar from '@material-ui/core/Avatar'
 import { head } from 'ramda'
 import { Link } from 'react-router-dom'
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import { withStyles } from '@material-ui/core/styles'
 
 const ActivityListItems = activity => (
   <div key={activity._id}>

@@ -9,12 +9,16 @@ import ActivitySearch from './pages/activities/search'
 import ActivityEdit from './pages/activities/edit'
 import Boats from './pages/boats'
 import BoatNew from './pages/boats/new'
+import BoatView from './pages/boats/view'
 import Crew from './pages/crew/index'
 import CrewMemberNew from './pages/crew/new'
+import CrewMemberView from './pages/crew/view'
 import Maintenances from './pages/maintenances/index'
 import MaintenanceNew from './pages/maintenances/new'
+import MaintenanceView from './pages/maintenances/view'
 import Reminders from './pages/reminders/index'
 import ReminderNew from './pages/reminders/new'
+import ReminderView from './pages/reminders/view'
 
 class App extends Component {
   render() {
@@ -29,12 +33,16 @@ class App extends Component {
           <Route exact path="/activities/:id/edit" component={ActivityEdit} />
           <Route exact path="/boats" component={Boats} />
           <Route exact path="/boats/new" component={BoatNew} />
+          <Route exact path="/boats/:id" component={BoatView} />
           <Route exact path="/crew" component={Crew} />
           <Route exact path="/crew/new" component={CrewMemberNew} />
+          <Route exact path="/crew/:id" component={CrewMemberView} />
           <Route exact path="/maintenances" component={Maintenances} />
           <Route exact path="/maintenances/new" component={MaintenanceNew} />
-          <Route exact path="/reminders/new" component={Reminders} />
+          <Route exact path="/maintenances/:id" component={MaintenanceView} />
+          <Route exact path="/reminders" component={Reminders} />
           <Route exact path="/reminders/new" component={ReminderNew} />
+          <Route exact path="/reminders/:id" component={ReminderView} />
         </Switch>
       </BrowserRouter>
     )

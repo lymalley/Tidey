@@ -8,7 +8,7 @@ import ReminderListItems from '../../components/reminderListItems'
 
 const Reminders = props => (
   <div style={{ paddingTop: 56 }}>
-    <MenuAppBar title="Reminders" />
+    <MenuAppBar title="Reminders" history={props.history} />
     <List>{map(reminder => ReminderListItems(reminder), props.reminders)}</List>
   </div>
 )

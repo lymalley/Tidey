@@ -8,6 +8,15 @@ import {
 } from '../constants'
 const url = process.env.REACT_APP_BASE_URL + '/crew'
 
+export const getCrewMember = id => dispatch => {
+  fetch(`${url}/${id}`)
+    .then(res => res.json())
+    .then(crewMember =>
+      dispatch({ type: GET_CREW_MEMBER, payload: crewMember })
+    )
+    .catch(err => console.log(err))
+}
+
 export const setCrew = async (dispatch, getState) => {
   const crew = await fetch(url)
     .then(res => res.json())

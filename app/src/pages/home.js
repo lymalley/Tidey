@@ -1,13 +1,16 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, MuiThemeProvider } from '@material-ui/core/styles'
+import lightBlue from '@material-ui/core/colors/lightBlue'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import { props, head } from 'ramda'
 import Button from '@material-ui/core/Button'
+import { setForecast } from '../action-creators/weather'
 import { Link } from 'react-router-dom'
 import withDrawer from '../components/with-drawer'
 import MenuAppBar from '../components/menuAppBar'
@@ -16,87 +19,60 @@ const DarkSky = require('dark-sky')
 //const darksky = new DarkSky(process.env.REACT_APP_DARK_SKY)
 const darksky = `${process.env.REACT_APP_DARK_SKY}32.8052,-79.7597`
 console.log({ darksky })
-{
-  /*
-const styles = theme => {
-  card: {
-    width: 345
-  },
-  media: {
-    height: 0,
-    paddingTop: 28
+
+const styles = theme => ({
+  input: {
+    width: '50%',
+    marginLeft: 16,
+    marginTop: 16,
+    marginBottom: 8
   }
-}
+})
 
-*/
-}
-
-function Weather(props) {
-  const { classes } = props
-  return (
-    <div>
-      <Card className={classes.card}>
-        <CardMedia
-          className={classes.media}
-          image="speed_boat.jpg"
-          title="Weather"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="headline" component="h2">
-            Lizard
-          </Typography>
-          <Typography component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-        </CardActions>
-      </Card>
-    </div>
-  )
-}
-
-const Home = () => (
-  <div
-    style={{
-      padding: 50
-    }}
-  >
-    <MenuAppBar title="Port">
-      <center>
-        <img
-          style={{ paddingLeft: 30, paddingTop: 50 }}
-          alt="home icon"
-          src="speed_boat.png"
-          width="20%"
-        />
-      </center>
-    </MenuAppBar>
-    <div style={{ paddingTop: 30, paddingBottom: 30 }}>
-      <Typography variant="display2" align="center" color="primary">
-        tidey
-      </Typography>
-    </div>
-    <Card weather={props.weather}>
-      <iframe
-        title="Current Forecast"
-        width="100%"
-        height="100%"
-        frameBorder="20"
-        style={{ paddingTop: 48 }}
+const Home = props => (
+  <div style={{ padding: 48 }}>
+    <center>
+      <Typography variant="display4">tidey</Typography>
+      <MenuAppBar title="Home Port" color="primary" />
+      <h3>Weather Forcast</h3>
+      <Card
+        style={{ paddingTop: '20%' }}
+        title="Weather Forecast"
         src={darksky}
-        //src="https://api.darksky.net/forecast/e6ccdb81bd1c974f7e5e55914bd85169/32.8052,-79.7597"
-        allowFullScreen
-      />
-    </Card>
+      >
+        <CardContent title="Weather Forecast" src={darksky}>
+          Weather
+        </CardContent>
+        <CardMedia
+          title="Current Forecast"
+          width="100%"
+          height="100%"
+          frameBorder="20"
+          style={{ paddingTop: 48 }}
+          src={darksky}
+          //src="https://api.darksky.net/forecast/e6ccdb81bd1c974f7e5e55914bd85169/32.8052,-79.7597"
+          allowFullScreen
+        >
+          Put Weather Here
+        </CardMedia>
+      </Card>
+
+      <div style={{ paddingTop: 30, paddingTop: 30 }} />
+    </center>
   </div>
 )
 
-export default withDrawer(Weather)
+const mapStateToProps = state => ({
+  forecast: state.getForecast.data
+})
+
+const mapActionsToProps = dispatch => ({
+  setForecast: () => dispatch(setForecast)
+})
+
+const connector = connect(
+  mapStateToProps,
+  mapActionsToProps
+)
+
+export default withDrawer(connector(withStyles(styles)(Home)))

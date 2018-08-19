@@ -18,6 +18,24 @@ export const getCrew = (state = [], action) => {
   }
 }
 
+const defaultCrewMember = {
+  firstName: '',
+  lastName: '',
+  image: null,
+  title: '',
+  email: '',
+  phoneNumber: ''
+}
+
+export const currentCrewMember = (state = defaultCrewMember, action) => {
+  switch (action.type) {
+    case GET_CREW_MEMBER:
+      return action.payload
+    default:
+      return state
+  }
+}
+
 const newCrewInitialState = {
   data: {
     firstName: '',
@@ -25,7 +43,7 @@ const newCrewInitialState = {
     image: null,
     title: '',
     email: '',
-    phone: ''
+    phoneNumber: ''
   },
   isSaving: false,
   isError: false,

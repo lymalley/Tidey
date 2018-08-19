@@ -1,11 +1,18 @@
 import {
   SET_ACTIVITIES,
-  GET_ACTIVITY,
+  GET_CURRENT_ACTIVITY,
   NEW_ACTIVITY_SAVE_FAILED,
   NEW_ACTIVITY_SAVE_STARTED,
   NEW_ACTIVITY_SAVE_SUCCEEDED,
   NEW_ACTIVITY_CLEARED,
-  NEW_ACTIVITY_FORM_UPDATED
+  NEW_ACTIVITY_FORM_UPDATED,
+  EDIT_ACTIVITY_CLEARED,
+  EDIT_ACTIVITY_UPDATED,
+  EDIT_ACTIVITY_TOGGLED,
+  EDIT_ACTIVITY_SAVE_STARTED,
+  EDIT_ACTIVITY_SAVE_SUCCEEDED,
+  EDIT_ACTIVITY_SAVE_FAILED,
+  EDIT_ACTIVITY_ERROR_CLEARED
 } from '../constants'
 import { merge, mergeDeepRight } from 'ramda'
 import Today from '../lib/today'
@@ -43,7 +50,7 @@ const initialCurrentActivity = {
 
 export const currentActivity = (state = initialCurrentActivity, action) => {
   switch (action.type) {
-    case GET_ACTIVITY:
+    case GET_CURRENT_ACTIVITY:
       return action.payload
     default:
       return state
@@ -95,6 +102,63 @@ export const newActivity = (state = newActivityInitialState, action) => {
       return newActivityInitialState
     case NEW_ACTIVITY_CLEARED:
       return newActivityInitialState
+    default:
+      return state
+  }
+}
+
+const editActivityInitialState = {
+  data: {
+    date: Today,
+    startTime: '',
+    endTime: '',
+    boat: '',
+    engineHoursStart: '',
+    engineHoursEnd: '',
+    weather: '',
+    tripType: '',
+    cruiseFrom: '',
+    cruiseTo: '',
+    passengerCount: '',
+    captain: '',
+    mate: '',
+    other: '',
+    tripNotes: '',
+    images: null,
+    enteredBy: ''
+  },
+
+  isError: false,
+  isSaving: false,
+  errorMsg: ''
+}
+export const editActivity = (state = editActivityInitialState, action) => {
+  switch (action.type) {
+    case EDIT_ACTIVITY_CLEARED:
+      return editActivityInitialState
+    case EDIT_ACTIVITY_UPDATED:
+      return mergeDeepRight(state, { data: action.payload })
+    case EDIT_ACTIVITY_SAVE_STARTED:
+      return merge(state, {
+        isError: false,
+        errorMsg: '',
+        isSaving: true
+      })
+    case EDIT_ACTIVITY_SAVE_SUCCEEDED:
+      return merge(state, {
+        isError: false,
+        errorMsg: '',
+
+        isSaving: false
+      })
+    case EDIT_ACTIVITY_SAVE_FAILED:
+      return merge(state, {
+        isError: true,
+        errorMsg: action.payload,
+        isSaving: false
+      })
+    case EDIT_ACTIVITY_ERROR_CLEARED:
+      return editActivityInitialState
     default:
       return state
   }

@@ -1,5 +1,6 @@
 import {
   SET_BOATS,
+  GET_CURRENT_BOAT,
   NEW_BOAT_SAVE_STARTED,
   NEW_BOAT_SAVE_FAILED,
   NEW_BOAT_SAVE_SUCCEEDED,
@@ -11,6 +12,29 @@ import { merge, mergeDeepRight } from 'ramda'
 export const getBoats = (state = [], action) => {
   switch (action.type) {
     case SET_BOATS:
+      return action.payload
+    default:
+      return state
+  }
+}
+
+const defaultBoat = {
+  name: '',
+  image: null,
+  boatMake: '',
+  boatModel: '',
+  boatYear: '',
+  lengthFt: '',
+  beamFt: '',
+  hullMaterial: '',
+  numOfEngines: 1,
+  engine1MakeModel: '',
+  additionalInfo: ''
+}
+
+export const currentBoat = (state = defaultBoat, action) => {
+  switch (action.type) {
+    case GET_CURRENT_BOAT:
       return action.payload
     default:
       return state

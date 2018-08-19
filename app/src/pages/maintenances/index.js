@@ -8,7 +8,12 @@ import MaintenanceListItems from '../../components/maintenanceListItems'
 
 const Maintenances = props => (
   <div style={{ paddingTop: 56 }}>
-    <MenuAppBar title="Maintenances" />
+    <MenuAppBar
+      title="Maintenances"
+      back
+      history={props.history}
+      backArrow={true}
+    />
     <List>
       {map(
         maintenance => MaintenanceListItems(maintenance),

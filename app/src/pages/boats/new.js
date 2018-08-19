@@ -24,18 +24,11 @@ const styles = theme => ({
   }
 })
 
-const theme = createMuiTheme({
-  palette: {
-    primary: lightBlue
-  }
-})
-
 const BoatNew = props => {
   return (
     <div style={{ paddingTop: 20 }}>
-      <MuiThemeProvider theme={theme}>
-        <MenuAppBar title="Add Boat" color="primary" />
-      </MuiThemeProvider>
+      <MenuAppBar title="Add Boat" color="primary" />
+
       <form
         style={{ marginTop: 50 }}
         autocomplete="off"
@@ -118,15 +111,25 @@ const BoatNew = props => {
           onChange={e => props.onChange('additionalInfo', e.target.value)}
           className={props.classes.input}
         />
-        <Button
-          variant="fab"
-          color="primary"
-          type="submit"
-          aria-label="add"
-          className="fab-button"
-        >
-          <SaveIcon />
-        </Button>
+        <br />
+        <center>
+          <Button
+            varient="button"
+            color="white"
+            type="submit"
+            aria-label="add"
+            aria-label="Add Crew Member"
+            style={{
+              background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+              borderRadius: 3,
+              border: 0,
+              padding: '0 30px',
+              boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+            }}
+          >
+            <SaveIcon /> Save
+          </Button>
+        </center>
       </form>
     </div>
   )

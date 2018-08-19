@@ -6,9 +6,9 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import lightBlue from '@material-ui/core/colors/lightBlue'
 import Card from '@material-ui/core/Card'
 import { Link } from 'react-router-dom'
-import BoatListItem from '../../components/boatListItems'
+import ReminderListItem from '../../components/reminderListItems'
 
-import { getBoat } from '../../action-creators/boats'
+import { getReminder } from '../../action-creators/reminders'
 import {
   CardContent,
   Typography
@@ -20,10 +20,10 @@ const theme = createMuiTheme({
   }
 })
 
-class BoatView extends React.Component {
+class ReminderView extends React.Component {
   componentDidMount() {
-    const { getBoat, match } = this.props
-    getBoat(match.params.id)
+    const { getReminder, match } = this.props
+    getReminder(match.params.id)
   }
   render() {
     const { history, isLoading } = this.props
@@ -34,7 +34,7 @@ class BoatView extends React.Component {
             <MenuAppBar
               history={history}
               backArrow={true}
-              title="Crew Member"
+              title="Reminder"
               style={{ padding: 56 }}
             />
           </MuiThemeProvider>
@@ -43,7 +43,7 @@ class BoatView extends React.Component {
           ) : (
             <Card>
               <CardContent>
-                <BoatListItem />
+                <ReminderListItem />
               </CardContent>
             </Card>
           )}
@@ -54,11 +54,11 @@ class BoatView extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  boat: state.currentBoat
+  reminder: state.currentReminder
 })
 
 const mapActionToProps = dispatch => ({
-  getBoat: id => dispatch(getBoat(id))
+  getReminder: id => dispatch(getReminder(id))
 })
 
 const connector = connect(
@@ -66,4 +66,4 @@ const connector = connect(
   mapActionToProps
 )
 
-export default withDrawer(connector(BoatView))
+export default withDrawer(connector(ReminderView))

@@ -11,6 +11,7 @@ import { setCrew } from './action-creators/crew'
 import { setBoats } from './action-creators/boats'
 import { setMaintenances } from './action-creators/maintenances'
 import { setReminders } from './action-creators/reminders'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 
 ReactDOM.render(
   <Provider store={store}>

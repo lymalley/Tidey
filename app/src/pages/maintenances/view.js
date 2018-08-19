@@ -6,13 +6,14 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import lightBlue from '@material-ui/core/colors/lightBlue'
 import Card from '@material-ui/core/Card'
 import { Link } from 'react-router-dom'
-import BoatListItem from '../../components/boatListItems'
+import MaintenanceListItem from '../../components/maintenanceListItems'
 
-import { getBoat } from '../../action-creators/boats'
+import { getMaintenance } from '../../action-creators/maintenances'
 import {
   CardContent,
   Typography
 } from '../../../node_modules/@material-ui/core'
+import MaintenanceListItems from '../../components/maintenanceListItems'
 
 const theme = createMuiTheme({
   palette: {
@@ -20,10 +21,10 @@ const theme = createMuiTheme({
   }
 })
 
-class BoatView extends React.Component {
+class MaintenanceView extends React.Component {
   componentDidMount() {
-    const { getBoat, match } = this.props
-    getBoat(match.params.id)
+    const { getMaintenance, match } = this.props
+    getMaintenance(match.params.id)
   }
   render() {
     const { history, isLoading } = this.props
@@ -32,9 +33,10 @@ class BoatView extends React.Component {
         <center>
           <MuiThemeProvider theme={theme}>
             <MenuAppBar
+              back
               history={history}
               backArrow={true}
-              title="Crew Member"
+              title="Maintenance"
               style={{ padding: 56 }}
             />
           </MuiThemeProvider>
@@ -43,7 +45,7 @@ class BoatView extends React.Component {
           ) : (
             <Card>
               <CardContent>
-                <BoatListItem />
+                <MaintenanceListItems />
               </CardContent>
             </Card>
           )}
@@ -54,11 +56,11 @@ class BoatView extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  boat: state.currentBoat
+  maintenance: state.currentMaintenance
 })
 
 const mapActionToProps = dispatch => ({
-  getBoat: id => dispatch(getBoat(id))
+  getMaintenance: id => dispatch(getMaintenance(id))
 })
 
 const connector = connect(
@@ -66,4 +68,4 @@ const connector = connect(
   mapActionToProps
 )
 
-export default withDrawer(connector(BoatView))
+export default withDrawer(connector(MaintenanceView))

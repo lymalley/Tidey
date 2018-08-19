@@ -5,9 +5,9 @@ export const drawer = (state = { open: false }, action) => {
     case DRAWER_TOGGLED:
       return { open: !state.open }
     case DRAWER_OPENED:
-      return true
+      return { open: true }
     case DRAWER_CLOSED:
-      return false
+      return { open: false }
 
     default:
       return state

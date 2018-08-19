@@ -22,34 +22,28 @@ export const getBoat = id => dispatch => {
     .catch(err => console.log(err))
 }
 
-export const addBoat = history => (dispatch, getState) => {
+export const addBoat = history => async (dispatch, getState) => {
   dispatch({ type: NEW_BOAT_SAVE_STARTED })
-
-  const newBoat = getState().newBoat.data
-
-  fetch(`{url}/boat`, {
-    headers: {
-      'Content-Type': 'applicaiton/json'
-    },
+  const result = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
     method: 'POST',
-    body: JSON.stringify(newBoat)
+    body: JSON.stringify(getState().newBoat.data)
   })
     .then(res => res.json())
-    .then(saveResponse => {
-      if (!saveResponse.ok) {
-        dispatch({
-          type: NEW_BOAT_SAVE_FAILED,
-          payload: 'Could not save the Boat'
-        })
-      } else {
-        dispatch({ type: NEW_BOAT_SAVE_SUCCEEDED })
-        history.push('/boats')
-      }
-    })
     .catch(err =>
       dispatch({
         type: NEW_BOAT_SAVE_FAILED,
-        payload: 'Unexpected Error.  Please try again.'
+        payload: 'Could not save the Boat'
       })
     )
+  if (result.ok) {
+    dispatch({ type: NEW_BOAT_SAVE_SUCCEEDED })
+    setBoats(dispatch, getState)
+    history.push('/boats')
+  } else {
+    dispatch({
+      type: NEW_BOAT_SAVE_FAILED,
+      payload: 'Unexpected Error.  Please try again.'
+    })
+  }
 }
