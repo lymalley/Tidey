@@ -7,7 +7,10 @@ import {
   NEW_ACTIVITY_SAVE_SUCCEEDED,
   EDIT_ACTIVITY_SAVE_STARTED,
   EDIT_ACTIVITY_SAVE_FAILED,
-  EDIT_ACTIVITY_SAVE_SUCCEEDED
+  EDIT_ACTIVITY_SAVE_SUCCEEDED,
+  ACTIVITY_DELETING_STARTED,
+  ACTIVITY_DELETING_SUCCEEDED,
+  ACTIVITY_DELETING_FAILED
 } from '../constants'
 const url = process.env.REACT_APP_BASE_URL + '/activities'
 
@@ -85,4 +88,26 @@ export const updateActivity = history => (dispatch, getState) => {
           'Unexpected error prevented us from saving the event. Please try again.'
       })
     )
+}
+
+export const deleteActivity = (id, history) => (dispatch, getState) => {
+  dispatch({ type: ACTIVITY_DELETING_STARTED })
+
+  fetch(`${url}/${id}`, {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(deleteResponse => {
+      dispatch({
+        type: ACTIVITY_DELETING_SUCCEEDED,
+        payload: 'Deleted!'
+      })
+      history.push('/')
+    })
+    .catch(err => {
+      dispatch({
+        type: ACTIVITY_DELETING_FAILED,
+        payload: 'Delete Failed!'
+      })
+    })
 }

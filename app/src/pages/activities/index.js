@@ -8,7 +8,7 @@ import ActivityListItems from '../../components/activityListItems'
 
 const Activities = props => (
   <div style={{ paddingTop: 56 }}>
-    <MenuAppBar title="Activities" />
+    <MenuAppBar title="Activities" addNew goToURL="/activities/new" />
     <List>
       {map(activity => ActivityListItems(activity), props.activities)}
     </List>

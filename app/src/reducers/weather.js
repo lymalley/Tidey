@@ -20,11 +20,13 @@ export const getWeather = (state = defaultWeatherState, action) => {
 }
 */
 }
-
-export const getForecast = (state = defaultForecast, action) => {
+const initialState = { all: [] }
+export const getForecast = (state = initialState, action) => {
   switch (action.type) {
     case GET_FORECAST:
-      return action.payload
+      return { ...state, all: action.payload }
+    case GET_WEATHER_FAILED:
+      return 'Could not fetch the forecast'
     default:
       return state
   }

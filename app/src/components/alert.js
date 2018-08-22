@@ -11,6 +11,7 @@ import Notice from '@material-ui/icons/Notifications'
 import Warning from '@material-ui/icons/Warning'
 import ErrorIcon from '@material-ui/icons/Error'
 import formatDate from '../lib/format-date'
+import { addBoat } from '../action-creators/boats';
 
 const styles = {}
 
@@ -86,3 +87,6 @@ class Alert extends React.Component<Props> {
 }
 
 export default withStyles(styles)(Alert)
+
+getReminders
+{(activity.boatName === reminder.boatName && activity.engineHours >= reminder.alertAt) ? alert('Service Due')}

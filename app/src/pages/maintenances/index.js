@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import List from '@material-ui/core/List'
 import MenuAppBar from '../../components/menuAppBar'
 import withDrawer from '../../components/with-drawer'
-import MaintenanceListItems from '../../components/maintenanceListItems'
+import MaintenanceListItem from '../../components/maintenanceListItem'
 
 const Maintenances = props => (
   <div style={{ paddingTop: 56 }}>
@@ -13,12 +13,11 @@ const Maintenances = props => (
       back
       history={props.history}
       backArrow={true}
+      addNew
+      goToURL="/maintenances/new"
     />
     <List>
-      {map(
-        maintenance => MaintenanceListItems(maintenance),
-        props.maintenances
-      )}
+      {map(maintenance => MaintenanceListItem(maintenance), props.maintenances)}
     </List>
   </div>
 )

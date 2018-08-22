@@ -1,11 +1,18 @@
 import React from 'react'
-import MenuAppBar from '../../components/menuAppBar'
+import ViewAppBar from '../../components/viewAppBar'
 import withDrawer from '../../components/with-drawer'
-import { isEmpty } from 'ramda'
+import { isNil } from 'ramda'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import lightBlue from '@material-ui/core/colors/lightBlue'
-import { Card, Grid, GridList, GridListTile } from '@material-ui/core'
+import Phone from '@material-ui/icons/PhoneIphoneTwoTone'
+import Email from '@material-ui/icons/ContactMailTwoTone'
+import {
+  Card,
+  Grid,
+  GridList,
+  GridListTile,
+  CardMedia
+} from '@material-ui/core'
 
 import CrewListItem from '../../components/crewListItems'
 
@@ -27,13 +34,21 @@ const styles = theme => ({
     width: 500,
     height: 450
   },
+  media: {
+    width: '15%',
+    display: 'flex',
+    justifyContent: 'space-around'
+  },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)'
   }
 })
 
 const NoPhoto = () => (
-  <img alt="Default Photo of dog on a Boat" src="jack_boating2.jpg" />
+  <img
+    alt="Default Photo"
+    src="https://scontent-mia3-2.xx.fbcdn.net/v/t1.0-1/c44.45.551.551/s320x320/578553_105093442978321_741648331_n.jpg?_nc_cat=0&oh=0d869ddb1f8abbb34c48884b21ab4574&oe=5BF47A19"
+  />
 )
 
 class CrewMemberView extends React.Component {
@@ -48,34 +63,31 @@ class CrewMemberView extends React.Component {
         {match.params.id === crewMember._id ? (
           <div style={{ paddingTop: 56 }}>
             <center>
-              <MenuAppBar
-                history={history}
+              <ViewAppBar
+                history={'/crew'}
                 backArrow={true}
-                title="Crew Member"
+                title={`${crewMember.firstName} ${crewMember.lastName}`}
                 style={{ padding: 56 }}
               />
 
               <Card className={classes.root}>
-                <GridList cellHeight={160} className={classes.gridList}>
-                  <GridListTile cols={2} style={{ height: 'auto' }}>
-                    {isEmpty(crewMember.image) ? (
+                <Grid item xs={12} className={classes.gridList}>
+                  <CardMedia className={classes.media}>
+                    {isNil(crewMember.image) ? (
                       <NoPhoto />
                     ) : (
                       <img src={crewMember.image} />
                     )}
-                  </GridListTile>
-                  <GridListTile>
-                    <Grid item xs>
-                      <Typography>
-                        <h2>{`${crewMember.firstName} ${
-                          crewMember.lastName
-                        }`}</h2>
-                      </Typography>
-                    </Grid>
-                  </GridListTile>
-                </GridList>
+                  </CardMedia>
+                </Grid>
                 <CardContent>
-                  <CrewListItem />
+                  <Grid item xs={12}>
+                    <Typography>
+                      <h2>{`${crewMember.firstName} ${
+                        crewMember.lastName
+                      }`}</h2>
+                    </Typography>
+                  </Grid>
                 </CardContent>
               </Card>
             </center>

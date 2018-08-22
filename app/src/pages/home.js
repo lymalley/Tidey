@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Typography from '@material-ui/core/Typography'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -14,54 +14,87 @@ import { setForecast } from '../action-creators/weather'
 import { Link } from 'react-router-dom'
 import withDrawer from '../components/with-drawer'
 import MenuAppBar from '../components/menuAppBar'
-const DarkSky = require('dark-sky')
 
-//const darksky = new DarkSky(process.env.REACT_APP_DARK_SKY)
-const darksky = `${process.env.REACT_APP_DARK_SKY}32.8052,-79.7597`
-console.log({ darksky })
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Grid
+} from '@material-ui/core'
 
-const styles = theme => ({
-  input: {
-    width: '50%',
-    marginLeft: 16,
-    marginTop: 16,
-    marginBottom: 8
+const styles = (theme: MuiTheme) => ({
+  root: {},
+  errorRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: '40vh',
+    textAlign: 'center'
+  },
+  hidden: {
+    display: 'none'
+  },
+  suggestions: {
+    width: '100%'
+  },
+  suggestion: {
+    padding: `${theme.spacing.unit / 2}px ${theme.spacing.unit}px`,
+    cursor: 'pointer'
+  },
+  activeSuggestion: {
+    backgroundColor: theme.palette.action.selected
+  },
+  autocompleteWrapper: {
+    marginBottom: theme.spacing.unit * 2
+  },
+  unitsSelectWrapper: {
+    marginBottom: theme.spacing.unit * 2,
+    maxWidth: 300
   }
 })
 
-const Home = props => (
-  <div style={{ padding: 48 }}>
-    <center>
-      <Typography variant="display4">tidey</Typography>
-      <MenuAppBar title="Home Port" color="primary" />
-      <h3>Weather Forcast</h3>
-      <Card
-        style={{ paddingTop: '20%' }}
-        title="Weather Forecast"
-        src={darksky}
-      >
-        <CardContent title="Weather Forecast" src={darksky}>
-          Weather
-        </CardContent>
-        <CardMedia
-          title="Current Forecast"
-          width="100%"
-          height="100%"
-          frameBorder="20"
-          style={{ paddingTop: 48 }}
-          src={darksky}
-          //src="https://api.darksky.net/forecast/e6ccdb81bd1c974f7e5e55914bd85169/32.8052,-79.7597"
-          allowFullScreen
-        >
-          Put Weather Here
-        </CardMedia>
-      </Card>
+class Home extends React.Component {
+  componentDidMount() {
+    const { setForecast } = this.props
 
-      <div style={{ paddingTop: 30, paddingTop: 30 }} />
-    </center>
-  </div>
-)
+    setForecast()
+  }
 
+  render(props) {
+    return (
+      <div style={{ padding: 48 }}>
+        <center>
+          <Typography variant="display4">tidey</Typography>
+          <MenuAppBar title="Home Port" color="primary" />
+          <h3>Weather Forcast</h3>
+          <Card
+            style={{ paddingTop: '20%' }}
+            title="Weather Forecast"
+            //src={darksky}
+          >
+            <CardContent title="Weather Forecast" />
+            <CardMedia
+              title="Current Forecast"
+              width="100%"
+              height="100%"
+              frameBorder="20"
+              style={{ paddingTop: 48 }}
+              //src={darksky}
+              src="https://api.darksky.net/forecast/e6ccdb81bd1c974f7e5e55914bd85169/32.8052,-79.7597"
+              allowFullScreen
+            >
+              Put Weather Here
+            </CardMedia>
+          </Card>
+
+          <div style={{ paddingTop: 30, paddingTop: 30 }} />
+        </center>
+      </div>
+    )
+  }
+}
 const mapStateToProps = state => ({
   forecast: state.getForecast.data
 })

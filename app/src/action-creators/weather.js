@@ -11,10 +11,10 @@ import {
 const DarkSky = require('dark-sky')
 
 //const darksky = new DarkSky(process.env.REACT_APP_DARK_SKY)
-const url = `${process.env.REACT_APP_BASE_URL}${
-  process.env.REACT_APP_DARK_SKY
-}32.8052,-79.7597`
-//const url = process.env.REACT_APP_BASE_URL
+//const url = `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_DARK_SKY}32.8052,-79.7597`?exclude=[minitely,flags,alerts]
+const urlHome = process.env.REACT_APP_BASE_URL
+const url = `${process.env.REACT_APP_DARK_SKY}/32.8052,-79.7597`
+const Forecast = require('darksky-bluebird')
 {
   /*
 export const setWeather = myWeather = async (dispatch, getState) => {
@@ -32,7 +32,12 @@ body: JSON.stringify(getState().currentWeather.data))
 }
 
 export const setForecast = async (dispatch, getState) => {
-  const forecast = await fetch(url)
+  const forecast = new Forecast({
+    key: process.env.REACT_APP_DARK_SKY,
+    timeout: 2500
+  })
+  const data = await forecast
+    .fetch(32.8052, -79.7597)
     .then(res => res.json())
     .catch(err =>
       dispatch({
@@ -42,7 +47,7 @@ export const setForecast = async (dispatch, getState) => {
       })
     )
 
-  dispatch({ type: GET_FORECAST, payload: forecast })
+  dispatch({ type: GET_FORECAST, payload: data })
 }
 
 {

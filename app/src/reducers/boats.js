@@ -5,7 +5,13 @@ import {
   NEW_BOAT_SAVE_FAILED,
   NEW_BOAT_SAVE_SUCCEEDED,
   NEW_BOAT_CLEARED,
-  NEW_BOAT_FORM_UPDATED
+  NEW_BOAT_FORM_UPDATED,
+  EDIT_REMINDER_CLEARED,
+  EDIT_REMINDER_UPDATED,
+  EDIT_REMINDER_SAVE_STARTED,
+  EDIT_REMINDER_SAVE_SUCCEEDED,
+  EDIT_REMINDER_SAVE_FAILED,
+  EDIT_REMINDER_ERROR_CLEARED
 } from '../constants'
 import { merge, mergeDeepRight } from 'ramda'
 
@@ -27,7 +33,7 @@ const defaultBoat = {
   lengthFt: '',
   beamFt: '',
   hullMaterial: '',
-  numOfEngines: 1,
+  engineHours: '',
   engine1MakeModel: '',
   additionalInfo: ''
 }
@@ -51,7 +57,7 @@ const newBoatInitialState = {
     lengthFt: '',
     beamFt: '',
     hullMaterial: '',
-    numOfEngines: 1,
+    engineHours: '',
     engine1MakeModel: '',
     additionalInfo: ''
   },
@@ -80,6 +86,58 @@ export const newBoat = (state = newBoatInitialState, action) => {
       return newBoatInitialState
     case NEW_BOAT_CLEARED:
       return newBoatInitialState
+    default:
+      return state
+  }
+}
+
+const initialEditBoat = {
+  data: {
+    _id: null,
+    name: '',
+    image: null,
+    boatMake: '',
+    boatModel: '',
+    boatYear: '',
+    lengthFt: '',
+    beamFt: '',
+    hullMaterial: '',
+    engineHours: '',
+    engine1MakeModel: '',
+    additionalInfo: ''
+  },
+  isSaving: false,
+  isError: false,
+  errorMsg: ''
+}
+
+export const editBoat = (state = initialEditBoat, action) => {
+  switch (action.type) {
+    case EDIT_REMINDER_CLEARED:
+      return initialEditBoat
+    case EDIT_REMINDER_UPDATED:
+      return mergeDeepRight(state, { data: action.payload })
+    case EDIT_REMINDER_SAVE_STARTED:
+      return merge(state, {
+        isError: false,
+        errorMsg: '',
+        isSaving: true
+      })
+    case EDIT_REMINDER_SAVE_SUCCEEDED:
+      return merge(state, {
+        isError: false,
+        errorMsg: '',
+
+        isSaving: false
+      })
+    case EDIT_REMINDER_SAVE_FAILED:
+      return merge(state, {
+        isError: true,
+        errorMsg: action.payload,
+        isSaving: false
+      })
+    case EDIT_REMINDER_ERROR_CLEARED:
+      return initialEditBoat
     default:
       return state
   }

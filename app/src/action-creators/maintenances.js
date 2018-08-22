@@ -7,6 +7,7 @@ import {
   NEW_MAINTENANCE_SAVE_FAILED,
   NEW_REMINDER_SAVE_SUCCEEDED
 } from '../constants'
+import { addReminder } from '../action-creators/reminders'
 const url = process.env.REACT_APP_BASE_URL + '/maintenances'
 
 export const setMaintenances = async (dispatch, getState) => {
@@ -42,8 +43,13 @@ export const addMaintenance = history => async (dispatch, getState) => {
     )
   if (result.ok) {
     dispatch({
-      type: [NEW_MAINTENANCE_SAVE_SUCCEEDED, NEW_REMINDER_SAVE_SUCCEEDED]
+      type: NEW_MAINTENANCE_SAVE_SUCCEEDED
     })
+    if (result.setReminder === true) {
+      await dispatch(addReminder(history))
+      setMaintenances(dispatch, getState)
+      history.push('/maintenaces')
+    }
     setMaintenances(dispatch, getState)
     history.push('/maintenances')
   } else {

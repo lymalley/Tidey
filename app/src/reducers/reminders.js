@@ -5,7 +5,16 @@ import {
   NEW_REMINDER_SAVE_FAILED,
   NEW_REMINDER_SAVE_SUCCEEDED,
   NEW_REMINDER_CLEARED,
-  NEW_REMINDER_FORM_UPDATED
+  NEW_REMINDER_FORM_UPDATED,
+  REMINDER_LOADING_SUCCEEDED,
+  REMINDER_LOADING_FAILED,
+  REMINDER_LOADING_STARTED,
+  EDIT_REMINDER_ERROR_CLEARED,
+  EDIT_REMINDER_SAVE_FAILED,
+  EDIT_REMINDER_SAVE_SUCCEEDED,
+  EDIT_REMINDER_SAVE_STARTED,
+  EDIT_REMINDER_UPDATED,
+  EDIT_REMINDER_CLEARED
 } from '../constants'
 import { merge, mergeDeepRight } from 'ramda'
 import Today from '../lib/today'
@@ -51,7 +60,6 @@ const newReminderInitialState = {
     startMaint: false,
     enteredBy: ''
   },
-
   isSaving: false,
   isError: false,
   errorMsg: ''
@@ -77,6 +85,74 @@ export const newReminder = (state = newReminderInitialState, action) => {
       return newReminderInitialState
     case NEW_REMINDER_CLEARED:
       return newReminderInitialState
+    default:
+      return state
+  }
+}
+
+const editReminderInitialState = {
+  data: {
+    date: '',
+    boatName: '',
+    alertAt: '',
+    service: '',
+    dueAtHours: '',
+    remindHrsBefore: '',
+    completed: false,
+    startMaint: false,
+    enteredBy: ''
+  },
+  isSaving: false,
+  isError: false,
+  errorMsg: ''
+}
+
+export const editReminder = (state = editReminderInitialState, action) => {
+  switch (action.type) {
+    case EDIT_REMINDER_CLEARED:
+      return editReminderInitialState
+    case EDIT_REMINDER_UPDATED:
+      return mergeDeepRight(state, { data: action.payload })
+    case EDIT_REMINDER_SAVE_STARTED:
+      return merge(state, {
+        isError: false,
+        isLoading: false,
+        errorMsg: '',
+        isSaving: true
+      })
+    case EDIT_REMINDER_SAVE_SUCCEEDED:
+      return merge(state, {
+        isError: false,
+        errorMsg: '',
+        isLoading: false,
+        isSaving: false
+      })
+    case EDIT_REMINDER_SAVE_FAILED:
+      return merge(state, {
+        isError: true,
+        errorMsg: action.payload,
+        isLoading: false,
+        isSaving: false
+      })
+    case EDIT_REMINDER_ERROR_CLEARED:
+      return editReminderInitialState
+
+    case REMINDER_LOADING_STARTED:
+      return merge(state, {
+        isError: false,
+        errorMsg: '',
+        isLoading: true,
+        isSaving: false
+      })
+    case REMINDER_LOADING_FAILED:
+      return merge(state, {
+        isError: true,
+        errorMsg: action.payload,
+        isLoading: false,
+        isSaving: false
+      })
+    case REMINDER_LOADING_SUCCEEDED:
+      return mergeDeepRight(state, { data: action.payload })
     default:
       return state
   }

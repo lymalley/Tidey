@@ -27,7 +27,7 @@ const styles = theme => ({
 const BoatNew = props => {
   return (
     <div style={{ paddingTop: 20 }}>
-      <MenuAppBar title="Add Boat" color="primary" />
+      <MenuAppBar title="Add Boat" color="primary" backArrow={true} />
 
       <form
         style={{ marginTop: 50 }}
@@ -90,10 +90,10 @@ const BoatNew = props => {
           className={props.classes.input}
         />
         <TextField
-          label="Number of Engines"
-          value={props.boat.numOfEngines}
+          label="Engine Hours"
+          value={props.boat.engineHours}
           margin="normal"
-          onChange={e => props.onChange('beamFt', e.target.value)}
+          onChange={e => props.onChange('engineHours', e.target.value)}
           className={props.classes.input}
         />
         <TextField

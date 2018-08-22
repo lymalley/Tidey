@@ -19,6 +19,8 @@ import MaintenanceView from './pages/maintenances/view'
 import Reminders from './pages/reminders/index'
 import ReminderNew from './pages/reminders/new'
 import ReminderView from './pages/reminders/view'
+//import ReminderDelete from './pages/reminders/delete'
+import ReminderEdit from './pages/reminders/edit'
 
 class App extends Component {
   render() {
@@ -43,6 +45,8 @@ class App extends Component {
           <Route exact path="/reminders" component={Reminders} />
           <Route exact path="/reminders/new" component={ReminderNew} />
           <Route exact path="/reminders/:id" component={ReminderView} />
+
+          <Route exact path="/reminders/:id/edit" component={ReminderEdit} />
         </Switch>
       </BrowserRouter>
     )

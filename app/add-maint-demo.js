@@ -19,6 +19,7 @@ export const addMaintenance = history => (dispatch, getState) => {
         })
       } else {
         dispatch({ type: NEW_MAINTENANCE_SAVE_SUCCEEDED })
+        
         // get the maintence item back out of the database.
         // post the reminder to the database
 

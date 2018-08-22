@@ -19,9 +19,10 @@ export const getCrew = (state = [], action) => {
 }
 
 const defaultCrewMember = {
+  id: null,
   firstName: '',
   lastName: '',
-  image: null,
+  image: [],
   title: '',
   email: '',
   phoneNumber: ''
@@ -40,7 +41,7 @@ const newCrewInitialState = {
   data: {
     firstName: '',
     lastName: '',
-    image: null,
+    image: [],
     title: '',
     email: '',
     phoneNumber: ''

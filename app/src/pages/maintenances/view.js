@@ -6,14 +6,13 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import lightBlue from '@material-ui/core/colors/lightBlue'
 import Card from '@material-ui/core/Card'
 import { Link } from 'react-router-dom'
-import MaintenanceListItem from '../../components/maintenanceListItems'
+import MaintenanceListItem from '../../components/maintenanceListItem'
 
 import { getMaintenance } from '../../action-creators/maintenances'
 import {
   CardContent,
   Typography
 } from '../../../node_modules/@material-ui/core'
-import MaintenanceListItems from '../../components/maintenanceListItems'
 
 const theme = createMuiTheme({
   palette: {
@@ -45,7 +44,7 @@ class MaintenanceView extends React.Component {
           ) : (
             <Card>
               <CardContent>
-                <MaintenanceListItems />
+                <MaintenanceListItem />
               </CardContent>
             </Card>
           )}

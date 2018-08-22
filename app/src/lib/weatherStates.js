@@ -29,7 +29,8 @@ export const defaultForecast = {
         }
       ]
     }
-  }
+  },
+  isLoading: false
 }
 
 {

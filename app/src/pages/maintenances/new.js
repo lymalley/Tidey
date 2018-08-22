@@ -1,6 +1,6 @@
 import React from 'react'
 import withDrawer from '../../components/with-drawer'
-import MenuAppBar from '../../components/menuAppBar'
+import ViewAppBar from '../../components/viewAppBar'
 import { connect } from 'react-redux'
 import {
   withStyles,
@@ -8,6 +8,8 @@ import {
   MuiThemeProvider
 } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
+import { map } from 'ramda'
+import { setBoats } from '../../action-creators/boats'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
@@ -21,7 +23,8 @@ import FormControl from '@material-ui/core/FormControl'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import classNames from 'classnames'
 import SnackBar from '../../components/customSnackBar'
-
+import CustomSelectionControl from '../../components/customSelectionControl'
+import { Link } from 'react-router-dom'
 const styles = theme => ({
   input: {
     width: '45%',
@@ -153,7 +156,11 @@ class MaintenanceNew extends React.Component {
       onChange,
       onSelect,
       isError,
-      isSaving
+      isSaving,
+      boatName,
+      boat,
+      boats,
+      setBoats
     } = this.props
 
     const services = [
@@ -170,15 +177,29 @@ class MaintenanceNew extends React.Component {
         label: 'Other'
       }
     ]
+
+    const vessels = [
+      {
+        value: 'orange-crush',
+        label: 'Orange Crush'
+      },
+      {
+        value: 'max-fly',
+        label: 'Max Fly'
+      }
+    ]
+
     return (
       <div style={{ paddingTop: '10%' }}>
-        <MenuAppBar title="Add Maintenance Log" backArrow={true} />
         <center>
+          <ViewAppBar title="Add Maintenance Log" backArrow={true} />
+
           <Grid conatiner className={classes.root}>
             <form
               style={{ marginTop: '5%' }}
               autocomplete="off"
               onSubmit={createMaintenance(history)}
+              history={history}
               className={classes.container}
             >
               <Grid container spacing={12} alignItems="flex-end">
@@ -192,18 +213,66 @@ class MaintenanceNew extends React.Component {
                     className={classes.smInput}
                     margin="normal"
                   />
+                  <br />
 
-                  <TextField
+                  <Select
+                    field="boat"
+                    select
                     label="Boat Name"
                     InputLabelProps={{
                       shrink: true
                     }}
-                    value={maintenance.boatName}
-                    field="boatName"
                     margin="normal"
+                    value={maintenance.boatName}
                     onChange={e => onChange('boatName', e.target.value)}
+                    input={<Input name="boatName" id="boatName" />}
                     required
                     className={classes.input}
+                  >
+                    {vessel.map(option => (
+                      <option value={option.name} key={option.name}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </Select>
+
+                  {/*      <Select
+                    {...boat}
+                    field="boat"
+                    select
+                    label="Boat Name"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    margin="normal"
+                    value={maintenance.boatName}
+                    onChange={e =>
+                      setBoats(onChange('boatName', e.target.value))
+                    }
+                    input={<Input name="boatName" id="boatName" />}
+                    required
+                    className={classes.input}
+                  >
+                    {boats.map(option => (
+                      <option value={option.name} key={option.name}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </Select>
+                  */}
+
+                  <TextField
+                    field="engineHours"
+                    label="Engine Hours"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    value={maintenance.engineHours}
+                    margin="normal"
+                    required
+                    onChange={e => onChange('engineHours', e.target.value)}
+                    className={classes.smInput}
+                    helperText="Currently"
                   />
                 </Grid>
               </Grid>
@@ -229,20 +298,6 @@ class MaintenanceNew extends React.Component {
                       </MenuItem>
                     ))}
                   </Select>
-
-                  <TextField
-                    field="engineHours"
-                    label="Engine Hours"
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    value={maintenance.engineHours}
-                    margin="normal"
-                    required
-                    onChange={e => onChange('engineHours', e.target.value)}
-                    className={classes.smInput}
-                    helperText="Currently"
-                  />
                 </Grid>
               </Grid>
               <Grid container spacing={8} alignItems="flex-end">
@@ -307,7 +362,7 @@ class MaintenanceNew extends React.Component {
                   </Paper>
                 </Grid>
               </Grid>
-              <TextField
+              {/*     <TextField
                 label="Add Images"
                 value={maintenance.images}
                 margin="normal"
@@ -315,6 +370,7 @@ class MaintenanceNew extends React.Component {
                 onChange={e => onChange('images', e.target.value)}
                 className={classes.input}
               />
+      */}
               <TextField
                 label="Create Reminder"
                 value={maintenance.reminderCreated}
@@ -322,6 +378,7 @@ class MaintenanceNew extends React.Component {
                 onChange={e => onChange('reminderCreated', e.target.value)}
                 className={classes.input}
               />
+              <CustomSelectionControl />
               <TextField
                 label="Entered By"
                 value={maintenance.enteredBy}
@@ -330,6 +387,9 @@ class MaintenanceNew extends React.Component {
                 required
                 className={classes.input}
               />
+              <Link to="/maintenances">
+                <Button type="button">Cancel</Button>
+              </Link>
 
               <Button
                 varient="button"
@@ -365,6 +425,8 @@ class MaintenanceNew extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  //  boat: state.currentBoat,
+  //  boats: state.getBoats,
   reminder: state.newReminder.data,
   maintenance: state.newMaintenance.data,
   isSaving: state.newMaintenance.isSaving,
@@ -373,6 +435,7 @@ const mapStateToProps = state => ({
 })
 
 const mapActionToProps = dispatch => ({
+  setBoats: () => dispatch(setBoats),
   onChange: (field, value) =>
     dispatch({
       type: NEW_MAINTENANCE_FORM_UPDATED,
@@ -381,6 +444,7 @@ const mapActionToProps = dispatch => ({
   createMaintenance: history => e => {
     e.preventDefault()
     dispatch(addMaintenance(history))
+    dispatch()
   }
 })
 

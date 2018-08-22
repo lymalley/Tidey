@@ -7,7 +7,7 @@ import lightBlue from '@material-ui/core/colors/lightBlue'
 import Card from '@material-ui/core/Card'
 import { Link } from 'react-router-dom'
 import ReminderListItem from '../../components/reminderListItems'
-
+import AlertAt from '../../lib/setAlert'
 import { getReminder } from '../../action-creators/reminders'
 import {
   CardContent,
@@ -34,6 +34,8 @@ class ReminderView extends React.Component {
             <MenuAppBar
               history={history}
               backArrow={true}
+              edit={true}
+              //  goToURL='/reminders'
               title="Reminder"
               style={{ padding: 56 }}
             />
@@ -43,6 +45,7 @@ class ReminderView extends React.Component {
           ) : (
             <Card>
               <CardContent>
+                Remind At <AlertAt />
                 <ReminderListItem />
               </CardContent>
             </Card>
