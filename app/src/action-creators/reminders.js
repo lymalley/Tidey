@@ -32,6 +32,10 @@ export const getReminder = id => dispatch => {
 
 export const addReminder = history => async (dispatch, getState) => {
   dispatch({ type: NEW_REMINDER_SAVE_STARTED })
+  console.log(
+    'initial reminder data',
+    JSON.stringify(getState().newReminder.data)
+  )
   const result = await fetch(url, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
@@ -44,7 +48,9 @@ export const addReminder = history => async (dispatch, getState) => {
         payload: 'Unexpected Error.  Please try again.'
       })
     )
+  console.log('reminder result', JSON.stringify(result))
   if (result.ok) {
+    console.log('in happy reminder')
     dispatch({
       type: NEW_REMINDER_SAVE_SUCCEEDED
     })

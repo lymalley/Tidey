@@ -14,7 +14,7 @@ const MaintenanceListItems = maintenance => (
       <ListItem button>
         <ListItemText>
           <Typography variant="headline">
-            {`${maintenance.boatName} ${maintenance.date}`}
+            {`${maintenance.boat} ${maintenance.date}`}
           </Typography>
           <Typography variant="caption">{maintenance.serviceType}</Typography>
         </ListItemText>

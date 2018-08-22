@@ -54,7 +54,7 @@ const today = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`
 const newMaintenanceInitialState = {
   data: {
     date: today,
-    boatName: '',
+    boat: '',
     serviceType: '',
     performedBy: '',
     location: '',

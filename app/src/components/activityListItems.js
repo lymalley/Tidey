@@ -17,7 +17,7 @@ const ActivityListItems = activity => (
       <ListItem button>
         <ListItemText>
           <Typography variant="headline">
-            {`${activity.boatName} ${activity.date}`}
+            {`${activity.boat} ${activity.date}`}
           </Typography>
           <Typography variant="caption">{`${activity.tripType} ${
             activity.startTime

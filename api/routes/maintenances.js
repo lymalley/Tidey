@@ -37,6 +37,7 @@ const maintenancesRoutes = app => {
       ['date', 'boat', 'serviceType', 'engineHours', 'enteredBy'],
       newMaintenance
     )
+    console.log({ newMaintenance, missingFields })
     if (not(isEmpty(missingFields))) {
       next(
         new NodeHTTPError(

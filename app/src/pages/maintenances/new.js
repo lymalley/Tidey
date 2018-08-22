@@ -223,15 +223,15 @@ class MaintenanceNew extends React.Component {
                       shrink: true
                     }}
                     margin="normal"
-                    value={maintenance.boatName}
-                    onChange={e => onChange('boatName', e.target.value)}
+                    value={maintenance.boat}
+                    onChange={e => onChange('boat', e.target.value)}
                     input={<Input name="boatName" id="boatName" />}
                     required
                     className={classes.input}
                   >
-                    {vessel.map(option => (
-                      <option value={option.name} key={option.name}>
-                        {option.name}
+                    {vessels.map(option => (
+                      <option value={option.value} key={option.value}>
+                        {option.label}
                       </option>
                     ))}
                   </Select>
@@ -444,7 +444,7 @@ const mapActionToProps = dispatch => ({
   createMaintenance: history => e => {
     e.preventDefault()
     dispatch(addMaintenance(history))
-    dispatch()
+    //    dispatch()
   }
 })
 

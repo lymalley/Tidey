@@ -151,7 +151,7 @@ const addMaintenance = maintenance => {
   const newMaintenance = merge(maintenance, {
     _id: pkGen(
       'maintenance_',
-      `${maintenance.date}-${maintenance.boat.boatName}-${
+      `${maintenance.boat}-${maintenance.engineHours}-${
         maintenance.serviceType
       }`
     ),
