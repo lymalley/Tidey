@@ -40,16 +40,19 @@ const styles = theme => ({
   }
 })
 
-
 const ReminderNew = props => {
   return (
     <div style={{ paddingTop: 20 }}>
-      <MenuAppBar title="Add Reminder" color="primary" />
+      <MenuAppBar
+        title="Add Reminder"
+        color="primary"
+        history={props.history}
+      />
       <Paper className={props.classes.paper}>
         <Grid container>
           <form
             style={{ marginTop: 50 }}
-            autocomplete="off"
+            autoComplete="off"
             onSubmit={props.createReminder(props.history)}
           >
             <TextField
@@ -62,9 +65,9 @@ const ReminderNew = props => {
             />
             <TextField
               label="Boat Name"
-              value={props.reminder.boatName}
+              value={props.reminder.boat}
               margin="normal"
-              onChange={e => props.onChange('boatName', e.target.value)}
+              onChange={e => props.onChange('boat', e.target.value)}
               required
               className={props.classes.input}
             />

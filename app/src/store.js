@@ -7,8 +7,8 @@ import {
   newActivity,
   editActivity
 } from './reducers/activities'
-//import { newBoat, getBoats, currentBoat } from './reducers/boats'
-//import { newCrewMember, currentCrewMember, getCrew } from './reducers/crew'
+import { newBoat, getBoats, currentBoat } from './reducers/boats'
+import { newCrewMember, currentCrewMember, getCrew } from './reducers/crew'
 import {
   newMaintenance,
   getMaintenances,
@@ -25,19 +25,19 @@ const store = createStore(
   combineReducers({
     drawer,
     getActivities,
-    // getBoats,
-    //getCrew,
+    getBoats,
+    getCrew,
     getMaintenances,
     getReminders,
     getForecast,
     currentActivity,
-    // currentBoat,
-    //currentCrewMember,
+    currentBoat,
+    currentCrewMember,
     currentMaintenance,
     currentReminder,
     newActivity,
-    // newBoat,
-    // newCrewMember,
+    newBoat,
+    newCrewMember,
     newMaintenance,
     newReminder,
     editActivity

@@ -16,10 +16,13 @@ import Select from '@material-ui/core/Select'
 import CustomSnackBar from '../../components/customSnackBar'
 import Input from '@material-ui/core/Select'
 import { setCrew } from '../../action-creators/crew'
+import { setBoats } from '../../action-creators/boats'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import MenuItem from '@material-ui/core/MenuItem'
 import CrewSelects from '../../components/crewMemberCard'
+import { withRouter } from 'react-router-dom'
+import { curentBoat, defaultBoat } from '../../reducers/boats'
 
 const styles = theme => ({
   input: {
@@ -39,9 +42,14 @@ const styles = theme => ({
 })
 
 const ActivityNew = props => {
+  this.state = {
+    boat: { ...this.props }
+  }
+  const boats = [{ ...this.props }]
+
   return (
     <center>
-      <div style={{ paddingTop: 20 }} className="root">
+      <div style={{ paddingTop: 20 }} className={props.classes.root}>
         <Paper className={props.classes.paper}>
           {!props.isFetching ? (
             <React.Fragment>
@@ -56,7 +64,7 @@ const ActivityNew = props => {
                 <form
                   className="form-horizontal"
                   style={{ marginTop: 40 }}
-                  autocomplete="off"
+                  autoComplete="off"
                   onSubmit={props.createActivity(props.history)}
                 >
                   <div className="form-group">
@@ -89,14 +97,39 @@ const ActivityNew = props => {
                       className={props.classes.input}
                     />
                   </div>
-                  <TextField
+                  {/*    <TextField
                     label="Boat"
                     value={props.activity.boat}
                     margin="normal"
                     onChange={e => props.onChange('boat', e.target.value)}
                     required
                     className={props.classes.input}
-                  />
+             />*/}
+
+                  <Select
+                    // {...boats}
+                    field="boat"
+                    select
+                    label="Boat Name"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    margin="normal"
+                    value={props.activity.boat}
+                    onChange={e =>
+                      setBoats(props.onChange('boat', e.target.value))
+                    }
+                    input={<Input name="boatName" id="boatName" />}
+                    required
+                    className={props.classes.input}
+                  >
+                    {boats.map(defaultBoat => (
+                      <option value={defaultBoat.name} key={defaultBoat.name}>
+                        {defaultBoat.name}
+                      </option>
+                    ))}
+                  </Select>
+
                   <TextField
                     label="Starting Engine Hours"
                     value={props.activity.engineHoursStart}
@@ -258,6 +291,8 @@ const ActivityNew = props => {
 }
 
 const mapStateToProps = state => ({
+  boat: state.currentBoat,
+  boats: state.getBoats,
   crewMember: state.currentCrewMember,
   activity: state.newActivity.data,
   isSaving: state.newActivity.isSaving,
@@ -268,6 +303,8 @@ const mapStateToProps = state => ({
 
 const mapActionToProps = dispatch => {
   return {
+    //  getBoat: () => dispatch(getBoat),
+    setBoats: () => dispatch(setBoats),
     onChange: (key, value) => {
       dispatch({ type: NEW_ACTIVITY_FORM_UPDATED, payload: { [key]: value } })
     },
@@ -287,7 +324,9 @@ const connector = connect(
   mapActionToProps
 )
 
-export default withDrawer(connector(withStyles(styles)(ActivityNew)))
+export default withRouter(
+  withDrawer(connector(withStyles(styles)(ActivityNew)))
+)
 
 {
   /*<TextField label='notes' value='' margin='normal' required className={props.classes.input} multiline/>*/

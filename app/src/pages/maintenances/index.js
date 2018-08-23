@@ -11,8 +11,8 @@ const Maintenances = props => (
     <MenuAppBar
       title="Maintenances"
       back
-      history={props.history}
-      backArrow={true}
+      // history={props.history}
+      // backArrow={true}
       addNew
       goToURL="/maintenances/new"
     />

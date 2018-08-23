@@ -2,9 +2,19 @@ import React from 'react'
 import MenuAppBar from '../../components/menuAppBar'
 import withDrawer from '../../components/with-drawer'
 import { connect } from 'react-redux'
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
-import lightBlue from '@material-ui/core/colors/lightBlue'
-import Card from '@material-ui/core/Card'
+import {
+  Grid,
+  Paper,
+  ListItem,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Card,
+  CardMedia
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import ActivityListItem from '../../components/activityListItems'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -18,19 +28,24 @@ import {
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 
-const styles = theme => {
-  button: {
-    margin: theme.spacing.unit
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto'
+  },
+  table: {
+    minWidth: '95%'
   }
-}
+})
 
 class ActivityView extends React.Component {
   componentDidMount() {
     const { getActivity, match } = this.props
-    getActivity(match.params.id)
+    getActivity(match.params._id)
   }
   render() {
-    const { history, isLoading, id, classes } = this.props
+    const { history, isLoading, classes, activity, activities } = this.props
     return (
       <div style={{ paddingTop: 56 }}>
         <center>
@@ -41,26 +56,16 @@ class ActivityView extends React.Component {
             style={{ padding: 56 }}
           />
 
-          {isLoading ? (
-            <p>...Loading</p>
-          ) : (
-            <Card>
-              <Button variant="fab" disabled aria-label="Delete">
-                <DeleteIcon />
-              </Button>
-              <Button
-                variant="fab"
-                color="secondary"
-                aria-label="Edit"
-                //  onClick={`activities/${_id}/edit`}
-              >
-                <Icon>edit_icon</Icon>
-              </Button>
-              <CardContent>
-                <ActivityListItem />
-              </CardContent>
-            </Card>
-          )}
+          <React.Fragment>
+            <Paper style={{ padding: '10%' }}>
+              <Typography>{activity.date}</Typography>
+              <Typography>
+                {`Start Time: ${activity.startTime} End Time ${
+                  activity.endTime
+                }`}
+              </Typography>
+            </Paper>
+          </React.Fragment>
         </center>
       </div>
     )
@@ -68,6 +73,7 @@ class ActivityView extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  activities: state.getActivities,
   activity: state.currentActivity.data,
   isLoading: state.currentActivity.isLoading
 })
@@ -81,4 +87,4 @@ const connector = connect(
   mapActionsToProps
 )
 
-export default withDrawer(connector(ActivityView))
+export default withDrawer(connector(withStyles(styles)(ActivityView)))

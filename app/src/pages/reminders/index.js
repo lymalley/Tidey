@@ -2,7 +2,7 @@ import React from 'react'
 import { map } from 'ramda'
 import { connect } from 'react-redux'
 import List from '@material-ui/core/List'
-import MenuAppBar from '../../components/viewAppBar'
+import MenuAppBar from '../../components/menuAppBar'
 import withDrawer from '../../components/with-drawer'
 import ReminderListItems from '../../components/reminderListItems'
 

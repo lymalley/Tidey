@@ -58,7 +58,7 @@ const CrewMemberNew = props => {
                 <form
                   className={props.classes.root}
                   style={{ marginTop: 40 }}
-                  autocomplete="off"
+                  autoComplete="off"
                   onSubmit={props.createCrewMember(props.history)}
                 >
                   <div className="form-group">

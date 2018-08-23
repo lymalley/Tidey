@@ -31,7 +31,7 @@ const BoatNew = props => {
 
       <form
         style={{ marginTop: 50 }}
-        autocomplete="off"
+        autoComplete="off"
         onSubmit={props.createBoat(props.history)}
       >
         <TextField

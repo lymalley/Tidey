@@ -1,15 +1,16 @@
 import React from 'react'
 import withDrawer from '../../components/with-drawer'
-import ViewAppBar from '../../components/viewAppBar'
+import MenuAppBar from '../../components/menuAppBar'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   withStyles,
   createMuiTheme,
   MuiThemeProvider
 } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
+import { TextField, NativeSelect, FormHelperText } from '@material-ui/core'
 import { map } from 'ramda'
-import { setBoats } from '../../action-creators/boats'
+import { setBoats, getBoat } from '../../action-creators/boats'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
@@ -25,6 +26,9 @@ import classNames from 'classnames'
 import SnackBar from '../../components/customSnackBar'
 import CustomSelectionControl from '../../components/customSelectionControl'
 import { Link } from 'react-router-dom'
+import Today from '../../lib/today'
+import { curentBoat, defaultBoat } from '../../reducers/boats'
+import { addReminder } from '../../action-creators/reminders'
 const styles = theme => ({
   input: {
     width: '45%',
@@ -140,7 +144,8 @@ const styles = theme => ({
 
 class MaintenanceNew extends React.Component {
   state = {
-    service: 'Select Service'
+    service: 'Select Service',
+    boat: { ...this.props }
   }
 
   handleChange = name => event => {
@@ -158,8 +163,7 @@ class MaintenanceNew extends React.Component {
       isError,
       isSaving,
       boatName,
-      boat,
-      boats,
+
       setBoats
     } = this.props
 
@@ -188,11 +192,12 @@ class MaintenanceNew extends React.Component {
         label: 'Max Fly'
       }
     ]
+    const boats = [{ ...this.props }]
 
     return (
       <div style={{ paddingTop: '10%' }}>
         <center>
-          <ViewAppBar title="Add Maintenance Log" backArrow={true} />
+          <MenuAppBar title="Add Maintenance Log" backArrow={true} />
 
           <Grid conatiner className={classes.root}>
             <form
@@ -204,6 +209,23 @@ class MaintenanceNew extends React.Component {
             >
               <Grid container spacing={12} alignItems="flex-end">
                 <Grid item xs={12}>
+                  {/*  <form className={classes.container} noValidate>
+                    <TextField
+                      id="date"
+                      label="Date"
+                      type="date"
+                      default={Today}
+                      required
+                      value={maintenance.date}
+                      field="date"
+                      onChange={e => onChange('date', e.target.value)}
+                      className={classes.input}
+                      InputLabelProps={{
+                        shrink: true
+                      }}
+                    />
+                  </form> */}
+
                   <TextField
                     label="Date"
                     value={maintenance.date}
@@ -213,6 +235,7 @@ class MaintenanceNew extends React.Component {
                     className={classes.smInput}
                     margin="normal"
                   />
+
                   <br />
 
                   <Select
@@ -235,9 +258,8 @@ class MaintenanceNew extends React.Component {
                       </option>
                     ))}
                   </Select>
-
-                  {/*      <Select
-                    {...boat}
+                  {/*  <Select
+                    // {...boats}
                     field="boat"
                     select
                     label="Boat Name"
@@ -245,25 +267,22 @@ class MaintenanceNew extends React.Component {
                       shrink: true
                     }}
                     margin="normal"
-                    value={maintenance.boatName}
-                    onChange={e =>
-                      setBoats(onChange('boatName', e.target.value))
-                    }
+                    value={maintenance.boat}
+                    onChange={e => setBoats(onChange('boat', e.target.value))}
                     input={<Input name="boatName" id="boatName" />}
                     required
                     className={classes.input}
                   >
-                    {boats.map(option => (
-                      <option value={option.name} key={option.name}>
-                        {option.name}
+                    {boats.map(defaultBoat => (
+                      <option value={defaultBoat.name} key={defaultBoat.name}>
+                        {defaultBoat.name}
                       </option>
                     ))}
-                  </Select>
-                  */}
+                  </Select>*/}
 
                   <TextField
                     field="engineHours"
-                    label="Engine Hours"
+                    label="Current Engine Hours"
                     InputLabelProps={{
                       shrink: true
                     }}
@@ -375,9 +394,35 @@ class MaintenanceNew extends React.Component {
                 label="Create Reminder"
                 value={maintenance.reminderCreated}
                 margin="normal"
-                onChange={e => onChange('reminderCreated', e.target.value)}
+                onChange={e =>
+                  onChange('reminderCreated', e.target.value.toString())
+                }
                 className={classes.input}
               />
+              <TextField
+                label="Hours Due At"
+                value={maintenance.dueAtHours}
+                margin="normal"
+                onChange={e => onChange('dueAtHours', e.target.value)}
+                className={classes.input}
+              />
+              <FormControl className={classes.formControl}>
+                <NativeSelect
+                  className={classes.selectEmpty}
+                  value={maintenance.hrsBefore}
+                  label="Hours Before to Remind"
+                  margin="normal"
+                  onChange={e => onChange('hrsBefore', e.target.value)}
+                >
+                  <option value={10}>Hours Before</option>
+                  <option value={1}>One</option>
+                  <option value={5}>Five</option>
+                  <option value={10}>Ten</option>
+                  <option value={15}>Fifteen</option>
+                  <option value={20}>Twenty</option>
+                </NativeSelect>
+                <FormHelperText>Select Hours</FormHelperText>
+              </FormControl>
               <CustomSelectionControl />
               <TextField
                 label="Entered By"
@@ -425,8 +470,8 @@ class MaintenanceNew extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  //  boat: state.currentBoat,
-  //  boats: state.getBoats,
+  boat: state.currentBoat,
+  boats: state.getBoats,
   reminder: state.newReminder.data,
   maintenance: state.newMaintenance.data,
   isSaving: state.newMaintenance.isSaving,
@@ -435,6 +480,7 @@ const mapStateToProps = state => ({
 })
 
 const mapActionToProps = dispatch => ({
+  onGetBoat: () => dispatch(getBoat),
   setBoats: () => dispatch(setBoats),
   onChange: (field, value) =>
     dispatch({
@@ -443,8 +489,9 @@ const mapActionToProps = dispatch => ({
     }),
   createMaintenance: history => e => {
     e.preventDefault()
+
     dispatch(addMaintenance(history))
-    //    dispatch()
+    //  dispatch(addReminder(history))
   }
 })
 
@@ -453,185 +500,12 @@ const connector = connect(
   mapActionToProps
 )
 
-export default withDrawer(connector(withStyles(styles)(MaintenanceNew)))
+export default withRouter(
+  withDrawer(connector(withStyles(styles)(MaintenanceNew)))
+)
 
 {
   /*
 
-
-       //  <TextField
-              //  label="Total Maintenance Cost"
-               // value={props.maintenance.totalCost}
-                //margin="normal"
-                //onChange={e => props.onChange('totalCost', e.target.value)}
-                //className={props.classes.input}
-             // />
-
-
-
-
-
-import React from 'react';
-import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
-import Review from './Review';
-
-const styles = theme => ({
-  appBar: {
-    position: 'relative',
-  },
-  layout: {
-    width: 'auto',
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
-    [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
-      width: 600,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 3,
-    padding: theme.spacing.unit * 2,
-    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-      marginTop: theme.spacing.unit * 6,
-      marginBottom: theme.spacing.unit * 6,
-      padding: theme.spacing.unit * 3,
-    },
-  },
-  stepper: {
-    padding: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 5}px`,
-  },
-  buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  button: {
-    marginTop: theme.spacing.unit * 3,
-    marginLeft: theme.spacing.unit,
-  },
-});
-
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
-
-class Checkout extends React.Component {
-  state = {
-    activeStep: 0,
-  };
-
-  handleNext = () => {
-    const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep + 1,
-    });
-  };
-
-  handleBack = () => {
-    const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep - 1,
-    });
-  };
-
-  handleReset = () => {
-    this.setState({
-      activeStep: 0,
-    });
-  };
-
-  render() {
-    const { classes } = this.props;
-    const { activeStep } = this.state;
-
-    return (
-      <React.Fragment>
-        <CssBaseline />
-        <AppBar position="absolute" color="default" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="title" color="inherit" noWrap>
-              Company name
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <main className={classes.layout}>
-          <Paper className={classes.paper}>
-            <Typography variant="display1" align="center">
-              Checkout
-            </Typography>
-            <Stepper activeStep={activeStep} className={classes.stepper}>
-              {steps.map(label => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <React.Fragment>
-              {activeStep === steps.length ? (
-                <React.Fragment>
-                  <Typography variant="headline" gutterBottom>
-                    Thank you for your order.
-                  </Typography>
-                  <Typography variant="subheading">
-                    Your order number is #2001539. We have emailed your oder confirmation, and will
-                    send you an update when your order has shipped.
-                  </Typography>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  {getStepContent(activeStep)}
-                  <div className={classes.buttons}>
-                    {activeStep !== 0 && (
-                      <Button onClick={this.handleBack} className={classes.button}>
-                        Back
-                      </Button>
-                    )}
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleNext}
-                      className={classes.button}
-                    >
-                      {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                    </Button>
-                  </div>
-                </React.Fragment>
-              )}
-            </React.Fragment>
-          </Paper>
-        </main>
-      </React.Fragment>
-    );
-  }
-}
-
-Checkout.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Checkout);*/
+;*/
 }

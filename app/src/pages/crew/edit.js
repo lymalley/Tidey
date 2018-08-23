@@ -1,19 +1,19 @@
-import React from "react"
-import MenuAppBar from "../../components/menuAppBar"
-import withDrawer from "../../components/withDrawer"
-import { connect } from "react-redux"
-import { withStyles } from "@material-ui/core/styles"
-import TextField from "@material-ui/core/TextField"
-import Button from "@material-ui/core/Button"
-import SaveIcon from "@material-ui/icons/Save"
-import CustomSnackBar from "../../components/customSnackBar"
+import React from 'react'
+import MenuAppBar from '../../components/menuAppBar'
+import withDrawer from '../../components/withDrawer'
+import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import SaveIcon from '@material-ui/icons/Save'
+import CustomSnackBar from '../../components/customSnackBar'
 
-import { EDIT_EVENT_CLEARED, EDIT_EVENT_FORM_UPDATED } from "../../constants"
-import { getEvent, updateEvent } from "../../action-creators/events"
+import { EDIT_EVENT_CLEARED, EDIT_EVENT_FORM_UPDATED } from '../../constants'
+import { getEvent, updateEvent } from '../../action-creators/events'
 
 const styles = theme => ({
   input: {
-    width: "50%",
+    width: '50%',
     marginLeft: 16,
     marginTop: 16,
     marginBottom: 8
@@ -52,7 +52,7 @@ class EditEvent extends React.Component {
           <TextField
             label="Name"
             value={event.name}
-            onChange={e => onTextFieldChange("name", e.target.value)}
+            onChange={e => onTextFieldChange('name', e.target.value)}
             margin="normal"
             required
             className={classes.input}
@@ -60,7 +60,7 @@ class EditEvent extends React.Component {
           <TextField
             label="Desc"
             value={event.shortDesc}
-            onChange={e => onTextFieldChange("shortDesc", e.target.value)}
+            onChange={e => onTextFieldChange('shortDesc', e.target.value)}
             margin="normal"
             required
             multiline
@@ -69,7 +69,7 @@ class EditEvent extends React.Component {
           <TextField
             label="Phone"
             value={event.primaryPhone}
-            onChange={e => onTextFieldChange("primaryPhone", e.target.value)}
+            onChange={e => onTextFieldChange('primaryPhone', e.target.value)}
             margin="normal"
             required
             className={classes.input}
@@ -77,7 +77,7 @@ class EditEvent extends React.Component {
           <TextField
             label="Date"
             value={event.eventDateTime}
-            onChange={e => onTextFieldChange("eventDateTime", e.target.value)}
+            onChange={e => onTextFieldChange('eventDateTime', e.target.value)}
             margin="normal"
             required
             className={classes.input}

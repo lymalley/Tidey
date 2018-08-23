@@ -191,7 +191,7 @@ const addReminder = reminder => {
   const newReminder = merge(reminder, {
     _id: pkGen(
       'reminder_',
-      `${reminder.boatName}-${reminder.service}-${reminder.dueAtHours}`
+      `${reminder.boat}-${reminder.dueAtHours}-${reminder.service}`
     ),
     type: 'reminder'
   })

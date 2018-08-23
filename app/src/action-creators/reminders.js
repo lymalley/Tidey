@@ -12,6 +12,7 @@ import {
   EDIT_REMINDER_SAVE_FAILED,
   EDIT_REMINDER_SAVE_SUCCEEDED
 } from '../constants'
+import { subtract, merge } from 'ramda'
 const url = process.env.REACT_APP_BASE_URL + '/reminders'
 
 export const setReminders = async (dispatch, getState) => {
@@ -30,16 +31,103 @@ export const getReminder = id => dispatch => {
     .catch(err => console.log(err))
 }
 
-export const addReminder = history => async (dispatch, getState) => {
-  dispatch({ type: NEW_REMINDER_SAVE_STARTED })
+{
+  /*
+  export const addReminderFromMaint = (createdMaintenance, history) => async (dispatch, getState) => {
+  dispatch({ type: NEW_MAINT_REMINDER_SAVE_STARTED })
   console.log(
     'initial reminder data',
-    JSON.stringify(getState().newReminder.data)
+    JSON.stringify(merge(getState().newReminder.data, ),
+     const maintenanceId = createdMaintenance._id
+     const boatId = create
+
+    //now can do a merge to feed it information from the maintenance
   )
   const result = await fetch(url, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(getState().newReminder.data)
+  })
+    .then(res => res.json())
+    .catch(err =>
+      dispatch({
+        type: NEW_REMINDER_SAVE_FAILED,
+        payload: 'Unexpected Error.  Please try again.'
+      })
+    )
+  console.log('reminder result', JSON.stringify(result))
+  if (result.ok) {
+    console.log('in happy reminder')
+    dispatch({
+      type: NEW_REMINDER_SAVE_SUCCEEDED
+    })
+    setReminders(dispatch, getState)
+    history.push('/reminders')
+  } else {
+    dispatch({
+      type: NEW_REMINDER_SAVE_FAILED,
+      payload: 'Unexpected Error.  Please try again.'
+    })
+  }
+}
+
+console.log(
+  'initial reminder data',
+  JSON.stringify(),
+  createdMaintenance
+
+  //now can do a merge to feed it information from the maintenance
+)
+
+
+
+const newReminderInitialState = {
+  data: {
+    date: Today,
+    boatName: 'Orange Crush',
+    alertAt: '',
+    maintenanceId: '',
+    service: '',
+    dueAtHours: '',
+    remindHrsBefore: 10,
+    completed: false,
+    startMaint: false,
+    enteredBy: ''
+  }
+}
+*/
+}
+export const addReminder = (createdMaintenance, history) => async (
+  dispatch,
+  getState
+) => {
+  const atHours = subtract(
+    Number(createdMaintenance.dueAtHours),
+    Number(createdMaintenance.hrsBefore)
+  )
+  const thisReminder = getState().newReminder.data
+  console.log('this reminder', JSON.stringify(thisReminder))
+  const createdMaintenanceState = {
+    date: createdMaintenance.date,
+    boatName: createdMaintenance.boat,
+    alertAt: atHours,
+    maintenanceId: createdMaintenance._id,
+    service: createdMaintenance.serviceType,
+    dueAtHours: createdMaintenance.dueAtHours,
+    remindHrsBefore: createdMaintenance.hrsBefore,
+    completed: false,
+    startMaint: false,
+    enteredBy: createdMaintenance.createdBy
+  }
+
+  const reminderMaint = merge(thisReminder, createdMaintenanceState)
+  console.log('here i am ', JSON.stringify(reminderMaint))
+  //if (thisReminder.maintenanceId === null) {
+  dispatch({ type: NEW_REMINDER_SAVE_STARTED })
+  const result = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(reminderMaint)
   })
     .then(res => res.json())
     .catch(err =>

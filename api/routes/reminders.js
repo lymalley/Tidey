@@ -33,7 +33,7 @@ const remindersRoute = app => {
   app.post('/reminders', (req, res, next) => {
     const newReminder = propOr({}, 'body', req)
     const missingFields = checkRequiredFields(
-      ['boatName', 'alertAt', 'service', 'dueAtHours', 'completed'],
+      ['boat', 'alertAt', 'service', 'dueAtHours', 'completed'],
       newReminder
     )
     if (not(isEmpty(missingFields))) {
@@ -45,7 +45,7 @@ const remindersRoute = app => {
       )
     }
     const finalObj = cleanObj(
-      ['boatName', 'alertAt', 'service', 'dueAtHours', 'completed'],
+      ['boat', 'alertAt', 'service', 'dueAtHours', 'completed'],
       newReminder
     )
     addReminder(finalObj)
@@ -61,7 +61,7 @@ const remindersRoute = app => {
         '_id',
         '_rev',
         'type',
-        'boatName',
+        'boat',
         'alertAt',
         'service',
         'dueAtHours',
@@ -80,7 +80,7 @@ const remindersRoute = app => {
         '_id',
         '_rev',
         'type',
-        'boatName',
+        'boat',
         'alertAt',
         'service',
         'dueAtHours',

@@ -8,12 +8,13 @@ import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
-import { props, head } from 'ramda'
-import Button from '@material-ui/core/Button'
+import { map } from 'ramda'
+import List from '@material-ui/core/List'
 import { setForecast } from '../action-creators/weather'
 import { Link } from 'react-router-dom'
 import withDrawer from '../components/with-drawer'
 import MenuAppBar from '../components/menuAppBar'
+import ReminderListItems from '../components/reminderListItems'
 
 import {
   Select,
@@ -23,7 +24,7 @@ import {
   Grid
 } from '@material-ui/core'
 
-const styles = (theme: MuiTheme) => ({
+const styles = theme => ({
   root: {},
   errorRoot: {
     display: 'flex',
@@ -46,7 +47,7 @@ const styles = (theme: MuiTheme) => ({
   activeSuggestion: {
     backgroundColor: theme.palette.action.selected
   },
-  autocompleteWrapper: {
+  autoCompleteWrapper: {
     marginBottom: theme.spacing.unit * 2
   },
   unitsSelectWrapper: {
@@ -67,14 +68,24 @@ class Home extends React.Component {
       <div style={{ padding: 48 }}>
         <center>
           <Typography variant="display4">tidey</Typography>
-          <MenuAppBar title="Home Port" color="primary" />
-          <h3>Weather Forcast</h3>
+          <MenuAppBar color="primary" />
+          <br />
+          <img alt="home" src="speed.png" />
+
           <Card
             style={{ paddingTop: '20%' }}
             title="Weather Forecast"
             //src={darksky}
           >
-            <CardContent title="Weather Forecast" />
+            <CardContent>
+              <List>
+                {map(
+                  reminder => ReminderListItems(reminder),
+                  this.props.reminders
+                )}
+              </List>
+            </CardContent>
+
             <CardMedia
               title="Current Forecast"
               width="100%"
@@ -82,13 +93,11 @@ class Home extends React.Component {
               frameBorder="20"
               style={{ paddingTop: 48 }}
               //src={darksky}
-              src="https://api.darksky.net/forecast/e6ccdb81bd1c974f7e5e55914bd85169/32.8052,-79.7597"
+              src="speed.png"
+              //"https://api.darksky.net/forecast/e6ccdb81bd1c974f7e5e55914bd85169/32.8052,-79.7597"
               allowFullScreen
-            >
-              Put Weather Here
-            </CardMedia>
+            />
           </Card>
-
           <div style={{ paddingTop: 30, paddingTop: 30 }} />
         </center>
       </div>
@@ -96,7 +105,8 @@ class Home extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  forecast: state.getForecast.data
+  forecast: state.getForecast.data,
+  reminders: state.getReminders
 })
 
 const mapActionsToProps = dispatch => ({

@@ -19,8 +19,8 @@ export const getMaintenances = (state = [], action) => {
 }
 
 const defaultMaintenance = {
-  date: today,
-  boatName: '',
+  date: '',
+  boat: '',
   serviceType: '',
   performedBy: '',
   location: '',
@@ -28,14 +28,10 @@ const defaultMaintenance = {
   materials: '',
   totalCost: '',
   comments: '',
-  images: null,
+
   reminderCreated: false,
-  reminder: [
-    {
-      dueAtHours: '',
-      hrsBefore: ''
-    }
-  ],
+  dueAtHours: '',
+  hrsBefore: '',
   enteredBy: ''
 }
 
@@ -62,14 +58,10 @@ const newMaintenanceInitialState = {
     materials: '',
     totalCost: '',
     comments: '',
-    images: null,
+
     reminderCreated: false,
-    reminder: [
-      {
-        dueAtHours: '',
-        hrsBefore: ''
-      }
-    ],
+    dueAtHours: '',
+    hrsBefore: '',
     enteredBy: ''
   },
 
