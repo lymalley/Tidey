@@ -21,52 +21,21 @@ type Props = {
 	timezone: string
 }
 
-export function formatRegions(regions: Array<string>) {
-	/* eslint-disable no-case-declarations */
-	switch (regions.length) {
-		case 0:
-			return
-		case 1:
-			return regions[0]
-		case 2:
-			return regions.join(' and ')
-		default:
-			const last = regions.splice(-1, 1)
-			return `${regions.join(', ')}, and ${last}`
-		/* eslint-enable no-case-declarations */
-	}
-}
 
-export const AlertIcon = ({
-	severity,
-	...props
-}: {
-	severity: WeatherAlertSeverity
-}) => {
-	switch (severity) {
-		case 'advisory':
-			return <Notice {...props} />
-		case 'watch':
-			return <Warning {...props} />
-		case 'warning':
-			return <ErrorIcon {...props} />
-		default:
-	}
-}
 
-class Alert extends React.Component<Props> {
+
+
+class Alert extends React.Component{
 	render() {
-		const { classes, data } = this.props
-		const endTime = formatDate({
-			time: data.expires,
-			timezone,
-			format: 'lll'
-		})
+		const { classes, alertAt, reminder } = this.props
+		const alertAt = subtract(reminder.dueAtHours, reminder.remindHrsBefore)
+			
+	
 
 		return (
 			<Card className={classes.card}>
 				<CardHeader
-					title={`${data.title} until ${endTime}`}
+					title={`${reminder.boatName} due at ${reminder.dueAtHours}`}
 					subheader={formatRegions(data.regions)}
 					avatar={<AlertIcon severity={data.severity} />}
 				/>

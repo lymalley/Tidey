@@ -62,6 +62,7 @@ class ActivityView extends React.Component {
     return (
       <div style={{ paddingTop: 20 }}>
         <Paper
+          className={classes.gridLists}
           elevation={2}
           style={{
             marginTop: 56,

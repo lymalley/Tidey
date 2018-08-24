@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles, MuiThemeProvider } from '@material-ui/core/styles'
-import lightBlue from '@material-ui/core/colors/lightBlue'
+import Paper from '@material-ui/core/Paper'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -71,34 +71,15 @@ class Home extends React.Component {
           <MenuAppBar color="primary" />
           <br />
           <img alt="home" src="speed.png" />
-
-          <Card
-            style={{ paddingTop: '20%' }}
-            title="Weather Forecast"
-            //src={darksky}
-          >
-            <CardContent>
-              <List>
-                {map(
-                  reminder => ReminderListItems(reminder),
-                  this.props.reminders
-                )}
-              </List>
-            </CardContent>
-
-            <CardMedia
-              title="Current Forecast"
-              width="100%"
-              height="100%"
-              frameBorder="20"
-              style={{ paddingTop: 48 }}
-              //src={darksky}
-              src="speed.png"
-              //"https://api.darksky.net/forecast/e6ccdb81bd1c974f7e5e55914bd85169/32.8052,-79.7597"
-              allowFullScreen
-            />
-          </Card>
-          <div style={{ paddingTop: 30, paddingTop: 30 }} />
+          <Paper>
+            <List>
+              {map(
+                reminder => ReminderListItems(reminder),
+                this.props.reminders
+              )}
+            </List>
+          </Paper>
+          <div />
         </center>
       </div>
     )
