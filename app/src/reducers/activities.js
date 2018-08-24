@@ -31,26 +31,24 @@ export const getActivities = (state = [], action) => {
 }
 
 const initialCurrentActivity = {
-  data: {
-    id: '',
-    date: '',
-    startTime: '',
-    endTime: '',
-    boat: '',
-    engineHoursStart: '',
-    engineHoursEnd: '',
-    weather: '',
-    tripType: '',
-    cruiseFrom: '',
-    cruiseTo: '',
-    passengerCount: '',
-    captain: '',
-    mate: '',
-    other: '',
-    tripNotes: '',
-    images: null,
-    enteredBy: ''
-  }
+  id: '',
+  date: '',
+  startTime: '',
+  endTime: '',
+  boat: '',
+  engineHoursStart: '',
+  engineHoursEnd: '',
+  weather: '',
+  tripType: '',
+  cruiseFrom: '',
+  cruiseTo: '',
+  passengerCount: '',
+  captain: '',
+  mate: '',
+  other: '',
+  tripNotes: '',
+  images: null,
+  enteredBy: ''
 }
 
 export const currentActivity = (state = initialCurrentActivity, action) => {
