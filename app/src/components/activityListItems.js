@@ -16,10 +16,10 @@ const ActivityListItems = activity => (
     <Link to={`/activities/${activity._id}`} className="router-link">
       <ListItem button>
         <ListItemText>
-          <Typography variant="headline">
-            {`${activity.boat} ${activity.date}`}
+          <Typography variant="title">
+            {`${activity.date} ${activity.tripType}`}
           </Typography>
-          <Typography variant="caption">{`${activity.tripType} ${
+          <Typography variant="caption">{`${activity.boat} ${
             activity.startTime
           }-${activity.endTime}`}</Typography>
         </ListItemText>

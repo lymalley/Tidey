@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button'
 import SaveIcon from '@material-ui/icons/Save'
 import { NEW_REMINDER_FORM_UPDATED } from '../../constants'
 import { addReminder } from '../../action-creators/reminders'
-import lightBlue from '@material-ui/core/colors/blue'
+import { subtract } from 'ramda'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 
@@ -72,14 +72,6 @@ const ReminderNew = props => {
               className={props.classes.input}
             />
             <TextField
-              label="Alert Set For"
-              value={props.reminder.alertAt}
-              margin="normal"
-              onChange={e => props.onChange('alertAt', e.target.value)}
-              required
-              className={props.classes.input}
-            />
-            <TextField
               label="Service Needed"
               value={props.reminder.service}
               margin="normal"
@@ -94,7 +86,6 @@ const ReminderNew = props => {
               onChange={e => props.onChange('dueAtHours', e.target.value)}
               className={props.classes.input}
             />
-
             <FormControl className={props.classes.formControl}>
               <NativeSelect
                 className={props.classes.selectEmpty}
@@ -117,6 +108,19 @@ const ReminderNew = props => {
               <FormHelperText>Select Hours</FormHelperText>
             </FormControl>
 
+            <TextField
+              label="Alert Set For"
+              value={
+                (props.reminder.alertAt = subtract(
+                  props.reminder.dueAtHours,
+                  props.reminder.remindHrsBefore
+                ))
+              }
+              margin="normal"
+              onChange={e => props.onChange('alertAt', e.target.value)}
+              required
+              className={props.classes.input}
+            />
             {/*    <TextField
               label="Completed"
               value={props.reminder.completed}
@@ -132,7 +136,6 @@ const ReminderNew = props => {
               onChange={e => props.onChange('startMaint', e.target.value)}
               className={props.classes.input}
         /> */}
-
             <TextField
               label="Entered By"
               value={props.reminder.enteredBy}

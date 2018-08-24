@@ -83,7 +83,7 @@ export const addMaintenance = history => async (dispatch, getState) => {
     )
   console.log('result', JSON.stringify(result))
   if (result.ok) {
-    if (createdMaintenance.reminderCreated === 'true') {
+    if (createdMaintenance.reminderCreated === true) {
       await dispatch(addReminder(createdMaintenance, history))
       setMaintenances(dispatch, getState)
       history.push('/maintenaces')

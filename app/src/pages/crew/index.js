@@ -27,23 +27,13 @@ const styles = theme => ({
 const Crew = props => (
   <div style={{ paddingTop: 56 }}>
     <Paper style={{ background: 'lightGrey' }}>
-      <MenuAppBar title="Crew" backArrow={true} history={props.history} />
-      <Link to="/crew/new">
-        <Button
-          varient="extendedFab"
-          color="white"
-          aria-label="Add Crew Member"
-          style={{
-            background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-            borderRadius: 3,
-            border: 0,
-            padding: '0 30px',
-            boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
-          }}
-        >
-          <AddIcon />
-        </Button>
-      </Link>
+      <MenuAppBar
+        title="Crew"
+        addNew
+        goToURL="/crew/new"
+        history={props.history}
+      />
+
       <div className={props.classes.root} style={{ paddingTop: 20 }}>
         <Grid item xs={12}>
           <List>
@@ -62,3 +52,23 @@ const mapStateToProps = state => ({
 const connector = connect(mapStateToProps)
 
 export default withDrawer(connector(withStyles(styles)(Crew)))
+
+{
+  /*<Link to="/crew/new">
+<Button
+  varient="extendedFab"
+  color="white"
+  aria-label="Add Crew Member"
+  style={{
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    borderRadius: 3,
+    border: 0,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+  }}
+>
+  <AddIcon />
+</Button>
+<Link>
+/*/
+}

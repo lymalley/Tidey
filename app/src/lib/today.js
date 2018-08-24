@@ -28,7 +28,7 @@ export default today
 
 */
 }
-
+const dateFormat = Number('MM/DD/YYYY')
 const now = new Date()
 const today = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`
 

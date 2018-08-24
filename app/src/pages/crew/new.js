@@ -99,7 +99,7 @@ const CrewMemberNew = props => {
                         onClick={e => (e.target.value = null)}
                       />*/}
 
-                      <Grid item xs={12}>
+                      {/*      <Grid item xs={12}>
                         <TextField
                           buttonText="Add Photo"
                           label="Photo"
@@ -111,7 +111,7 @@ const CrewMemberNew = props => {
                             props.onChange('image', e.target.value)
                           }
                         />
-                      </Grid>
+                        </Grid>*/}
 
                       <Grid item xs={12}>
                         <TextField

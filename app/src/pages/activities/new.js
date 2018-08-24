@@ -19,10 +19,11 @@ import { setCrew } from '../../action-creators/crew'
 import { setBoats } from '../../action-creators/boats'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
-import MenuItem from '@material-ui/core/MenuItem'
+import { MenuItem, FormHelperText } from '@material-ui/core'
 import CrewSelects from '../../components/crewMemberCard'
 import { withRouter } from 'react-router-dom'
-import { curentBoat, defaultBoat } from '../../reducers/boats'
+import NativeSelect from '@material-ui/core/NativeSelect'
+import TimePicker from '../../components/timePicker'
 
 const styles = theme => ({
   input: {
@@ -31,13 +32,31 @@ const styles = theme => ({
     marginTop: 16,
     marginBottom: 8
   },
+  inputShrSm: {
+    width: '25%',
+    marginLeft: 16,
+    marginTop: 16,
+    marginBottom: 8
+  },
+  inputShrLg: {
+    width: '70%',
+    marginLeft: 16,
+    marginTop: 16,
+    marginBottom: 8
+  },
   root: {
     flexGrow: 1
+  },
+
+  button: {
+    ...theme.typography.button,
+    backgroundColor: theme.palette.common.white,
+    padding: theme.spacing.unit
   },
   paper: {
     padding: theme.spacing.unit * 2,
     textAlign: 'center',
-    color: 'theme.palette.text.secondary'
+    color: theme.palette.text.secondary
   }
 })
 
@@ -45,7 +64,16 @@ const ActivityNew = props => {
   this.state = {
     boat: { ...this.props }
   }
-  const boats = [{ ...this.props }]
+  const vessels = [
+    {
+      value: 'orange-crush',
+      label: 'Orange Crush'
+    },
+    {
+      value: 'max-fly',
+      label: 'Max Fly'
+    }
+  ]
 
   return (
     <center>
@@ -76,7 +104,7 @@ const ActivityNew = props => {
                       required
                       className={props.classes.input}
                     />
-
+                    {/*
                     <TextField
                       label="Start Time"
                       value={props.activity.startTime}
@@ -86,9 +114,9 @@ const ActivityNew = props => {
                       }
                       required
                       className={props.classes.input}
-                    />
 
-                    <TextField
+
+                         <TextField
                       label="End Time"
                       value={props.activity.endTime}
                       margin="normal"
@@ -96,6 +124,48 @@ const ActivityNew = props => {
                       required
                       className={props.classes.input}
                     />
+                    />*/}
+                    <Grid container spacing={24}>
+                      <Grid item xs={6}>
+                        <div className={props.classes.paper}>
+                          {'Start Time * '}
+                        </div>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TimePicker
+                          label="Start Time"
+                          value={props.activity.startTime}
+                          className={props.classes.paper}
+                          margin="normal"
+                          required
+                          onChange={e =>
+                            props.onChange('startTime', e.target.value)
+                          }
+                        />
+                      </Grid>
+                    </Grid>
+                    <Grid container spacing={24}>
+                      <Grid item xs={6}>
+                        <div className={props.classes.paper}>
+                          {'End Time * '}
+                        </div>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TimePicker
+                          label="End Time"
+                          value={props.activity.endTime}
+                          className={props.classes.paper}
+                          margin="normal"
+                          onChange={e =>
+                            props.onChange('endTime', e.target.value)
+                          }
+                          required
+                          onChange={e =>
+                            props.onChange('endTime', e.target.value)
+                          }
+                        />
+                      </Grid>
+                    </Grid>
                   </div>
                   {/*    <TextField
                     label="Boat"
@@ -106,53 +176,67 @@ const ActivityNew = props => {
                     className={props.classes.input}
              />*/}
 
-                  <Select
-                    // {...boats}
-                    field="boat"
-                    select
-                    label="Boat Name"
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    margin="normal"
-                    value={props.activity.boat}
-                    onChange={e =>
-                      setBoats(props.onChange('boat', e.target.value))
-                    }
-                    input={<Input name="boatName" id="boatName" />}
-                    required
-                    className={props.classes.input}
-                  >
-                    {boats.map(defaultBoat => (
-                      <option value={defaultBoat.name} key={defaultBoat.name}>
-                        {defaultBoat.name}
-                      </option>
-                    ))}
-                  </Select>
+                  <Grid container spacing={24}>
+                    <Grid item xs={4}>
+                      <div className={props.classes.paper}>{'Boat: '}</div>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <NativeSelect
+                        // {...boats}
+                        field="boat"
+                        select
+                        label="Boat Name"
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        margin="normal"
+                        value={props.activity.boat}
+                        onChange={e => props.onChange('boat', e.target.value)}
+                        input={<Input name="boatName" id="boatName" />}
+                        required
+                        className={props.classes.paper}
+                      >
+                        {vessels.map(option => (
+                          <option value={option.value} key={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </NativeSelect>
+                    </Grid>
+                  </Grid>
 
-                  <TextField
-                    label="Starting Engine Hours"
-                    value={props.activity.engineHoursStart}
-                    margin="normal"
-                    onChange={e =>
-                      props.onChange('engineHoursStart', e.target.value)
-                    }
-                    className={props.classes.input}
-                  />
-                  <TextField
-                    label="Ending Engine Hours"
-                    value={props.activity.engineHoursEnd}
-                    margin="normal"
-                    onChange={e =>
-                      props.onChange('engineHoursEnd', e.target.value)
-                    }
-                    required
-                    className={props.classes.input}
-                  />
+                  <Grid container spacing={24}>
+                    <Grid item xs={6}>
+                      <TextField
+                        label="Starting Engine Hours"
+                        value={props.activity.engineHoursStart}
+                        margin="normal"
+                        onChange={e =>
+                          props.onChange('engineHoursStart', e.target.value)
+                        }
+                        className={props.classes.paper}
+                      />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <TextField
+                        label="Ending Engine Hours"
+                        value={props.activity.engineHoursEnd}
+                        margin="normal"
+                        onChange={e =>
+                          props.onChange('engineHoursEnd', e.target.value)
+                        }
+                        required
+                        className={props.classes.paper}
+                      />
+                    </Grid>
+                  </Grid>
+
                   <TextField
                     label="Trip Type"
                     value={props.activity.tripType}
                     margin="normal"
+                    required
                     onChange={e => props.onChange('tripType', e.target.value)}
                     className={props.classes.input}
                   />
@@ -197,7 +281,7 @@ const ActivityNew = props => {
                     className={props.classes.input}
                   />
 
-                  <Select
+                  {/*     <Select
                     {...props.crewMember}
                     field="mate"
                     select
@@ -217,10 +301,10 @@ const ActivityNew = props => {
                     <MenuItem>
                       <CrewSelects />
                     </MenuItem>
-                  </Select>
+                  </Select> */}
 
                   <TextField
-                    label="Other Crew"
+                    label="Crew"
                     value={props.activity.other}
                     margin="normal"
                     onChange={e => props.onChange('other', e.target.value)}
@@ -235,14 +319,14 @@ const ActivityNew = props => {
                     className={props.classes.input}
                   />
 
-                  <TextField
+                  {/*   <TextField
                     label="Photo"
                     value={props.activity.image}
                     margin="normal"
                     type="file"
                     onChange={e => props.onChange('image', e.target.value)}
                     className={props.classes.input}
-                  />
+             />*/}
 
                   <TextField
                     label="Entered By"
