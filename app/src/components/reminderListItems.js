@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider'
 import Avatar from '@material-ui/core/Avatar'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
+import Popup from '../components/popup'
 
 const styles = theme => ({
   root: {
@@ -19,6 +20,7 @@ const styles = theme => ({
 const ReminderListItems = reminder => (
   <div key={reminder._id}>
     <ListItem>
+      <Popup reminder={reminder} />
       <Typography variant="Title">
         {`${reminder.boat} ${reminder.alertAt} ${reminder.service}`}
       </Typography>

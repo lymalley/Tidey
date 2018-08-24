@@ -277,7 +277,7 @@ export const updateReminder = (id, history) => async (dispatch, getState) => {
   if (results.ok) {
     await dispatch(setReminders)
     dispatch({ type: EDIT_REMINDER_SAVE_SUCCEEDED })
-    history.push(`/reminders/${id}`)
+    history.push(`/`)
   } else {
     dispatch({
       type: EDIT_REMINDER_SAVE_FAILED,
