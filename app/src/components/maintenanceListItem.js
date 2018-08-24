@@ -10,15 +10,16 @@ import { Link } from 'react-router-dom'
 
 const MaintenanceListItems = maintenance => (
   <div key={maintenance._id}>
-    <ListItem>
-      <ListItemText>
-        <Typography variant="headline">
-          {`${maintenance.boat} ${maintenance.date}`}
-        </Typography>
-        <Typography variant="caption">{maintenance.serviceType}</Typography>
-      </ListItemText>
-    </ListItem>
-
+    <Link to={`/maintenances/${maintenance._id}`} className="router-link">
+      <ListItem button>
+        <ListItemText>
+          <Typography variant="headline">
+            {`${maintenance.boat} ${maintenance.date}`}
+          </Typography>
+          <Typography variant="caption">{maintenance.serviceType}</Typography>
+        </ListItemText>
+      </ListItem>
+    </Link>
     <Divider />
   </div>
 )

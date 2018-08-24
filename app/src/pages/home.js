@@ -71,7 +71,9 @@ class Home extends React.Component {
           <MenuAppBar color="primary" />
           <br />
           <img alt="home" src="speed.png" />
-          <Paper>
+          <Paper style={{ width: '95%' }}>
+            <br />
+            <h1>Service Reminders</h1>
             <List>
               {map(
                 reminder => ReminderListItems(reminder),

@@ -19,6 +19,7 @@ import { addReminder } from '../../action-creators/reminders'
 import { subtract } from 'ramda'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
+import { withRouter } from 'react-router-dom'
 
 const styles = theme => ({
   input: {
@@ -46,6 +47,7 @@ const ReminderNew = props => {
       <MenuAppBar
         title="Add Reminder"
         color="primary"
+        backArrow={true}
         history={props.history}
       />
       <Paper className={props.classes.paper}>
@@ -190,4 +192,4 @@ const connector = connect(
   mapActionToProps
 )
 
-export default withDrawer(connector(withStyles(styles)(ReminderNew)))
+export default connector(withStyles(styles)(ReminderNew))

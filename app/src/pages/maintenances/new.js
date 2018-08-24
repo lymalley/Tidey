@@ -324,7 +324,7 @@ class MaintenanceNew extends React.Component {
                             onChange('reminderCreated', e.target.value === true)
                           }
                         />
-                        </Grid>*/}
+                        </Grid>
                     <CustomSelectionControl
                       label="Create Service Reminder"
                       checked={maintenances.reminderCreated === true}
@@ -332,6 +332,16 @@ class MaintenanceNew extends React.Component {
                         onChange('reminderCreated', e.target.value)
                       }
                       value={maintenance.reminderCreated}
+                    />*/}
+
+                    <TextField
+                      label="Create Reminder (Enter Y)"
+                      value={maintenance.reminderCreated}
+                      margin="normal"
+                      onChange={e =>
+                        onChange('reminderCreated', e.target.value)
+                      }
+                      className={classes.input}
                     />
 
                     <TextField

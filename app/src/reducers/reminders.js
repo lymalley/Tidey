@@ -28,14 +28,14 @@ export const getReminders = (state = [], action) => {
   }
 }
 const initialCurrentReminder = {
-  date: Today,
-  boat: 'Orange Crush',
+  date: Today.toString(),
+  boat: '',
   alertAt: '',
   service: '',
   dueAtHours: '',
   remindHrsBefore: 10,
   completed: false,
-  startMaint: false,
+
   enteredBy: ''
 }
 
@@ -50,14 +50,14 @@ export const currentReminder = (state = initialCurrentReminder, action) => {
 
 const newReminderInitialState = {
   data: {
-    date: Today,
-    boat: 'Orange Crush',
+    date: Today.toString(),
+    boat: '',
     alertAt: '',
     service: '',
     dueAtHours: '',
     remindHrsBefore: 10,
     completed: false,
-    startMaint: false,
+
     enteredBy: ''
   },
   isSaving: false,
@@ -99,7 +99,7 @@ const editReminderInitialState = {
     dueAtHours: '',
     remindHrsBefore: '',
     completed: false,
-    startMaint: false,
+
     enteredBy: ''
   },
   isSaving: false,

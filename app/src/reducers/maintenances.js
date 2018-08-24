@@ -29,7 +29,7 @@ const defaultMaintenance = {
   totalCost: '',
   comments: '',
 
-  reminderCreated: false,
+  reminderCreated: '',
   dueAtHours: '',
   hrsBefore: '',
   enteredBy: ''
@@ -59,7 +59,7 @@ const newMaintenanceInitialState = {
     totalCost: '',
     comments: '',
 
-    reminderCreated: false,
+    reminderCreated: '',
     dueAtHours: '',
     hrsBefore: '',
     enteredBy: ''

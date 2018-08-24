@@ -5,21 +5,25 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import Avatar from '@material-ui/core/Avatar'
-import { head } from 'ramda'
+import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
+
+const styles = theme => ({
+  root: {
+    ...theme.typography.button,
+    backgroundColor: theme.palette.common.white,
+    padding: theme.spacing.unit
+  }
+})
 
 const ReminderListItems = reminder => (
   <div key={reminder._id}>
-    <Link to={`/reminders/${reminder._id}`} className="router-link">
-      <ListItem button>
-        <ListItemText>
-          <Typography variant="headline">
-            {`${reminder.boatName} ${reminder.alertAt}`}
-          </Typography>
-          <Typography variant="caption">{reminder.service}</Typography>
-        </ListItemText>
-      </ListItem>
-    </Link>
+    <ListItem>
+      <Typography variant="Title">
+        {`${reminder.boat} ${reminder.alertAt} ${reminder.service}`}
+      </Typography>
+    </ListItem>
+
     <Divider />
   </div>
 )
