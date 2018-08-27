@@ -388,7 +388,7 @@ const mapStateToProps = state => ({
 const mapActionToProps = dispatch => {
   return {
     //  getBoat: () => dispatch(getBoat),
-    setBoats: () => dispatch(setBoats),
+    //  setBoats: () => dispatch(setBoats),
     onChange: (key, value) => {
       dispatch({ type: NEW_ACTIVITY_FORM_UPDATED, payload: { [key]: value } })
     },

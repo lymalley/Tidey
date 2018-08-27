@@ -49,13 +49,6 @@ class ReminderDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button
-              value={reminder.complete === true}
-              onClick={this.handleClose}
-              color="primary"
-            >
-              Mark As Complete
-            </Button>
             <Button onClick={this.handleClose} color="primary" autoFocus>
               Cancel
             </Button>
@@ -81,3 +74,15 @@ const connector = connect(
 )
 
 export default connector(ReminderDialog)
+
+{
+  /*
+
+<Button
+              value={reminder.complete === true}
+              onClick={this.handleClose}
+              color="primary"
+            >
+              Mark As Complete
+            </Button>*/
+}
