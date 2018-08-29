@@ -18,7 +18,7 @@ import MaintenanceNew from './pages/maintenances/new'
 import MaintenanceView from './pages/maintenances/view'
 import Reminders from './pages/reminders/index'
 import ReminderNew from './pages/reminders/new'
-import ReminderView from './pages/reminders/view'
+import ReminderView from './components/popup'
 import ReminderDelete from './pages/reminders/delete'
 import ReminderEdit from './pages/reminders/edit'
 

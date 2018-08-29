@@ -35,6 +35,64 @@ export const addReminder = (createdMaintenance, history) => async (
   dispatch,
   getState
 ) => {
+  const atHours = subtract(
+    Number(createdMaintenance.dueAtHours),
+    Number(createdMaintenance.hrsBefore)
+  )
+  const thisReminder = getState().newReminder.data
+  console.log('this reminder', JSON.stringify(thisReminder))
+  const createdMaintenanceState = {
+    date: createdMaintenance.date,
+    boatName: createdMaintenance.boat,
+    alertAt: atHours,
+    maintenanceId: createdMaintenance._id,
+    service: createdMaintenance.serviceType,
+    dueAtHours: createdMaintenance.dueAtHours,
+    remindHrsBefore: createdMaintenance.hrsBefore,
+    completed: false,
+    startMaint: false,
+    enteredBy: createdMaintenance.createdBy
+  }
+  const reminderMaint = merge(thisReminder, createdMaintenanceState)
+  console.log('here i am ', JSON.stringify(reminderMaint))
+  //if (thisReminder.maintenanceId === null) {
+  dispatch({ type: NEW_REMINDER_SAVE_STARTED })
+  const result = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(reminderMaint)
+  })
+    .then(res => res.json())
+    .catch(err =>
+      dispatch({
+        type: NEW_REMINDER_SAVE_FAILED,
+        payload: 'Unexpected Error.  Please try again.'
+      })
+    )
+  console.log('reminder result', JSON.stringify(result))
+  if (result.ok) {
+    console.log('in happy reminder')
+    dispatch({
+      type: NEW_REMINDER_SAVE_SUCCEEDED
+    })
+    setReminders(dispatch, getState)
+    history.push('/reminders')
+  } else {
+    dispatch({
+      type: NEW_REMINDER_SAVE_FAILED,
+      payload: 'Unexpected Error.  Please try again.'
+    })
+  }
+}
+
+{
+  /*
+
+
+export const addReminder = (createdMaintenance, history) => async (
+  dispatch,
+  getState
+) => {
   const thisReminder = getState().newReminder.data
   if (thisReminder.createdMaintenance) {
     const atHours = subtract(
@@ -117,8 +175,7 @@ export const addReminder = (createdMaintenance, history) => async (
     }
   }
 }
-{
-  /*
+
 console.log(
   'initial reminder data',
   JSON.stringify(),
@@ -220,7 +277,7 @@ export const updateReminder = (id, history) => async (dispatch, getState) => {
   if (results.ok) {
     await dispatch(setReminders)
     dispatch({ type: EDIT_REMINDER_SAVE_SUCCEEDED })
-    history.push(`/reminders/${id}`)
+    history.push(`/`)
   } else {
     dispatch({
       type: EDIT_REMINDER_SAVE_FAILED,
