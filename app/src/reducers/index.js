@@ -9,24 +9,5 @@ const rootReducer = combineReducers({
 })
 
 export default rootReducer
-
-export default reduceReducers(
-  combineReducers({
-    router: routerReducer,
-    customers,
-    stats,
-    dates,
-    filters,
-    ui
-  }),
-  // cross-cutting concerns because here `state` is the whole state tree
-  (state, action) => {
-    switch (action.type) {
-      case 'SOME_ACTION':
-        const customers = state.customers;
-        const filters = state.filters;
-        // ... do stuff
-    }
-  }
-);*/
+*/
 }

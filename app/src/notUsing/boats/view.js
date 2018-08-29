@@ -6,9 +6,9 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 import lightBlue from '@material-ui/core/colors/lightBlue'
 import Card from '@material-ui/core/Card'
 import { Link } from 'react-router-dom'
-import MaintenanceListItem from '../../components/maintenanceListItem'
+import BoatListItem from '../../components/boatListItems'
 
-import { getMaintenance } from '../../action-creators/maintenances'
+import { getBoat } from '../../action-creators/boats'
 import {
   CardContent,
   Typography
@@ -20,10 +20,10 @@ const theme = createMuiTheme({
   }
 })
 
-class MaintenanceView extends React.Component {
+class BoatView extends React.Component {
   componentDidMount() {
-    const { getMaintenance, match } = this.props
-    getMaintenance(match.params.id)
+    const { getBoat, match } = this.props
+    getBoat(match.params.id)
   }
   render() {
     const { history, isLoading } = this.props
@@ -32,10 +32,9 @@ class MaintenanceView extends React.Component {
         <center>
           <MuiThemeProvider theme={theme}>
             <MenuAppBar
-              back
               history={history}
               backArrow={true}
-              title="Maintenance"
+              title="Crew Member"
               style={{ padding: 56 }}
             />
           </MuiThemeProvider>
@@ -44,7 +43,7 @@ class MaintenanceView extends React.Component {
           ) : (
             <Card>
               <CardContent>
-                <MaintenanceListItem />
+                <BoatListItem />
               </CardContent>
             </Card>
           )}
@@ -55,11 +54,11 @@ class MaintenanceView extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  maintenance: state.currentMaintenance
+  boat: state.currentBoat
 })
 
 const mapActionToProps = dispatch => ({
-  getMaintenance: id => dispatch(getMaintenance(id))
+  getBoat: id => dispatch(getBoat(id))
 })
 
 const connector = connect(
@@ -67,4 +66,4 @@ const connector = connect(
   mapActionToProps
 )
 
-export default withDrawer(connector(MaintenanceView))
+export default withDrawer(connector(BoatView))

@@ -32,12 +32,11 @@ export const setActivities = async (dispatch, getState) => {
 }
 
 export const addActivity = history => async (dispatch, getState) => {
-  const createdActivity = getState().newActivity.data
   dispatch({ type: NEW_ACTIVITY_SAVE_STARTED })
   const result = await fetch(url, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
-    body: JSON.stringify(createdActivity)
+    body: JSON.stringify(getState().newActivity.data)
   })
     .then(res => res.json())
     .catch(err =>

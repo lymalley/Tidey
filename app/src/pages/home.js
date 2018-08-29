@@ -3,19 +3,17 @@ import Typography from '@material-ui/core/Typography'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles, MuiThemeProvider } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import ListItem from '@material-ui/core/ListItem'
+import lightBlue from '@material-ui/core/colors/lightBlue'
+import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
-import { map } from 'ramda'
-import List from '@material-ui/core/List'
+import { props, head } from 'ramda'
+import Button from '@material-ui/core/Button'
 import { setForecast } from '../action-creators/weather'
 import { Link } from 'react-router-dom'
 import withDrawer from '../components/with-drawer'
 import MenuAppBar from '../components/menuAppBar'
-import ReminderListItems from '../components/reminderListItems'
-import Popup from '../components/popup'
 
 import {
   Select,
@@ -25,7 +23,7 @@ import {
   Grid
 } from '@material-ui/core'
 
-const styles = theme => ({
+const styles = (theme: MuiTheme) => ({
   root: {},
   errorRoot: {
     display: 'flex',
@@ -48,7 +46,7 @@ const styles = theme => ({
   activeSuggestion: {
     backgroundColor: theme.palette.action.selected
   },
-  autoCompleteWrapper: {
+  autocompleteWrapper: {
     marginBottom: theme.spacing.unit * 2
   },
   unitsSelectWrapper: {
@@ -64,37 +62,41 @@ class Home extends React.Component {
     setForecast()
   }
 
-  render() {
-    const { reminder } = this.props
+  render(props) {
     return (
       <div style={{ padding: 48 }}>
         <center>
           <Typography variant="display4">tidey</Typography>
-          <MenuAppBar color="primary" />
-          <br />
-          <img alt="home" src="speed.png" />
+          <MenuAppBar title="Home Port" color="primary" />
+          <h3>Weather Forcast</h3>
+          <Card
+            style={{ paddingTop: '20%' }}
+            title="Weather Forecast"
+            //src={darksky}
+          >
+            <CardContent title="Weather Forecast" />
+            <CardMedia
+              title="Current Forecast"
+              width="100%"
+              height="100%"
+              frameBorder="20"
+              style={{ paddingTop: 48 }}
+              //src={darksky}
+              src="https://api.darksky.net/forecast/e6ccdb81bd1c974f7e5e55914bd85169/32.8052,-79.7597"
+              allowFullScreen
+            >
+              Put Weather Here
+            </CardMedia>
+          </Card>
 
-          <Paper style={{ width: '95%' }}>
-            <br />
-            <h1>Service Reminders</h1>
-
-            <ListItem button>
-              <List>
-                {map(
-                  reminder => ReminderListItems(reminder),
-                  this.props.reminders
-                )}
-              </List>
-            </ListItem>
-          </Paper>
+          <div style={{ paddingTop: 30, paddingTop: 30 }} />
         </center>
       </div>
     )
   }
 }
 const mapStateToProps = state => ({
-  forecast: state.getForecast.data,
-  reminders: state.getReminders
+  forecast: state.getForecast.data
 })
 
 const mapActionsToProps = dispatch => ({

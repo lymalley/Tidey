@@ -1,3 +1,3 @@
-const { pick, curry } = require('ramda')
+const { pick } = require('ramda')
 
-module.exports = curry((arr, obj) => pick(arr, obj))
+module.exports = (fields, obj) => pick(fields, obj)

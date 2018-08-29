@@ -31,24 +31,26 @@ export const getActivities = (state = [], action) => {
 }
 
 const initialCurrentActivity = {
-  id: '',
-  date: '',
-  startTime: '',
-  endTime: '',
-  boat: '',
-  engineHoursStart: '',
-  engineHoursEnd: '',
-  weather: '',
-  tripType: '',
-  cruiseFrom: '',
-  cruiseTo: '',
-  passengerCount: '',
-  captain: '',
-  mate: '',
-  other: '',
-  tripNotes: '',
-  images: null,
-  enteredBy: ''
+  data: {
+    id: '',
+    date: '',
+    startTime: '',
+    endTime: '',
+    boat: '',
+    engineHoursStart: '',
+    engineHoursEnd: '',
+    weather: '',
+    tripType: '',
+    cruiseFrom: '',
+    cruiseTo: '',
+    passengerCount: '',
+    captain: '',
+    mate: '',
+    other: '',
+    tripNotes: '',
+    images: null,
+    enteredBy: ''
+  }
 }
 
 export const currentActivity = (state = initialCurrentActivity, action) => {
@@ -63,16 +65,16 @@ export const currentActivity = (state = initialCurrentActivity, action) => {
 const newActivityInitialState = {
   data: {
     date: Today,
-    startTime: null,
+    startTime: '',
     endTime: TimeNow,
     boat: '',
-    engineHoursStart: null,
-    engineHoursEnd: null,
+    engineHoursStart: '',
+    engineHoursEnd: '',
     weather: '',
     tripType: '',
     cruiseFrom: '',
     cruiseTo: '',
-    passengerCount: null,
+    passengerCount: '',
     captain: '',
     mate: '',
     other: '',

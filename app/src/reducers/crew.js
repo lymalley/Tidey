@@ -41,6 +41,7 @@ const newCrewInitialState = {
   data: {
     firstName: '',
     lastName: '',
+    image: [],
     title: '',
     email: '',
     phoneNumber: ''

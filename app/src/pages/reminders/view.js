@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom'
 import ReminderListItem from '../../components/reminderListItems'
 import AlertAt from '../../lib/setAlert'
 import { getReminder } from '../../action-creators/reminders'
-import { withRouter } from 'react-router-dom'
 import {
   CardContent,
   Typography
@@ -33,9 +32,9 @@ class ReminderView extends React.Component {
         <center>
           <MuiThemeProvider theme={theme}>
             <MenuAppBar
-              // history={history}
-              //  backArrow={true}
-              //  edit={true}
+              history={history}
+              backArrow={true}
+              edit={true}
               //  goToURL='/reminders'
               title="Reminder"
               style={{ padding: 56 }}
@@ -46,7 +45,7 @@ class ReminderView extends React.Component {
           ) : (
             <Card>
               <CardContent>
-                Remind At
+                Remind At <AlertAt />
                 <ReminderListItem />
               </CardContent>
             </Card>

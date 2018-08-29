@@ -16,10 +16,9 @@ import Button from '@material-ui/core/Button'
 import SaveIcon from '@material-ui/icons/Save'
 import { NEW_REMINDER_FORM_UPDATED } from '../../constants'
 import { addReminder } from '../../action-creators/reminders'
-import { subtract } from 'ramda'
+import lightBlue from '@material-ui/core/colors/blue'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
-import { withRouter } from 'react-router-dom'
 
 const styles = theme => ({
   input: {
@@ -41,20 +40,16 @@ const styles = theme => ({
   }
 })
 
+
 const ReminderNew = props => {
   return (
     <div style={{ paddingTop: 20 }}>
-      <MenuAppBar
-        title="Add Reminder"
-        color="primary"
-        backArrow={true}
-        history={props.history}
-      />
+      <MenuAppBar title="Add Reminder" color="primary" />
       <Paper className={props.classes.paper}>
         <Grid container>
           <form
             style={{ marginTop: 50 }}
-            autoComplete="off"
+            autocomplete="off"
             onSubmit={props.createReminder(props.history)}
           >
             <TextField
@@ -67,9 +62,17 @@ const ReminderNew = props => {
             />
             <TextField
               label="Boat Name"
-              value={props.reminder.boat}
+              value={props.reminder.boatName}
               margin="normal"
-              onChange={e => props.onChange('boat', e.target.value)}
+              onChange={e => props.onChange('boatName', e.target.value)}
+              required
+              className={props.classes.input}
+            />
+            <TextField
+              label="Alert Set For"
+              value={props.reminder.alertAt}
+              margin="normal"
+              onChange={e => props.onChange('alertAt', e.target.value)}
               required
               className={props.classes.input}
             />
@@ -88,6 +91,7 @@ const ReminderNew = props => {
               onChange={e => props.onChange('dueAtHours', e.target.value)}
               className={props.classes.input}
             />
+
             <FormControl className={props.classes.formControl}>
               <NativeSelect
                 className={props.classes.selectEmpty}
@@ -110,19 +114,6 @@ const ReminderNew = props => {
               <FormHelperText>Select Hours</FormHelperText>
             </FormControl>
 
-            <TextField
-              label="Alert Set For"
-              value={
-                (props.reminder.alertAt = subtract(
-                  props.reminder.dueAtHours,
-                  props.reminder.remindHrsBefore
-                ))
-              }
-              margin="normal"
-              onChange={e => props.onChange('alertAt', e.target.value)}
-              required
-              className={props.classes.input}
-            />
             {/*    <TextField
               label="Completed"
               value={props.reminder.completed}
@@ -138,6 +129,7 @@ const ReminderNew = props => {
               onChange={e => props.onChange('startMaint', e.target.value)}
               className={props.classes.input}
         /> */}
+
             <TextField
               label="Entered By"
               value={props.reminder.enteredBy}
@@ -192,4 +184,4 @@ const connector = connect(
   mapActionToProps
 )
 
-export default connector(withStyles(styles)(ReminderNew))
+export default withDrawer(connector(withStyles(styles)(ReminderNew)))

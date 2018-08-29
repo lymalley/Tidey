@@ -1,16 +1,15 @@
 import React from 'react'
 import withDrawer from '../../components/with-drawer'
-import MenuAppBar from '../../components/menuAppBar'
-import { withRouter } from 'react-router-dom'
+import ViewAppBar from '../../components/viewAppBar'
 import { connect } from 'react-redux'
 import {
   withStyles,
   createMuiTheme,
   MuiThemeProvider
 } from '@material-ui/core/styles'
-import { TextField, NativeSelect, FormHelperText } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField'
 import { map } from 'ramda'
-import { setBoats, getBoat } from '../../action-creators/boats'
+import { setBoats } from '../../action-creators/boats'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
@@ -22,35 +21,126 @@ import Input from '@material-ui/core/Input'
 import Paper from '@material-ui/core/Paper'
 import FormControl from '@material-ui/core/FormControl'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import classNames from 'classnames'
 import SnackBar from '../../components/customSnackBar'
 import CustomSelectionControl from '../../components/customSelectionControl'
 import { Link } from 'react-router-dom'
-import Today from '../../lib/today'
-import { curentBoat, defaultBoat } from '../../reducers/boats'
-import { addReminder } from '../../action-creators/reminders'
-import maintenances from '.'
-
 const styles = theme => ({
   input: {
-    width: '95%',
+    width: '45%',
     marginLeft: 16,
     marginTop: 16,
     marginBottom: 8
   },
-  root: {
-    flexGrow: 1
+  smInput: {
+    width: '25%',
+    marginLeft: 16,
+    marginTop: 16,
+    marginBottom: 8
   },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: 'theme.palette.text.secondary'
+  lgInput: {
+    width: '70%',
+    marginLeft: 16,
+    marginTop: 16,
+    marginBottom: 8
+  },
+  fullInput: {
+    width: '95%',
+    marginLeft: 16,
+    marginTop: 16,
+    marginBottom: 8,
+    fontSize: 9,
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"'
+    ]
+  },
+
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  margin: {
+    margin: theme.spacing.unit
+  },
+  withoutLabel: {
+    marginTop: theme.spacing.unit * 3
+  },
+  smTextField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 110
+  },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: '45%'
+  },
+  center: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  actions: { justifyContent: 'flex-end', width: '50%' },
+  menu: {
+    width: 200
+  },
+  row: {
+    display: 'flex',
+    justifyContent: 'space-evenly'
+  },
+  bootstrapRoot: {
+    padding: 0,
+    'label + &': {
+      marginTop: theme.spacing.unit * 3
+    }
+  },
+  bootstrapInput: {
+    borderRadius: 4,
+    backgroundColor: theme.palette.common.white,
+    border: '1px solid #ced4da',
+    fontSize: 12,
+    padding: '10px 12px',
+    width: 'calc(100% - 18px)',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"'
+    ].join(','),
+    '&:focus': {
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
+    }
+  },
+  bootstrapFormLabel: {
+    fontSize: 14
   }
 })
 
 class MaintenanceNew extends React.Component {
   state = {
-    service: 'Select Service',
-    boat: { ...this.props }
+    service: 'Select Service'
   }
 
   handleChange = name => event => {
@@ -68,7 +158,8 @@ class MaintenanceNew extends React.Component {
       isError,
       isSaving,
       boatName,
-      isFetching,
+      boat,
+      boats,
       setBoats
     } = this.props
 
@@ -97,80 +188,34 @@ class MaintenanceNew extends React.Component {
         label: 'Max Fly'
       }
     ]
-    const boats = [{ ...this.props }]
 
     return (
-      <center>
-        <div style={{ paddingTop: 20 }} className={classes.root}>
-          <Paper className={classes.paper}>
-            {!isFetching ? (
-              <React.Fragment>
-                <Paper>
-                  <MenuAppBar
-                    title="Add Maintenance Log"
-                    textAlign="center"
-                    backArrow={true}
-                    history={history}
+      <div style={{ paddingTop: '10%' }}>
+        <center>
+          <ViewAppBar title="Add Maintenance Log" backArrow={true} />
+
+          <Grid conatiner className={classes.root}>
+            <form
+              style={{ marginTop: '5%' }}
+              autocomplete="off"
+              onSubmit={createMaintenance(history)}
+              history={history}
+              className={classes.container}
+            >
+              <Grid container spacing={12} alignItems="flex-end">
+                <Grid item xs={12}>
+                  <TextField
+                    label="Date"
+                    value={maintenance.date}
+                    field="date"
+                    onChange={e => onChange('date', e.target.value)}
+                    required
+                    className={classes.smInput}
+                    margin="normal"
                   />
-                  <form
-                    style={{ marginTop: 40 }}
-                    autocomplete="off"
-                    onSubmit={createMaintenance(history)}
-                    className="form-horizontal"
-                  >
-                    <div className="form-group">
-                      {/*  <form className={classes.container} noValidate>
-                    <TextField
-                      id="date"
-                      label="Date"
-                      type="date"
-                      default={Today}
-                      required
-                      value={maintenance.date}
-                      field="date"
-                      onChange={e => onChange('date', e.target.value)}
-                      className={classes.input}
-                      InputLabelProps={{
-                        shrink: true
-                      }}
-                    />
-                  </form> */}
+                  <br />
 
-                      <TextField
-                        //  label="Date"
-                        value={maintenance.date}
-                        field="date"
-                        onChange={e => onChange('date', e.target.value)}
-                        required
-                        className={classes.input}
-                        margin="normal"
-                        helperText="Date *"
-                      />
-
-                      <Select
-                        field="boat"
-                        select
-                        // label="Boat Name"
-                        InputLabelProps={{
-                          shrink: true
-                        }}
-                        margin="normal"
-                        placeholder="Select Boat"
-                        value={maintenance.boat}
-                        onChange={e => onChange('boat', e.target.value)}
-                        input={<Input name="boatName" id="boatName" />}
-                        required
-                        className={classes.input}
-                        helperText="Boat Name"
-                      >
-                        {vessels.map(option => (
-                          <option value={option.value} key={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </Select>
-                      {/*  <Select
-                    // {...boats}
+                  <Select
                     field="boat"
                     select
                     label="Boat Name"
@@ -179,123 +224,145 @@ class MaintenanceNew extends React.Component {
                     }}
                     margin="normal"
                     value={maintenance.boat}
-                    onChange={e => setBoats(onChange('boat', e.target.value))}
+                    onChange={e => onChange('boat', e.target.value)}
                     input={<Input name="boatName" id="boatName" />}
                     required
                     className={classes.input}
                   >
-                    {boats.map(defaultBoat => (
-                      <option value={defaultBoat.name} key={defaultBoat.name}>
-                        {defaultBoat.name}
+                    {vessels.map(option => (
+                      <option value={option.value} key={option.value}>
+                        {option.label}
                       </option>
                     ))}
-                  </Select>*/}
+                  </Select>
 
-                      <TextField
-                        field="engineHours"
-                        //  label="Current Engine Hours"
-                        // InputLabelProps={{shrink: true}}
-                        value={maintenance.engineHours}
-                        margin="normal"
-                        required
-                        onChange={e => onChange('engineHours', e.target.value)}
-                        className={classes.input}
-                        helperText="Current Engine Hours *"
-                      />
-                    </div>
-                    <Grid container spacing={12} alignItems="flex-end">
-                      <Grid item xs={12}>
-                        <Select
-                          field="selectServiceType"
-                          select
-                          label="Service Type"
-                          InputLabelProps={{
-                            shrink: true
-                          }}
-                          margin="normal"
-                          value={maintenance.serviceType}
-                          onChange={e =>
-                            onChange('serviceType', e.target.value)
-                          }
-                          input={<Input name="service" id="service-required" />}
-                          required
-                          className={classes.input}
-                          helperText="Service Type *"
-                        >
-                          {services.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </Grid>
-                    </Grid>
+                  {/*      <Select
+                    {...boat}
+                    field="boat"
+                    select
+                    label="Boat Name"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    margin="normal"
+                    value={maintenance.boatName}
+                    onChange={e =>
+                      setBoats(onChange('boatName', e.target.value))
+                    }
+                    input={<Input name="boatName" id="boatName" />}
+                    required
+                    className={classes.input}
+                  >
+                    {boats.map(option => (
+                      <option value={option.name} key={option.name}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </Select>
+                  */}
 
+                  <TextField
+                    field="engineHours"
+                    label="Engine Hours"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    value={maintenance.engineHours}
+                    margin="normal"
+                    required
+                    onChange={e => onChange('engineHours', e.target.value)}
+                    className={classes.smInput}
+                    helperText="Currently"
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={12} alignItems="flex-end">
+                <Grid item xs={12}>
+                  <Select
+                    field="selectServiceType"
+                    select
+                    label="Service Type"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    margin="normal"
+                    value={maintenance.serviceType}
+                    onChange={e => onChange('serviceType', e.target.value)}
+                    input={<Input name="service" id="service-required" />}
+                    required
+                    className={classes.input}
+                  >
+                    {services.map(option => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+              </Grid>
+              <Grid container spacing={8} alignItems="flex-end">
+                <Grid item xs={12}>
+                  <TextField
+                    field="performedBy"
+                    label="Performed By"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    value={maintenance.performedBy}
+                    margin="normal"
+                    onChange={e => onChange('performedBy', e.target.value)}
+                    className={classes.input}
+                  />
+                  <TextField
+                    field="location"
+                    label="Location"
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    value={maintenance.location}
+                    margin="normal"
+                    onChange={e => onChange('location', e.target.value)}
+                    className={classes.input}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  field="materials"
+                  label="Materials Used"
+                  value={maintenance.materials}
+                  margin="normal"
+                  onChange={e => onChange('materials', e.target.value)}
+                  className={classes.input}
+                  InputProps={{
+                    disableUnderline: true,
+                    classes: {
+                      input: classes.bootstrapInput
+                    }
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                    className: classes.bootstrapFormLabel
+                  }}
+                />
+              </Grid>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Paper style={{ height: 140, width: '95%' }}>
                     <TextField
-                      field="performedBy"
-                      //  label="Performed By"
-                      InputLabelProps={{
-                        shrink: true
-                      }}
-                      value={maintenance.performedBy}
+                      field="comments"
+                      value={maintenance.comments}
                       margin="normal"
-                      onChange={e => onChange('performedBy', e.target.value)}
-                      className={classes.input}
-                      helperText="Performed By"
+                      placeholder="Additional Notes"
+                      fullWidth
+                      multiline
+                      onChange={e => onChange('comments', e.target.value)}
+                      className={classes.fullInput}
                     />
-                    <TextField
-                      field="location"
-                      // label="Location"
-                      InputLabelProps={{
-                        shrink: true
-                      }}
-                      value={maintenance.location}
-                      margin="normal"
-                      onChange={e => onChange('location', e.target.value)}
-                      className={classes.input}
-                      helperText="Location"
-                    />
-                    {/*
-                    <TextField
-                      field="materials"
-                      label="Materials Used"
-                      value={maintenance.materials}
-                      margin="normal"
-                      onChange={e => onChange('materials', e.target.value)}
-                      className={classes.input}
-                      InputProps={{
-                        disableUnderline: true,
-                        classes: {
-                          input: classes.bootstrapInput
-                        }
-                      }}
-                      InputLabelProps={{
-                        shrink: true,
-                        className: classes.bootstrapFormLabel
-                      }}
-                    /> */}
-
-                    <Grid container>
-                      <Grid item xs={12}>
-                        <Paper
-                          alignItems="center"
-                          style={{ height: 140, width: '95%', margin: 10 }}
-                        >
-                          <TextField
-                            field="comments"
-                            value={maintenance.comments}
-                            margin="normal"
-                            placeholder="Additional Notes"
-                            fullWidth
-                            multiline
-                            onChange={e => onChange('comments', e.target.value)}
-                            className={classes.input}
-                            style={{ fontSize: 16 }}
-                          />
-                        </Paper>
-                      </Grid>
-                    </Grid>
-                    {/*     <TextField
+                  </Paper>
+                </Grid>
+              </Grid>
+              {/*     <TextField
                 label="Add Images"
                 value={maintenance.images}
                 margin="normal"
@@ -303,127 +370,63 @@ class MaintenanceNew extends React.Component {
                 onChange={e => onChange('images', e.target.value)}
                 className={classes.input}
               />
+      */}
               <TextField
-                      label="Create Reminder"
-                      value={maintenance.reminderCreated}
-                      margin="normal"
-                      onChange={e =>
-                        onChange('reminderCreated', e.target.value.toString())
-                      }
-                      className={classes.input}
-                    />
-      
-                    <div>
-                      <div>Create Remidner for Next Service</div>
-                      <Grid item xs={12} style={{ margin: 20 }}>
-                        <CustomSelectionControl
-                          value={maintenance.reminderCreated}
-                          alignItems="center"
-                          checked={maintenances.reminderCreated === true}
-                          onChange={e =>
-                            onChange('reminderCreated', e.target.value === true)
-                          }
-                        />
-                        </Grid>
-                    <CustomSelectionControl
-                      label="Create Service Reminder"
-                      checked={maintenances.reminderCreated === true}
-                      onChange={e =>
-                        onChange('reminderCreated', e.target.value)
-                      }
-                      value={maintenance.reminderCreated}
-                    />*/}
+                label="Create Reminder"
+                value={maintenance.reminderCreated}
+                margin="normal"
+                onChange={e => onChange('reminderCreated', e.target.value)}
+                className={classes.input}
+              />
+              <CustomSelectionControl />
+              <TextField
+                label="Entered By"
+                value={maintenance.enteredBy}
+                margin="normal"
+                onChange={e => onChange('enteredBy', e.target.value)}
+                required
+                className={classes.input}
+              />
+              <Link to="/maintenances">
+                <Button type="button">Cancel</Button>
+              </Link>
 
-                    <TextField
-                      label="Create Reminder (Enter Y)"
-                      value={maintenance.reminderCreated}
-                      margin="normal"
-                      onChange={e =>
-                        onChange('reminderCreated', e.target.value)
-                      }
-                      className={classes.input}
-                    />
+              <Button
+                varient="button"
+                color="white"
+                type="submit"
+                aria-label="add"
+                aria-label="Add Crew Member"
+                style={{
+                  background:
+                    'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+                  borderRadius: 3,
+                  border: 0,
+                  padding: '0 30px',
+                  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+                }}
+              >
+                <SaveIcon /> Save
+              </Button>
+            </form>
+          </Grid>
+        </center>
 
-                    <TextField
-                      //   label="Hours Due At"
-                      value={maintenance.dueAtHours}
-                      margin="normal"
-                      onChange={e => onChange('dueAtHours', e.target.value)}
-                      className={classes.input}
-                      helperText="Hours Due At"
-                    />
-                    <FormControl className={classes.formControl}>
-                      <NativeSelect
-                        className={classes.selectEmpty}
-                        value={maintenance.hrsBefore}
-                        label="Hours Before to Remind"
-                        margin="normal"
-                        onChange={e => onChange('hrsBefore', e.target.value)}
-                      >
-                        <option value={10}>Hours Before</option>
-                        <option value={1}>One</option>
-                        <option value={5}>Five</option>
-                        <option value={10}>Ten</option>
-                        <option value={15}>Fifteen</option>
-                        <option value={20}>Twenty</option>
-                      </NativeSelect>
-                      <FormHelperText>Select Hours</FormHelperText>
-                    </FormControl>
-
-                    <TextField
-                      label="Entered By"
-                      value={maintenance.enteredBy}
-                      margin="normal"
-                      onChange={e => onChange('enteredBy', e.target.value)}
-                      required
-                      className={classes.input}
-                    />
-                    {/* <Link to="/maintenances">
-                      <Button type="button">Cancel</Button>
-                    </Link>*/}
-
-                    <Button
-                      varient="button"
-                      color="white"
-                      type="submit"
-                      aria-label="add"
-                      aria-label="Add Crew Member"
-                      style={{
-                        background:
-                          'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-                        borderRadius: 3,
-                        border: 0,
-                        padding: '0 30px',
-                        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
-                      }}
-                    >
-                      <SaveIcon /> Save
-                    </Button>
-                  </form>
-                </Paper>
-                {isError && (
-                  <SnackBar
-                    type="error"
-                    msg="There was an error saving you maintenance."
-                  />
-                )}
-                {isSaving && (
-                  <SnackBar type="info" msg="Saving your maintenance..." />
-                )}
-              </React.Fragment>
-            ) : (
-              <p>Adding Maintenance...</p>
-            )}
-          </Paper>
-        </div>
-      </center>
+        {isError && (
+          <SnackBar
+            type="error"
+            msg="There was an error saving you maintenance."
+          />
+        )}
+        {isSaving && <SnackBar type="info" msg="Saving your maintenance..." />}
+      </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  boat: state.currentBoat,
-  boats: state.getBoats,
+  //  boat: state.currentBoat,
+  //  boats: state.getBoats,
   reminder: state.newReminder.data,
   maintenance: state.newMaintenance.data,
   isSaving: state.newMaintenance.isSaving,
@@ -432,7 +435,6 @@ const mapStateToProps = state => ({
 })
 
 const mapActionToProps = dispatch => ({
-  onGetBoat: () => dispatch(getBoat),
   setBoats: () => dispatch(setBoats),
   onChange: (field, value) =>
     dispatch({
@@ -441,9 +443,8 @@ const mapActionToProps = dispatch => ({
     }),
   createMaintenance: history => e => {
     e.preventDefault()
-
     dispatch(addMaintenance(history))
-    //  dispatch(addReminder(history))
+    //    dispatch()
   }
 })
 
@@ -452,12 +453,185 @@ const connector = connect(
   mapActionToProps
 )
 
-export default withRouter(
-  withDrawer(connector(withStyles(styles)(MaintenanceNew)))
-)
+export default withDrawer(connector(withStyles(styles)(MaintenanceNew)))
 
 {
   /*
 
-;*/
+
+       //  <TextField
+              //  label="Total Maintenance Cost"
+               // value={props.maintenance.totalCost}
+                //margin="normal"
+                //onChange={e => props.onChange('totalCost', e.target.value)}
+                //className={props.classes.input}
+             // />
+
+
+
+
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import withStyles from '@material-ui/core/styles/withStyles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Paper from '@material-ui/core/Paper';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import AddressForm from './AddressForm';
+import PaymentForm from './PaymentForm';
+import Review from './Review';
+
+const styles = theme => ({
+  appBar: {
+    position: 'relative',
+  },
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
+      marginTop: theme.spacing.unit * 6,
+      marginBottom: theme.spacing.unit * 6,
+      padding: theme.spacing.unit * 3,
+    },
+  },
+  stepper: {
+    padding: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 5}px`,
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit,
+  },
+});
+
+const steps = ['Shipping address', 'Payment details', 'Review your order'];
+
+function getStepContent(step) {
+  switch (step) {
+    case 0:
+      return <AddressForm />;
+    case 1:
+      return <PaymentForm />;
+    case 2:
+      return <Review />;
+    default:
+      throw new Error('Unknown step');
+  }
+}
+
+class Checkout extends React.Component {
+  state = {
+    activeStep: 0,
+  };
+
+  handleNext = () => {
+    const { activeStep } = this.state;
+    this.setState({
+      activeStep: activeStep + 1,
+    });
+  };
+
+  handleBack = () => {
+    const { activeStep } = this.state;
+    this.setState({
+      activeStep: activeStep - 1,
+    });
+  };
+
+  handleReset = () => {
+    this.setState({
+      activeStep: 0,
+    });
+  };
+
+  render() {
+    const { classes } = this.props;
+    const { activeStep } = this.state;
+
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        <AppBar position="absolute" color="default" className={classes.appBar}>
+          <Toolbar>
+            <Typography variant="title" color="inherit" noWrap>
+              Company name
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <main className={classes.layout}>
+          <Paper className={classes.paper}>
+            <Typography variant="display1" align="center">
+              Checkout
+            </Typography>
+            <Stepper activeStep={activeStep} className={classes.stepper}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <React.Fragment>
+              {activeStep === steps.length ? (
+                <React.Fragment>
+                  <Typography variant="headline" gutterBottom>
+                    Thank you for your order.
+                  </Typography>
+                  <Typography variant="subheading">
+                    Your order number is #2001539. We have emailed your oder confirmation, and will
+                    send you an update when your order has shipped.
+                  </Typography>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  {getStepContent(activeStep)}
+                  <div className={classes.buttons}>
+                    {activeStep !== 0 && (
+                      <Button onClick={this.handleBack} className={classes.button}>
+                        Back
+                      </Button>
+                    )}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                    </Button>
+                  </div>
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          </Paper>
+        </main>
+      </React.Fragment>
+    );
+  }
+}
+
+Checkout.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Checkout);*/
 }

@@ -24,7 +24,7 @@ export const getBoats = (state = [], action) => {
   }
 }
 
-export const defaultBoat = {
+const defaultBoat = {
   name: '',
   image: null,
   boatMake: '',
@@ -69,7 +69,7 @@ const newBoatInitialState = {
 export const newBoat = (state = newBoatInitialState, action) => {
   switch (action.type) {
     case NEW_BOAT_FORM_UPDATED:
-      return mergeDeepRight(...state, { data: action.payload })
+      return mergeDeepRight(state, { data: action.payload })
     case NEW_BOAT_SAVE_STARTED:
       return merge(state, {
         isSaving: true,

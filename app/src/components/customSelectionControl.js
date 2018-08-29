@@ -3,21 +3,10 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import purple from '@material-ui/core/colors/purple'
 import FormGroup from '@material-ui/core/FormGroup'
-import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 
 const styles = theme => ({
-  colorSwitchBase: {
-    color: purple[300],
-    '&$colorChecked': {
-      color: purple[500],
-      '& + $colorBar': {
-        backgroundColor: purple[500]
-      }
-    }
-  },
-  colorBar: {},
-  colorChecked: {},
   iOSSwitchBase: {
     '&$iOSChecked': {
       color: theme.palette.common.white,
@@ -58,7 +47,7 @@ const styles = theme => ({
   }
 })
 
-class CustomizedSwitches extends React.Component {
+class CustomSwitch extends React.Component {
   state = {
     checkedA: true,
     checkedB: true
@@ -70,31 +59,29 @@ class CustomizedSwitches extends React.Component {
 
   render() {
     const { classes } = this.props
-
     return (
-      <FormControl>
-        {
-          <Switch
-            classesName={{
-              switchBase: classes.iOSSwitchBase,
-              bar: classes.iOSBar,
-              icon: classes.iOSIcon,
-              iconChecked: classes.iOSIconChecked,
-              checked: classes.iOSChecked
-            }}
-            // disableRipple
-            //  checked={this.state.checkedB}
-            //    onChange={this.handleChange('checkedB')}
-            // value="checkedB"
-          />
-        }
-      </FormControl>
+      <FormGroup row>
+        <FormControlLabel
+          control={
+            <Switch
+              classes={{
+                switchBase: classes.iOSSwitchBase,
+                bar: classes.iOSBar,
+                icon: classes.iOSIcon,
+                iconChecked: classes.iOSIconChecked,
+                checked: classes.iOSChecked
+              }}
+              disableRipple
+              checked={this.state.checkedB}
+              onChange={this.handleChange('checkedB')}
+              value="checkedB"
+            />
+          }
+          label="Create Service Reminder"
+        />
+      </FormGroup>
     )
   }
 }
 
-CustomizedSwitches.propTypes = {
-  classes: PropTypes.object.isRequired
-}
-
-export default withStyles(styles)(CustomizedSwitches)
+export default withStyles(styles)(CustomSwitch)

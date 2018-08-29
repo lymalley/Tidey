@@ -5,18 +5,13 @@ import List from '@material-ui/core/List'
 import MenuAppBar from '../../components/menuAppBar'
 import withDrawer from '../../components/with-drawer'
 import ActivityListItems from '../../components/activityListItems'
-import Grid from '@material-ui/core/Grid'
 
 const Activities = props => (
   <div style={{ paddingTop: 56 }}>
     <MenuAppBar title="Activities" addNew goToURL="/activities/new" />
-    <Grid Container>
-      <Grid item xs={12}>
-        <List>
-          {map(activity => ActivityListItems(activity), props.activities)}
-        </List>
-      </Grid>
-    </Grid>
+    <List>
+      {map(activity => ActivityListItems(activity), props.activities)}
+    </List>
   </div>
 )
 

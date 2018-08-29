@@ -25,12 +25,11 @@ const activitiesRoutes = app => {
   })
 
   app.get('/activities/:id', (req, res, next) => {
-    const activityID = pathOr('', ['params', 'id'], req)
-    getActivity(activityID)
+    const activityId = pathOr('', ['params', 'id'], req)
+
+    getActivity(activityId)
       .then(activity => res.status(200).send(activity))
-      .catch(err => {
-        next(new NodeHTTPError(err.status, err.message, err))
-      })
+      .catch(err => next(new NodeHTTPError(err.status, err.message, err)))
   })
 
   app.post('/activities', bodyParser.json(), (req, res, next) => {
