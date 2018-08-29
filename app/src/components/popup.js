@@ -17,9 +17,11 @@ class ReminderDialog extends React.Component {
     this.setState({ open: true })
     getReminder(id)
   }
+
   handleClose = () => {
     this.setState({ open: false })
   }
+
   render() {
     const { history, isLoading, reminder } = this.props
     console.log(JSON.stringify(reminder))
@@ -61,9 +63,11 @@ class ReminderDialog extends React.Component {
     )
   }
 }
+
 const mapStateToProps = state => ({
-  //reminder: state.currentReminder
+  reminder: state.currentReminder
 })
+
 const mapActionToProps = dispatch => ({
   getReminder: id => dispatch(getReminder(id)),
   updateReminder: id => dispatch(getReminder(id))

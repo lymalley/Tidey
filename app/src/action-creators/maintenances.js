@@ -83,7 +83,7 @@ export const addMaintenance = history => async (dispatch, getState) => {
     )
   console.log('result', JSON.stringify(result))
   if (result.ok) {
-    if (createdMaintenance.reminderCreated === true) {
+    if (createdMaintenance.reminderCreated === 'Y' || 'y') {
       await dispatch(addReminder(createdMaintenance, history))
       setMaintenances(dispatch, getState)
       history.push('/maintenaces')
@@ -95,7 +95,7 @@ export const addMaintenance = history => async (dispatch, getState) => {
     })
     console.log(
       'reminder created',
-      JSON.stringify(createdMaintenance.reminderCreated === 'true')
+      JSON.stringify(createdMaintenance.reminderCreated === 'y')
     )
 
     setMaintenances(dispatch, getState)

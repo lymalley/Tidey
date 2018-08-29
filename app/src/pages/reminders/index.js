@@ -11,8 +11,8 @@ const Reminders = props => (
     <MenuAppBar
       title="Reminders"
       history={props.history}
-      addNew
-      goToURL="/reminders/new"
+      //addNew
+      // goToURL="/reminders/new"
     />
     <List>{map(reminder => ReminderListItems(reminder), props.reminders)}</List>
   </div>

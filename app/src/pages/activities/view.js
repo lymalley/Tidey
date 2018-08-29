@@ -62,6 +62,7 @@ class ActivityView extends React.Component {
     return (
       <div style={{ paddingTop: 20 }}>
         <Paper
+          className={classes.gridLists}
           elevation={2}
           style={{
             marginTop: 56,
@@ -74,80 +75,40 @@ class ActivityView extends React.Component {
             backArrow={true}
             history={history}
           />
-          <form className="form-horizontal">
-            <Grid container>
-              <Typography>{activity.date}</Typography>
-              <Paper>
-                <Grid item xs={12}>
-                  <Typography>Start Time: {activity.startTime}</Typography>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Typography>End Time: {activity.EndTime}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography>Boat: {activity.boat}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography>
-                    Passenger Count: {activity.passengerCount}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography>Trip Type: {activity.tripType}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography>Captain: {activity.captain}</Typography>
-                </Grid>
-              </Paper>
-            </Grid>
-
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography>Crew: {activity.other}</Typography>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Typography>Cruise From: {activity.cruiseFrom}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>CruiseTo: {activity.cruiseTo}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>
-                  `Engine Hours: {activity.engineHoursStart}-
-                  {activity.engineHoursEnd}`
+          <Card className={classes.card}>
+            <CardContent>
+              <center>
+                <Typography className={classes.title} color="textSecondary">
+                  {activity.date} Start Time: {activity.startTime} End Time:{' '}
+                  {activity.EndTime}
                 </Typography>
-              </Grid>
-            </Grid>
-            <br />
-
-            <Grid container spacing={24}>
-              <Paper>
-                <Grid item xs={12}>
-                  <Typography>Weather Conditions {activity.weather}</Typography>
-                </Grid>
-              </Paper>
-            </Grid>
-
-            <Grid container spacing={24}>
-              <Paper>
-                <Grid item xs={12}>
-                  <Typography component="p">
-                    Trip Notes {activity.tripNotes}
-                  </Typography>
-                </Grid>
-              </Paper>
-            </Grid>
-
-            <Grid container>
-              <Grid item xs={6}>
-                <Typography>
-                  Created Reminder: {activity.createdReminder}
+                <Typography className={classes.title} color="textSecondary">
+                  Boat: {activity.boat} Trip Type: {activity.tripType} Passenger
+                  Count: {activity.passengerCount}
                 </Typography>
-              </Grid>
-            </Grid>
-          </form>
+                <Typography className={classes.title} color="textSecondary">
+                  Captain: {activity.captain} Crew: {activity.other}
+                </Typography>
+                <Typography className={classes.title} color="textSecondary">
+                  Cruise From: {activity.cruiseFrom} CruiseTo:{' '}
+                  {activity.cruiseTo}
+                </Typography>
+                <Typography className={classes.title} color="textSecondary">
+                  Engine Hours: {activity.engineHoursStart}-
+                  {activity.engineHoursEnd}
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  Weather Conditions {activity.weather}
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  Trip Notes {activity.tripNotes}
+                </Typography>
+              </center>
+              <Typography component="p">
+                Entered By {activity.enteredBy}
+              </Typography>
+            </CardContent>
+          </Card>
         </Paper>
       </div>
     )

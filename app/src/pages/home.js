@@ -3,8 +3,8 @@ import Typography from '@material-ui/core/Typography'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles, MuiThemeProvider } from '@material-ui/core/styles'
-import lightBlue from '@material-ui/core/colors/lightBlue'
-import Card from '@material-ui/core/Card'
+import Paper from '@material-ui/core/Paper'
+import ListItem from '@material-ui/core/ListItem'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 import withDrawer from '../components/with-drawer'
 import MenuAppBar from '../components/menuAppBar'
 import ReminderListItems from '../components/reminderListItems'
+import Popup from '../components/popup'
 
 import {
   Select,
@@ -63,7 +64,8 @@ class Home extends React.Component {
     setForecast()
   }
 
-  render(props) {
+  render() {
+    const { reminder } = this.props
     return (
       <div style={{ padding: 48 }}>
         <center>
@@ -72,33 +74,19 @@ class Home extends React.Component {
           <br />
           <img alt="home" src="speed.png" />
 
-          <Card
-            style={{ paddingTop: '20%' }}
-            title="Weather Forecast"
-            //src={darksky}
-          >
-            <CardContent>
+          <Paper style={{ width: '95%' }}>
+            <br />
+            <h1>Service Reminders</h1>
+
+            <ListItem button>
               <List>
                 {map(
                   reminder => ReminderListItems(reminder),
                   this.props.reminders
                 )}
               </List>
-            </CardContent>
-
-            <CardMedia
-              title="Current Forecast"
-              width="100%"
-              height="100%"
-              frameBorder="20"
-              style={{ paddingTop: 48 }}
-              //src={darksky}
-              src="speed.png"
-              //"https://api.darksky.net/forecast/e6ccdb81bd1c974f7e5e55914bd85169/32.8052,-79.7597"
-              allowFullScreen
-            />
-          </Card>
-          <div style={{ paddingTop: 30, paddingTop: 30 }} />
+            </ListItem>
+          </Paper>
         </center>
       </div>
     )

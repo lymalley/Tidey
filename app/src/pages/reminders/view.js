@@ -70,4 +70,4 @@ const connector = connect(
   mapActionToProps
 )
 
-export default withRouter(withDrawer(connector(ReminderView)))
+export default withDrawer(connector(ReminderView))

@@ -141,7 +141,7 @@ db.bulkDocs([
     alertAt: 2390,
     maintenanceId: 'maintenance_2018-08-06_orange-crush_oil-change',
     boatId: 'boat_orange-crush',
-    boatName: 'Orange Crush',
+    boat: 'Orange Crush',
     service: 'Oil Change',
     dueAtHours: 2400,
     hrsBefore: 10,
